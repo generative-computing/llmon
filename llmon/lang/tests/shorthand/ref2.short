@@ -1,0 +1,17 @@
+\exec:x.instr\ \ref\ instr:b /ref/ /exec:x.instr/
+
+\exec:x.instr\ \ref\ instr:b /ref/ /exec:x.instr/
+
+\exec:x.instr\
+   \ref\ instr:b /ref/    
+/exec:x.instr/
+
+ \ref\ a:b /ref/ 
+\t\   \ref\ c:d /ref/ 
+/t/ 
+
+ \ref\ x:y /ref/ 
+
+
+\t\   
+   \ref\ e:f /ref/ /t/ 

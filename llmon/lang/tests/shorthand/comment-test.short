@@ -1,0 +1,4 @@
+Outer: text.
+\comment\ this is . a comment /comment/
+\randomtag\ : \comment\ a comment : inside . a tag /comment/ . /randomtag/
+\comment\ a : \randomtag2\ inside . : a comment /randomtag2/ end. : /comment/

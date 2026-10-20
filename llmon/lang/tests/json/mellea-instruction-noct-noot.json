@@ -1,0 +1,12 @@
+{
+    "args<|.|>description": "None",
+    "args<|.|>prefix": null,
+    "args<|.|>output_prefix": null,
+    "args<|.|>repair": null,
+    "tools": null,
+    "fields": null,
+    "template": null,
+    "template_order<|:|>0": "*",
+    "template_order<|:|>1": "Instruction",
+    "images": null
+}

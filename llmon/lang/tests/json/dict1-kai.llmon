@@ -1,0 +1,4 @@
+<|open|>object<|close|>
+  <|open|>item<|close|>a<|:|>val1<|open_end|>item<|close|>
+  <|open|>item<|close|>b<|:|>val2<|open_end|>item<|close|>
+<|open_end|>object<|close|>

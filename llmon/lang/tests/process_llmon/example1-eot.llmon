@@ -1,0 +1,7 @@
+<|open|>instruction<|close|>
+Suggest a title for the following email:
+<|open_end|>instruction<|close|>
+<|open|>data<|close|>
+Dear customer support, I am writing about the wifi connection on my recent
+flight from JFK to LAX. The quality was poor. I paid $25, and I want a refund.
+<|open_end|>data<|close|>

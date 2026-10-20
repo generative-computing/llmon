@@ -1,0 +1,5 @@
+<|open|>nest1<|close|>
+    <|open|>nest2<|close|>
+        Here is the text
+    <|open_end|>nest2<|close|>
+<|open_end|>nest1<|close|>

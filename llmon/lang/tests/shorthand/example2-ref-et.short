@@ -1,0 +1,1 @@
+\instr:a\ List five common fruits /instr:a/\instr:b\ Calculate 12 + 8 /instr:b/\instr:c\ Write a haiku about the ocean /instr:c/\exec:x.exec:x.instr\ \ref\ instr:b /ref/ /exec:x.exec:x.instr/

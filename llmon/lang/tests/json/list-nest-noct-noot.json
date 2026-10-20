@@ -1,0 +1,9 @@
+{
+    "emp_details<|:|>0<|.|>emp_name": "Shubham",
+    "emp_details<|:|>0<|.|>email": "ksingh.shubh@gmail.com",
+    "emp_details<|:|>0<|.|>languages<|:|>0<|.|>french": 1,
+    "emp_details<|:|>0<|.|>languages<|:|>0<|.|>german": 2,
+    "emp_details<|:|>1<|.|>emp_name": "Gaurav",
+    "emp_details<|:|>1<|.|>email": "gaurav.singh@gmail.com",
+    "emp_details<|:|>1<|.|>job_profile": "developer"
+}

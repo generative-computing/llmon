@@ -1,0 +1,9 @@
+\email\
+  \contact\
+    \name\ Alice /name/
+    \from\alice@example.com/from/
+    \phone/
+  /contact/
+  \subject\Meeting update/subject/
+  \body\Hi Bob, the meeting is rescheduled to 2 PM./body/
+/email/

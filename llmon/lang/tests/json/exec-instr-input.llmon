@@ -1,0 +1,8 @@
+<|open|>exec<|:|>2<|close|>
+    <|open|>exec<|:|>2<|.|>instruction<|close|>
+        instr<|:|>1
+    <|open_end|>
+    <|open|>exec<|:|>2<|.|>input<|close|>
+        data<|.|>age
+    <|open_end|>
+<|open_end|>

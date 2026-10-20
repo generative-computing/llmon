@@ -1,0 +1,27 @@
+{
+  "emp_details": [
+    {
+      "emp_name": "Shubham",
+      "email": "ksingh.shubh@gmail.com",
+      "job_profile": "intern",
+      "age": 34,
+      "married": true,
+      "misc": null,
+      "gpa": 3.32
+    },
+    {
+      "emp_name": "Gaurav",
+      "email": "gaurav.singh@gmail.com",
+      "job_profile": "developer",
+      "age": 23,
+      "married": false
+    },
+    {
+      "emp_name": "Nikhil",
+      "email": "nikhil@geeksforgeeks.org",
+      "job_profile": "Full Time",
+      "age": 64,
+      "married": true
+    }
+  ]
+}

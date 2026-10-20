@@ -1,0 +1,11 @@
+<|open|>nest1<|close|>
+    A
+    <|open|>nest2a<|close|>
+        text1
+    <|open_end|>nest2a<|close|>
+    B
+    <|open|>nest2b<|close|>
+        text2
+    <|open_end|>nest2b<|close|>
+    C
+<|open_end|>nest1<|close|>

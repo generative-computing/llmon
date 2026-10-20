@@ -1,0 +1,6 @@
+<|open|>instr<|:|>a<|close|> List five common fruits <|open_end|>instr<|:|>a<|close|>
+<|open|>instr<|:|>b<|close|> Calculate 12 + 8 <|open_end|>instr<|:|>b<|close|>
+<|open|>instr<|:|>c<|close|> Write a haiku about the ocean <|open_end|>instr<|:|>c<|close|>
+<|open|>exec<|:|>x<|close|>
+<|open|>exec<|:|>x<|.|>instr<|close|> instr<|:|>b <|open_end|>exec<|:|>x<|.|>instr<|close|>
+<|open_end|>exec<|:|>x<|close|>

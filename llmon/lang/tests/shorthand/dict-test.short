@@ -1,0 +1,10 @@
+\dict\
+  \item:1\
+    \key\name/key/
+    \value\Alice/value/
+  /item:1/
+  \item:2\
+    \key\age/key/
+    \value\ \int\30/int/ /value/
+  /item:2/
+/dict/

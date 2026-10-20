@@ -1,0 +1,19 @@
+{
+    "emp_details<|:|>0<|.|>emp_name": "Shubham",
+    "emp_details<|:|>0<|.|>email": "ksingh.shubh@gmail.com",
+    "emp_details<|:|>0<|.|>job_profile": "intern",
+    "emp_details<|:|>0<|.|>age": 34,
+    "emp_details<|:|>0<|.|>married": true,
+    "emp_details<|:|>0<|.|>misc": null,
+    "emp_details<|:|>0<|.|>gpa": 3.32,
+    "emp_details<|:|>1<|.|>emp_name": "Gaurav",
+    "emp_details<|:|>1<|.|>email": "gaurav.singh@gmail.com",
+    "emp_details<|:|>1<|.|>job_profile": "developer",
+    "emp_details<|:|>1<|.|>age": 23,
+    "emp_details<|:|>1<|.|>married": false,
+    "emp_details<|:|>2<|.|>emp_name": "Nikhil",
+    "emp_details<|:|>2<|.|>email": "nikhil@geeksforgeeks.org",
+    "emp_details<|:|>2<|.|>job_profile": "Full Time",
+    "emp_details<|:|>2<|.|>age": 64,
+    "emp_details<|:|>2<|.|>married": true
+}

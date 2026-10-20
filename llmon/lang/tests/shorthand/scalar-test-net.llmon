@@ -1,0 +1,7 @@
+<|open|>str<|close|>hello<|open_end|>str<|close|>
+<|open|>int<|close|>42<|open_end|>int<|close|>
+<|open|>float<|close|>3.14159<|open_end|>float<|close|>
+<|open|>bool<|close|>true<|open_end|>bool<|close|>
+<|open|>date<|close|>2025-10-01<|open_end|>date<|close|>
+<|open|>datatime<|close|>2025:10-01T12:00:00Z<|open_end|>datatime<|close|>
+<|open|>null<|self_close|>

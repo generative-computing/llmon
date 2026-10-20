@@ -1,0 +1,10 @@
+<|open|>dict<|close|>
+  <|open|>item<|:|>1<|close|>
+    <|open|>key<|close|>name<|open_end|>key<|close|>
+    <|open|>value<|close|>Alice<|open_end|>value<|close|>
+  <|open_end|>item<|:|>1<|close|>
+  <|open|>item<|:|>2<|close|>
+    <|open|>key<|close|>age<|open_end|>key<|close|>
+    <|open|>value<|close|> <|open|>int<|close|>30<|open_end|>int<|close|> <|open_end|>value<|close|>
+  <|open_end|>item<|:|>2<|close|>
+<|open_end|>dict<|close|>

@@ -1,0 +1,5 @@
+{
+    "emp_details<|:|>0": "emp_name",
+    "emp_details<|:|>1": "hello",
+    "emp_details<|:|>2": "goodbye"
+}

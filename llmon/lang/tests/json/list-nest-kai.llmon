@@ -1,0 +1,32 @@
+<|open|>object<|close|>
+  <|open|>item<|close|>emp_details<|:|>
+  <|open|>list<|close|>
+    <|open|>object<|close|>
+      <|open|>item<|close|>emp_name<|:|>Shubham<|open_end|>item<|close|>
+      <|open|>item<|close|>email<|:|>ksingh.shubh@gmail.com<|open_end|>item<|close|>
+      <|open|>item<|close|>languages<|:|>
+      <|open|>list<|close|>
+        <|open|>object<|close|>
+          <|open|>item<|close|>french<|:|>
+          <|open|>int<|close|>
+            1
+          <|open_end|>int<|close|>
+          <|open_end|>item<|close|>
+          <|open|>item<|close|>german<|:|>
+          <|open|>int<|close|>
+            2
+          <|open_end|>int<|close|>
+          <|open_end|>item<|close|>
+        <|open_end|>object<|close|>
+      <|open_end|>list<|close|>
+      <|open_end|>item<|close|>
+    <|open_end|>object<|close|>
+    <|,|>
+    <|open|>object<|close|>
+      <|open|>item<|close|>emp_name<|:|>Gaurav<|open_end|>item<|close|>
+      <|open|>item<|close|>email<|:|>gaurav.singh@gmail.com<|open_end|>item<|close|>
+      <|open|>item<|close|>job_profile<|:|>developer<|open_end|>item<|close|>
+    <|open_end|>object<|close|>
+  <|open_end|>list<|close|>
+  <|open_end|>item<|close|>
+<|open_end|>object<|close|>

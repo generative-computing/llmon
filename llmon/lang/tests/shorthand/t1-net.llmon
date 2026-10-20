@@ -1,0 +1,1 @@
+<|open|>tag1<|close|> : <|open|>tag2<|close|> a <|open_end|>tag2<|close|> . <|open_end|>tag1<|close|>

@@ -1,0 +1,1 @@
+\instr:f\ Translate the text into French /instr:f/\instr:g\ Count the number of words in the given sentence /instr:g/\instr:h\ Summarize the text in one short sentence /instr:h/\data:1\ The quick brown fox jumps over the lazy dog /data:1/\exec:y.exec:y.instr\ instr:g /exec:y.exec:y.instr/\exec:y.exec:y.input\ data:1 /exec:y.exec:y.input/

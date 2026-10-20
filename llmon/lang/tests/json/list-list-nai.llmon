@@ -1,0 +1,13 @@
+<|open|>list<|close|>
+  <|open|><|:|>0<|close|>
+    <|open|>list<|close|>
+      <|open|><|:|>0<|:|>0<|close|>
+        hi
+      <|open_end|><|:|>0<|:|>0<|close|>
+      <|,|>
+      <|open|><|:|>0<|:|>1<|close|>
+        bye
+      <|open_end|><|:|>0<|:|>1<|close|>
+    <|open_end|>list<|close|>
+  <|open_end|><|:|>0<|close|>
+<|open_end|>list<|close|>

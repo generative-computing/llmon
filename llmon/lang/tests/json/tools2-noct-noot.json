@@ -1,0 +1,6 @@
+{
+    "description<|.|>what_this_tool_does": "Runs system interactively ...",
+    "description<|.|>inputs<|.|>parm1": "Name",
+    "description<|.|>inputs<|.|>parm2": "Address",
+    "summary_string": "# system_info ..."
+}

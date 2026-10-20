@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Span Labeler</title>
+<style>
+  :root {
+    --bg: #1e1f22;
+    --panel: #26272b;
+    --panel-alt: #2d2e33;
+    --border: #3a3b40;
+    --text: #e6e6e6;
+    --text-dim: #9a9ba0;
+    --accent: #5b9dff;
+
+    --c-instruction: #4c8bf5;
+    --c-constraint: #e5534b;
+    --c-outputformat: #a35bf5;
+    --c-content: #ff8000;
+    --c-structureddata: #16a394;
+    --c-quotedcontent: #f1f902;
+    --c-example: #4caf50;
+    --c-role: #e857a0;
+    --c-context: #00ffea;
+    --c-unsure: #9a9ba0;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0; height: 100%;
+    background: var(--bg); color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  }
+  #app { display: flex; flex-direction: column; height: 100vh; }
+
+  /* Top bar */
+  #topbar {
+    display: flex; align-items: center; gap: 12px;
+    padding: 8px 14px; background: var(--panel); border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+  #topbar .key-label { font-weight: 600; font-size: 15px; }
+  #topbar .pos-label { color: var(--text-dim); font-size: 13px; }
+  #topbar .spacer { flex: 1; }
+  button {
+    background: var(--panel-alt); color: var(--text); border: 1px solid var(--border);
+    border-radius: 6px; padding: 6px 12px; font-size: 13px; cursor: pointer;
+  }
+  button:hover { background: #3a3b40; }
+  button:disabled { opacity: 0.4; cursor: default; }
+  button.primary { background: var(--accent); border-color: var(--accent); color: #0b1a33; font-weight: 600; }
+  button.primary:hover { background: #74afff; }
+  button.complete-on { background: #2f7d3d; border-color: #2f7d3d; color: #fff; }
+  #fileInput { display: none; }
+
+  /* Body layout */
+  #body { flex: 1; display: flex; overflow: hidden; }
+
+  /* Sidebar */
+  #sidebar {
+    width: 260px; background: var(--panel); border-right: 1px solid var(--border);
+    display: flex; flex-direction: column; overflow: hidden; flex-shrink: 0;
+    transition: width 0.15s ease, min-width 0.15s ease;
+  }
+  #sidebar.collapsed { width: 0; min-width: 0; border-right: none; }
+  #sidebarHeader {
+    padding: 10px 12px; border-bottom: 1px solid var(--border);
+    display: flex; flex-direction: column; gap: 6px;
+  }
+  #sidebarHeader #openBtn { width: 100%; }
+  #fileNameLabel {
+    font-size: 12px; font-weight: 600; color: var(--text);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  #completeCount { font-size: 11px; color: var(--text-dim); }
+  #searchBox {
+    width: 100%; background: var(--panel-alt); border: 1px solid var(--border); color: var(--text);
+    border-radius: 4px; padding: 5px 8px; font-size: 12px;
+  }
+  #statusFilter { display: flex; gap: 4px; }
+  .filter-opt {
+    flex: 1; padding: 4px 6px; font-size: 11px;
+  }
+  .filter-opt.active { background: var(--accent); border-color: var(--accent); color: #0b1a33; font-weight: 600; }
+  #entryList { flex: 1; overflow-y: auto; }
+  .entry-item {
+    padding: 8px 12px; font-size: 13px; cursor: pointer; white-space: nowrap;
+    overflow: hidden; text-overflow: ellipsis; border-bottom: 1px solid rgba(255,255,255,0.03);
+    display: flex; align-items: center; gap: 6px;
+  }
+  .entry-item:hover { background: var(--panel-alt); }
+  .entry-item.active { background: #33415c; }
+  .entry-dot {
+    width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; background: #55565c;
+  }
+  .entry-dot.done { background: #4caf50; }
+
+  #sidebarToggle { flex-shrink: 0; }
+
+  /* Main pane */
+  #main { flex: 1; overflow-y: auto; padding: 28px 40px; position: relative; }
+  #promptText {
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    font-size: 15px; line-height: 1.7; white-space: pre-wrap; word-wrap: break-word;
+    max-width: 900px; user-select: text;
+  }
+  .lbl-span {
+    position: relative; border-radius: 2px; padding: 0 1px; cursor: pointer;
+  }
+  .lbl-underline {
+    box-shadow: 0 2px 0 0 var(--u-color);
+  }
+  .lbl-stack-2 { box-shadow: 0 2px 0 0 var(--u-color1), 0 5px 0 0 var(--u-color2); }
+  .lbl-stack-3 { box-shadow: 0 2px 0 0 var(--u-color1), 0 5px 0 0 var(--u-color2), 0 8px 0 0 var(--u-color3); }
+
+  /* Floating class picker */
+  #classPicker {
+    position: absolute; display: none; z-index: 50;
+    background: var(--panel-alt); border: 1px solid var(--border); border-radius: 8px;
+    padding: 6px; box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+    display: none; flex-direction: column; gap: 2px; min-width: 160px;
+  }
+  #classPicker.open { display: flex; }
+  .class-opt {
+    display: flex; align-items: center; gap: 8px; padding: 6px 8px; border-radius: 5px;
+    cursor: pointer; font-size: 13px;
+  }
+  .class-opt:hover { background: rgba(255,255,255,0.08); }
+  .swatch { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+
+  /* Edit popover for existing spans */
+  #editPopover {
+    position: absolute; z-index: 50; display: none;
+    background: var(--panel-alt); border: 1px solid var(--border); border-radius: 8px;
+    padding: 8px; box-shadow: 0 6px 20px rgba(0,0,0,0.4); min-width: 200px;
+  }
+  #editPopover.open { display: block; }
+  .edit-row {
+    display: flex; align-items: center; gap: 8px; padding: 4px 2px; font-size: 13px;
+  }
+  .edit-row .del-btn {
+    background: none; border: none; color: #e5534b; cursor: pointer;
+    font-size: 14px; padding: 2px 6px;
+  }
+  .edit-row .del-btn:hover { background: rgba(229,83,75,0.15); border-radius: 4px; }
+  .edit-row-group { border-bottom: 1px solid rgba(255,255,255,0.06); }
+  .edit-row-group:last-child { border-bottom: none; }
+  .relabel-btn {
+    margin-left: auto; background: none; border: none; color: var(--accent); cursor: pointer;
+    font-size: 12px; padding: 2px 6px;
+  }
+  .relabel-btn:hover { background: rgba(91,157,255,0.15); border-radius: 4px; }
+  .relabel-opts { padding: 4px 2px 6px 20px; }
+
+  /* Legend */
+  #legend {
+    padding: 10px 12px; border-top: 1px solid var(--border); font-size: 11px;
+    color: var(--text-dim); flex-shrink: 0;
+  }
+  #guidelinesBtn {
+    margin: 0 12px 12px; width: calc(100% - 24px); flex-shrink: 0; font-size: 12px;
+  }
+  .legend-item { display: flex; align-items: center; gap: 6px; padding: 2px 0; }
+
+  #emptyState {
+    display: flex; align-items: center; justify-content: center; height: 100%;
+    color: var(--text-dim); font-size: 14px; flex-direction: column; gap: 14px;
+  }
+  #emptyStateIntro {
+    max-width: 520px; text-align: left; font-size: 13px; line-height: 1.7;
+    background: var(--panel); border: 1px solid var(--border); border-radius: 8px;
+    padding: 18px 22px;
+  }
+  #emptyStateIntro h2 { font-size: 15px; color: var(--text); margin: 0 0 10px; }
+  #emptyStateIntro ul { margin: 0; padding-left: 20px; }
+  #emptyStateIntro li { margin-bottom: 6px; }
+  #emptyStateIntro li:last-child { margin-bottom: 0; }
+  .no-autosave-warning {
+    background: rgba(229,83,75,0.12); border: 1px solid #8a3a35; border-radius: 6px;
+    padding: 10px 12px; margin-top: 12px; font-size: 12.5px; color: #f0958f;
+  }
+
+  #resizeBanner {
+    display: flex; align-items: center; gap: 12px; padding: 8px 14px;
+    background: #3a3312; border-bottom: 1px solid #6b5b1a; color: #f0d878; font-size: 13px;
+    flex-shrink: 0;
+  }
+  #resizeBanner button { margin-left: auto; }
+
+  .resize-target { cursor: crosshair !important; }
+  .resize-preview { background: rgba(240, 216, 120, 0.35) !important; box-shadow: none !important; }
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="topbar">
+    <button id="sidebarToggle" title="Toggle sidebar">☰</button>
+    <span class="entry-dot" id="keyLabelDot"></span>
+    <span class="key-label" id="keyLabel">No file loaded</span>
+    <span class="pos-label" id="posLabel"></span>
+    <button id="undoBtn" title="Undo (Ctrl/Cmd+Z)">⟲ Undo</button>
+    <button id="redoBtn" title="Redo (Ctrl/Cmd+Shift+Z)">⟳ Redo</button>
+    <div class="spacer"></div>
+    <button id="completeBtn">Mark Complete</button>
+    <button id="clearLabelsBtn">Clear All Labels</button>
+    <button id="exportBtn">Export</button>
+    <button id="prevBtn">◀ Prev</button>
+    <button id="nextBtn">Next ▶</button>
+    <input type="file" id="fileInput" accept=".json,.jsonl">
+  </div>
+  <div id="resizeBanner" style="display:none;">
+    <span id="resizeBannerText"></span>
+    <button id="resizeCancelBtn">Cancel</button>
+  </div>
+
+  <div id="body">
+    <div id="sidebar">
+      <div id="sidebarHeader">
+        <button id="openBtn" class="primary">Open File</button>
+        <div id="fileNameLabel">No file loaded</div>
+        <div id="completeCount"></div>
+        <input id="searchBox" placeholder="Filter entries...">
+        <div id="statusFilter">
+          <button class="filter-opt active" data-filter="all">All</button>
+          <button class="filter-opt" data-filter="complete">Complete</button>
+          <button class="filter-opt" data-filter="incomplete">Incomplete</button>
+        </div>
+      </div>
+      <div id="entryList"></div>
+      <div id="legend"></div>
+      <button id="guidelinesBtn">Labeling Guidelines</button>
+    </div>
+
+    <div id="main">
+      <div id="emptyState">
+        <div id="emptyStateIntro">
+          <h2>Span labeling</h2>
+          <p>The task is to label spans of plain text with the class(es) that best describe them (Instruction, Constraint, Output Format, etc). Each entry in the loaded file gets its own page.</p>
+          <ul>
+            <li>Highlight (select) a piece of text with your mouse, then pick a class from the popup to label it.</li>
+            <li>Click an existing highlighted span to relabel it, resize its boundaries, or delete it.</li>
+            <li>Spans can be nested inside each other, but shouldn't partially overlap — see the guidelines for what that means.</li>
+            <li>Mark an entry <strong>Complete</strong> once you're done with it so you can track progress in the sidebar, and use <strong>Undo/Redo</strong> (Ctrl/Cmd+Z) if you make a mistake.</li>
+            <li>See the <a href="guidelines.html" target="_blank">Labeling Guidelines</a> page (also linked in the sidebar) for the full class definitions and real examples.</li>
+          </ul>
+          <div class="no-autosave-warning">
+            <strong>There is no autosave.</strong> Everything lives only in this browser tab's memory. The only way to keep your work is clicking <strong>Export</strong> — closing the tab, refreshing the page, or navigating away without exporting will lose all progress.
+          </div>
+        </div>
+        <button class="primary" id="openBtn2">Open a .jsonl or .json file</button>
+      </div>
+      <div id="promptText" style="display:none;"></div>
+    </div>
+  </div>
+</div>
+
+<div id="classPicker"></div>
+<div id="editPopover"></div>
+
+<script>
+const CLASSES = [
+  "Instruction", "Constraint", "Output Format", "Content",
+  "Structured Data", "Quoted Content", "Example", "Role", "Context", "Unsure"
+];
+const CLASS_COLOR_VAR = {
+  "Instruction": "--c-instruction",
+  "Constraint": "--c-constraint",
+  "Output Format": "--c-outputformat",
+  "Content": "--c-content",
+  "Structured Data": "--c-structureddata",
+  "Quoted Content": "--c-quotedcontent",
+  "Example": "--c-example",
+  "Role": "--c-role",
+  "Context": "--c-context",
+  "Unsure": "--c-unsure",
+};
+// Single source of truth for class colors is the CSS custom properties in
+// :root — read them live so editing the CSS variables is enough to change
+// every rendered color (legend, swatches, highlights) in one place.
+const rootStyle = getComputedStyle(document.documentElement);
+const CLASS_COLOR_HEX = {};
+for (const [cls, varName] of Object.entries(CLASS_COLOR_VAR)) {
+  CLASS_COLOR_HEX[cls] = rootStyle.getPropertyValue(varName).trim();
+}
+
+let entries = [];
+let currentIndex = -1;
+let pendingSelection = null; // {start, end}
+let resizeState = null; // {idx, phase: 'start'|'end', newStart}
+let loadedFileName = null;
+let statusFilter = 'all'; // 'all' | 'complete' | 'incomplete'
+
+// Per-page undo/redo. Holds snapshots of {labels, complete} for the entry
+// currently open; reset whenever the active entry changes (undo history is
+// intentionally not carried between pages).
+let undoStack = [];
+let redoStack = [];
+
+function snapshotEntry(entry) {
+  return { labels: entry.labels.map(l => ({ class: l.class, span: { ...l.span } })), complete: entry.complete };
+}
+
+function pushUndoSnapshot() {
+  if (currentIndex < 0) return;
+  undoStack.push(snapshotEntry(entries[currentIndex]));
+  redoStack = [];
+}
+
+function resetUndoHistory() {
+  undoStack = [];
+  redoStack = [];
+}
+
+function undo() {
+  if (currentIndex < 0 || !undoStack.length) return;
+  const entry = entries[currentIndex];
+  redoStack.push(snapshotEntry(entry));
+  const prev = undoStack.pop();
+  entry.labels = prev.labels;
+  entry.complete = prev.complete;
+  renderSidebar();
+  renderCurrent();
+}
+
+function redo() {
+  if (currentIndex < 0 || !redoStack.length) return;
+  const entry = entries[currentIndex];
+  undoStack.push(snapshotEntry(entry));
+  const next = redoStack.pop();
+  entry.labels = next.labels;
+  entry.complete = next.complete;
+  renderSidebar();
+  renderCurrent();
+}
+
+const els = {
+  keyLabel: document.getElementById('keyLabel'),
+  keyLabelDot: document.getElementById('keyLabelDot'),
+  posLabel: document.getElementById('posLabel'),
+  prevBtn: document.getElementById('prevBtn'),
+  nextBtn: document.getElementById('nextBtn'),
+  completeBtn: document.getElementById('completeBtn'),
+  clearLabelsBtn: document.getElementById('clearLabelsBtn'),
+  undoBtn: document.getElementById('undoBtn'),
+  redoBtn: document.getElementById('redoBtn'),
+  resizeBanner: document.getElementById('resizeBanner'),
+  resizeBannerText: document.getElementById('resizeBannerText'),
+  resizeCancelBtn: document.getElementById('resizeCancelBtn'),
+  openBtn: document.getElementById('openBtn'),
+  openBtn2: document.getElementById('openBtn2'),
+  exportBtn: document.getElementById('exportBtn'),
+  fileInput: document.getElementById('fileInput'),
+  sidebar: document.getElementById('sidebar'),
+  sidebarToggle: document.getElementById('sidebarToggle'),
+  entryList: document.getElementById('entryList'),
+  searchBox: document.getElementById('searchBox'),
+  fileNameLabel: document.getElementById('fileNameLabel'),
+  completeCount: document.getElementById('completeCount'),
+  statusFilter: document.getElementById('statusFilter'),
+  main: document.getElementById('main'),
+  promptText: document.getElementById('promptText'),
+  emptyState: document.getElementById('emptyState'),
+  classPicker: document.getElementById('classPicker'),
+  editPopover: document.getElementById('editPopover'),
+  legend: document.getElementById('legend'),
+  guidelinesBtn: document.getElementById('guidelinesBtn'),
+};
+
+function buildLegend() {
+  els.legend.innerHTML = CLASSES.map(c =>
+    `<div class="legend-item"><span class="swatch" style="background:${CLASS_COLOR_HEX[c]}"></span>${c}</div>`
+  ).join('');
+}
+buildLegend();
+
+els.guidelinesBtn.addEventListener('click', () => {
+  window.open('guidelines.html', '_blank');
+});
+
+// ---------------------------------------------------------------------------
+// File loading
+// ---------------------------------------------------------------------------
+
+els.openBtn.addEventListener('click', () => els.fileInput.click());
+els.openBtn2.addEventListener('click', () => els.fileInput.click());
+
+els.fileInput.addEventListener('change', async (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const text = await file.text();
+  const isJsonl = file.name.toLowerCase().endsWith('.jsonl');
+  try {
+    if (isJsonl) {
+      entries = loadUnlabeledJsonl(text);
+    } else {
+      entries = loadLabeledJson(text);
+    }
+  } catch (err) {
+    alert('Failed to parse file: ' + err.message);
+    return;
+  }
+  loadedFileName = file.name;
+  document.title = `${loadedFileName} — Span Labeler`;
+  currentIndex = entries.length ? 0 : -1;
+  resetUndoHistory();
+  renderSidebar();
+  renderCurrent();
+  e.target.value = '';
+});
+
+function loadUnlabeledJsonl(text) {
+  const lines = text.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+  return lines.map(line => {
+    const obj = JSON.parse(line);
+    return { key: obj.key, prompt: obj.prompt, labels: [], complete: false };
+  });
+}
+
+function loadLabeledJson(text) {
+  const arr = JSON.parse(text);
+  if (!Array.isArray(arr)) throw new Error('Expected a JSON array of entries');
+  return arr.map(obj => ({
+    key: obj.key,
+    prompt: obj.prompt,
+    labels: Array.isArray(obj.labels) ? obj.labels.map(l => ({
+      class: l.class,
+      span: { start: l.span.start, end: l.span.end },
+    })) : [],
+    complete: obj.complete === true,
+  }));
+}
+
+// ---------------------------------------------------------------------------
+// Sidebar
+// ---------------------------------------------------------------------------
+
+els.sidebarToggle.addEventListener('click', () => {
+  els.sidebar.classList.toggle('collapsed');
+});
+
+els.searchBox.addEventListener('input', renderSidebar);
+
+els.statusFilter.querySelectorAll('.filter-opt').forEach(btn => {
+  btn.addEventListener('click', () => {
+    statusFilter = btn.getAttribute('data-filter');
+    els.statusFilter.querySelectorAll('.filter-opt').forEach(b => b.classList.toggle('active', b === btn));
+    renderSidebar();
+  });
+});
+
+function renderSidebar() {
+  els.fileNameLabel.textContent = loadedFileName || 'No file loaded';
+  const completeTotal = entries.filter(e => e.complete).length;
+  els.completeCount.textContent = entries.length
+    ? `${completeTotal} / ${entries.length} complete`
+    : '';
+
+  const filter = els.searchBox.value.trim().toLowerCase();
+  els.entryList.innerHTML = '';
+  entries.forEach((entry, i) => {
+    if (filter && !entry.key.toLowerCase().includes(filter)) return;
+    if (statusFilter === 'complete' && !entry.complete) return;
+    if (statusFilter === 'incomplete' && entry.complete) return;
+    const div = document.createElement('div');
+    div.className = 'entry-item' + (i === currentIndex ? ' active' : '');
+    div.innerHTML = `<span class="entry-dot ${entry.complete ? 'done' : ''}"></span><span>${escapeHtml(entry.key)}</span>`;
+    div.addEventListener('click', () => {
+      if (resizeState) cancelResize();
+      currentIndex = i;
+      resetUndoHistory();
+      renderSidebar();
+      renderCurrent();
+    });
+    els.entryList.appendChild(div);
+  });
+}
+
+// ---------------------------------------------------------------------------
+// Main rendering
+// ---------------------------------------------------------------------------
+
+function renderCurrent() {
+  const hasEntries = currentIndex >= 0 && currentIndex < entries.length;
+  els.emptyState.style.display = hasEntries ? 'none' : 'flex';
+  els.promptText.style.display = hasEntries ? 'block' : 'none';
+  els.prevBtn.disabled = !hasEntries || currentIndex === 0;
+  els.nextBtn.disabled = !hasEntries || currentIndex === entries.length - 1;
+  els.completeBtn.disabled = !hasEntries;
+  els.clearLabelsBtn.disabled = !hasEntries || entries[currentIndex]?.labels.length === 0;
+  els.exportBtn.disabled = entries.length === 0;
+  els.undoBtn.disabled = !hasEntries || undoStack.length === 0;
+  els.redoBtn.disabled = !hasEntries || redoStack.length === 0;
+
+  if (!hasEntries) {
+    els.keyLabel.textContent = 'No file loaded';
+    els.posLabel.textContent = '';
+    els.keyLabelDot.style.display = 'none';
+    return;
+  }
+
+  const entry = entries[currentIndex];
+  els.keyLabel.textContent = entry.key;
+  els.posLabel.textContent = `${currentIndex + 1} / ${entries.length}`;
+  els.keyLabelDot.style.display = 'inline-block';
+  els.keyLabelDot.classList.toggle('done', entry.complete);
+  els.completeBtn.textContent = entry.complete ? 'Completed ✓' : 'Mark Complete';
+  els.completeBtn.classList.toggle('complete-on', entry.complete);
+
+  els.promptText.innerHTML = renderLabeledText(entry.prompt, entry.labels);
+  attachSpanClickHandlers();
+}
+
+function renderLabeledText(prompt, labels) {
+  if (!labels.length) return escapeHtml(prompt);
+
+  // Build boundary points
+  const points = new Set([0, prompt.length]);
+  labels.forEach(l => { points.add(l.span.start); points.add(l.span.end); });
+  const sorted = Array.from(points).sort((a, b) => a - b);
+
+  let html = '';
+  for (let i = 0; i < sorted.length - 1; i++) {
+    const segStart = sorted[i], segEnd = sorted[i + 1];
+    if (segStart >= segEnd) continue;
+    const segText = escapeHtml(prompt.slice(segStart, segEnd));
+    const active = labels
+      .map((l, idx) => ({ ...l, idx }))
+      .filter(l => l.span.start <= segStart && l.span.end >= segEnd);
+
+    if (active.length === 0) {
+      html += segText;
+    } else {
+      const colors = active.map(l => CLASS_COLOR_HEX[l.class] || '#888');
+      const stackClass = active.length === 1 ? 'lbl-underline'
+        : active.length === 2 ? 'lbl-stack-2' : 'lbl-stack-3';
+      const bg = active.length === 1 ? `background:${hexToRgba(colors[0], 0.18)};` : '';
+      let styleVars = '';
+      colors.slice(0, 3).forEach((c, ci) => { styleVars += `--u-color${ci === 0 && active.length === 1 ? '' : (ci+1)}:${c};`; });
+      if (active.length === 1) styleVars = `--u-color:${colors[0]};`;
+      const spanStarts = active.map(a => a.span.start).join(',');
+      const spanEnds = active.map(a => a.span.end).join(',');
+      html += `<span class="lbl-span ${stackClass}" style="${bg}${styleVars}" data-start="${segStart}" data-seg-active="${spanStarts}|${spanEnds}">${segText}</span>`;
+    }
+  }
+  return html;
+}
+
+function hexToRgba(hex, alpha) {
+  const r = parseInt(hex.slice(1,3), 16), g = parseInt(hex.slice(3,5), 16), b = parseInt(hex.slice(5,7), 16);
+  return `rgba(${r},${g},${b},${alpha})`;
+}
+
+function brightenHex(hex, factor) {
+  const r = Math.min(255, Math.round(parseInt(hex.slice(1,3), 16) * factor));
+  const g = Math.min(255, Math.round(parseInt(hex.slice(3,5), 16) * factor));
+  const b = Math.min(255, Math.round(parseInt(hex.slice(5,7), 16) * factor));
+  return `#${[r,g,b].map(v => v.toString(16).padStart(2,'0')).join('')}`;
+}
+
+function escapeHtml(s) {
+  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+// ---------------------------------------------------------------------------
+// Selection -> class picker
+// ---------------------------------------------------------------------------
+
+document.addEventListener('mouseup', (e) => {
+  setTimeout(() => {
+    const sel = window.getSelection();
+    if (!sel || sel.isCollapsed || sel.rangeCount === 0) return;
+    const range = sel.getRangeAt(0);
+    if (!els.promptText.contains(range.commonAncestorContainer)) return;
+
+    const { start, end } = domRangeToOffsets(range);
+    if (start === null || end === null || start >= end) return;
+
+    if (resizeState) {
+      window.getSelection().removeAllRanges();
+      finishResize(start, end);
+      return;
+    }
+
+    pendingSelection = { start, end };
+    openClassPicker(e.clientX, e.clientY);
+  }, 0);
+});
+
+function domRangeToOffsets(range) {
+  const preRange = document.createRange();
+  preRange.selectNodeContents(els.promptText);
+  preRange.setEnd(range.startContainer, range.startOffset);
+  const start = preRange.toString().length;
+  const end = start + range.toString().length;
+  return { start, end };
+}
+
+function openClassPicker(x, y) {
+  const entry = entries[currentIndex];
+  els.classPicker.innerHTML = CLASSES.map(c =>
+    `<div class="class-opt" data-class="${escapeHtml(c)}"><span class="swatch" style="background:${CLASS_COLOR_HEX[c]}"></span>${c}</div>`
+  ).join('');
+  els.classPicker.querySelectorAll('.class-opt').forEach(opt => {
+    opt.addEventListener('click', () => {
+      const cls = opt.getAttribute('data-class');
+      if (pendingSelection) {
+        pushUndoSnapshot();
+        entry.labels.push({ class: cls, span: { start: pendingSelection.start, end: pendingSelection.end } });
+      }
+      closeClassPicker();
+      window.getSelection().removeAllRanges();
+      renderSidebar();
+      renderCurrent();
+    });
+  });
+  positionFloating(els.classPicker, x, y);
+  els.classPicker.classList.add('open');
+  document.addEventListener('mousedown', dismissClassPickerOnce, { capture: true });
+}
+
+function dismissClassPickerOnce(e) {
+  if (!els.classPicker.contains(e.target)) {
+    closeClassPicker();
+  }
+}
+
+function closeClassPicker() {
+  els.classPicker.classList.remove('open');
+  els.classPicker.style.display = 'none';
+  pendingSelection = null;
+  document.removeEventListener('mousedown', dismissClassPickerOnce, { capture: true });
+}
+
+// ---------------------------------------------------------------------------
+// Existing span click -> edit popover
+// ---------------------------------------------------------------------------
+
+function segmentLabelMatches(span) {
+  const [starts, ends] = span.getAttribute('data-seg-active').split('|');
+  const startList = starts.split(',').map(Number);
+  const endList = ends.split(',').map(Number);
+  const matches = [];
+  const entry = entries[currentIndex];
+  entry.labels.forEach((l, idx) => {
+    for (let i = 0; i < startList.length; i++) {
+      if (l.span.start === startList[i] && l.span.end === endList[i]) {
+        matches.push({ ...l, idx });
+        break;
+      }
+    }
+  });
+  return matches;
+}
+
+// CSS var name for the Nth bar on a segment (matches renderLabeledText's
+// convention: single-label segments use --u-color, multi-label segments
+// use --u-color1/--u-color2/--u-color3 in the same order as data-seg-active).
+function barVarIndex(segment, index) {
+  const total = segmentLabelMatches(segment).length;
+  return total === 1 ? '--u-color' : `--u-color${index + 1}`;
+}
+
+// Brightens exactly one bar's color on a segment, remembering the original
+// inline style so mouseleave can restore it precisely (also brightens the
+// background tint when this is the segment's only label, since that case
+// renders as a background fill rather than a box-shadow bar).
+function brightenBar(segment, varIndex, isOnlyLabel, hex) {
+  if (!segment.dataset.origStyle) {
+    segment.dataset.origStyle = segment.getAttribute('style') || '';
+  }
+  segment.style.setProperty(varIndex, brightenHex(hex, 1.6));
+  if (isOnlyLabel) {
+    segment.style.background = hexToRgba(hex, 0.32);
+  }
+}
+
+function restoreBars(segment) {
+  if (segment.dataset.origStyle !== undefined) {
+    segment.setAttribute('style', segment.dataset.origStyle);
+    delete segment.dataset.origStyle;
+  }
+}
+
+function attachSpanClickHandlers() {
+  els.promptText.querySelectorAll('.lbl-span').forEach(span => {
+    span.addEventListener('click', (e) => {
+      if (window.getSelection().toString().length > 0) return; // was a drag-select
+      e.stopPropagation();
+      openEditPopover(e.clientX, e.clientY, segmentLabelMatches(span));
+    });
+
+    span.addEventListener('mouseenter', () => {
+      if (resizeState) return;
+      const matches = segmentLabelMatches(span);
+      if (!matches.length) return;
+
+      const segStart = Number(span.getAttribute('data-start'));
+      const segEnd = segStart + span.textContent.length;
+
+      // A single label's range can be sliced into multiple adjacent
+      // lbl-span segments wherever another label's boundary falls inside
+      // it. When hovering a segment covered by several stacked labels,
+      // only the label(s) whose range is exactly this segment (i.e. the
+      // narrowest/nested one under the cursor) brighten just their own bar
+      // on this one segment; any label whose range extends beyond this
+      // segment (the wider, "outer" one) brightens its bar across all of
+      // its own segments, matching how it's perceived as one continuous
+      // highlighted span. Brightening overrides only the specific
+      // --u-color* variable for that label, so sibling bars sharing the
+      // same segment are unaffected.
+      matches.forEach((m, i) => {
+        const isOuter = m.span.start < segStart || m.span.end > segEnd;
+        const hex = CLASS_COLOR_HEX[m.class] || '#888888';
+
+        if (isOuter) {
+          const key = `${m.span.start}-${m.span.end}`;
+          els.promptText.querySelectorAll('.lbl-span').forEach(other => {
+            const otherMatches = segmentLabelMatches(other);
+            const otherIdx = otherMatches.findIndex(o => `${o.span.start}-${o.span.end}` === key);
+            if (otherIdx !== -1) {
+              brightenBar(other, barVarIndex(other, otherIdx), otherMatches.length === 1, hex);
+            }
+          });
+        } else {
+          brightenBar(span, barVarIndex(span, i), matches.length === 1, hex);
+        }
+      });
+    });
+
+    span.addEventListener('mouseleave', () => {
+      els.promptText.querySelectorAll('.lbl-span').forEach(restoreBars);
+    });
+  });
+}
+
+function openEditPopover(x, y, matches) {
+  const entry = entries[currentIndex];
+  els.editPopover.innerHTML = matches.map(m => `
+    <div class="edit-row-group" data-idx="${m.idx}">
+      <div class="edit-row">
+        <span class="swatch" style="background:${CLASS_COLOR_HEX[m.class]}"></span>${escapeHtml(m.class)}
+        <span style="color:var(--text-dim); font-size:11px;">[${m.span.start}-${m.span.end}]</span>
+        <button class="relabel-btn" data-idx="${m.idx}">Relabel</button>
+        <button class="relabel-btn resize-btn" data-idx="${m.idx}">Resize</button>
+        <button class="del-btn" data-idx="${m.idx}">✕</button>
+      </div>
+      <div class="relabel-opts" data-idx="${m.idx}" style="display:none;"></div>
+    </div>
+  `).join('') || '<div style="color:var(--text-dim); font-size:12px;">No labels</div>';
+
+  els.editPopover.querySelectorAll('.del-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const idx = Number(btn.getAttribute('data-idx'));
+      pushUndoSnapshot();
+      entry.labels.splice(idx, 1);
+      closeEditPopover();
+      renderCurrent();
+    });
+  });
+
+  els.editPopover.querySelectorAll('.relabel-btn:not(.resize-btn)').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const idx = Number(btn.getAttribute('data-idx'));
+      const optsEl = els.editPopover.querySelector(`.relabel-opts[data-idx="${idx}"]`);
+      const isOpen = optsEl.style.display !== 'none';
+      els.editPopover.querySelectorAll('.relabel-opts').forEach(el => el.style.display = 'none');
+      if (isOpen) return;
+      optsEl.innerHTML = CLASSES.map(c =>
+        `<div class="class-opt" data-class="${escapeHtml(c)}"><span class="swatch" style="background:${CLASS_COLOR_HEX[c]}"></span>${c}</div>`
+      ).join('');
+      optsEl.querySelectorAll('.class-opt').forEach(opt => {
+        opt.addEventListener('click', () => {
+          pushUndoSnapshot();
+          entry.labels[idx].class = opt.getAttribute('data-class');
+          closeEditPopover();
+          renderSidebar();
+          renderCurrent();
+        });
+      });
+      optsEl.style.display = 'block';
+    });
+  });
+
+  els.editPopover.querySelectorAll('.resize-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const idx = Number(btn.getAttribute('data-idx'));
+      closeEditPopover();
+      startResize(idx);
+    });
+  });
+
+  positionFloating(els.editPopover, x, y);
+  els.editPopover.classList.add('open');
+  document.addEventListener('mousedown', dismissEditPopoverOnce, { capture: true });
+}
+
+function dismissEditPopoverOnce(e) {
+  if (!els.editPopover.contains(e.target)) {
+    closeEditPopover();
+  }
+}
+
+function closeEditPopover() {
+  els.editPopover.classList.remove('open');
+  els.editPopover.style.display = 'none';
+  document.removeEventListener('mousedown', dismissEditPopoverOnce, { capture: true });
+}
+
+// ---------------------------------------------------------------------------
+// Resize (two-click boundary redefinition)
+// ---------------------------------------------------------------------------
+
+// Returns the index of the character the point falls on (not the nearest
+// gap between characters), so clicking anywhere on a glyph selects that
+// glyph rather than requiring the user to aim between two characters.
+function clickPointToCharIndex(clientX, clientY) {
+  let range;
+  if (document.caretRangeFromPoint) {
+    range = document.caretRangeFromPoint(clientX, clientY);
+  } else if (document.caretPositionFromPoint) {
+    const pos = document.caretPositionFromPoint(clientX, clientY);
+    if (!pos) return null;
+    range = document.createRange();
+    range.setStart(pos.offsetNode, pos.offset);
+  }
+  if (!range || !els.promptText.contains(range.startContainer)) return null;
+
+  const preRange = document.createRange();
+  preRange.selectNodeContents(els.promptText);
+  preRange.setEnd(range.startContainer, range.startOffset);
+  const caretOffset = preRange.toString().length;
+
+  const entry = entries[currentIndex];
+  const textLen = entry.prompt.length;
+  if (textLen === 0) return 0;
+
+  // caretRangeFromPoint reports the nearer *gap* to the click, which can be
+  // the gap before or after the intended glyph. Directly hit-test the actual
+  // bounding rect of each of the (at most two) candidate characters adjacent
+  // to that gap and pick whichever one's box contains the click point.
+  const candidates = [caretOffset - 1, caretOffset].filter(i => i >= 0 && i < textLen);
+  for (const idx of candidates) {
+    const rect = charRect(idx);
+    if (rect && clientX >= rect.left && clientX < rect.right &&
+        clientY >= rect.top && clientY < rect.bottom) {
+      return idx;
+    }
+  }
+  // Fallback (e.g. click landed outside any glyph's box, such as trailing
+  // whitespace at end of a line): use the closer candidate by x-distance.
+  let best = candidates[0] ?? Math.min(caretOffset, textLen - 1);
+  let bestDist = Infinity;
+  for (const idx of candidates) {
+    const rect = charRect(idx);
+    if (!rect) continue;
+    const dist = Math.min(Math.abs(clientX - rect.left), Math.abs(clientX - rect.right));
+    if (dist < bestDist) { bestDist = dist; best = idx; }
+  }
+  return best;
+}
+
+function charRect(charIdx) {
+  const walker = document.createTreeWalker(els.promptText, NodeFilter.SHOW_TEXT);
+  let remaining = charIdx;
+  let node;
+  while ((node = walker.nextNode())) {
+    const len = node.textContent.length;
+    if (remaining < len) {
+      const range = document.createRange();
+      range.setStart(node, remaining);
+      range.setEnd(node, remaining + 1);
+      return range.getBoundingClientRect();
+    }
+    remaining -= len;
+  }
+  return null;
+}
+
+function startResize(idx) {
+  const entry = entries[currentIndex];
+  resizeState = { idx, phase: 'start', newStartChar: null };
+  els.resizeBanner.style.display = 'flex';
+  els.resizeBannerText.textContent =
+    `Resizing "${entry.labels[idx].class}" — highlight the new span, or click the character where it should START.`;
+  els.promptText.classList.add('resize-target');
+}
+
+function cancelResize() {
+  resizeState = null;
+  els.resizeBanner.style.display = 'none';
+  els.promptText.classList.remove('resize-target');
+  renderCurrent();
+}
+
+els.resizeCancelBtn.addEventListener('click', cancelResize);
+
+function finishResize(newStart, newEnd) {
+  const entry = entries[currentIndex];
+  pushUndoSnapshot();
+  entry.labels[resizeState.idx].span = { start: newStart, end: newEnd };
+  resizeState = null;
+  els.resizeBanner.style.display = 'none';
+  els.promptText.classList.remove('resize-target');
+  renderCurrent();
+}
+
+document.addEventListener('click', (e) => {
+  if (!resizeState) return;
+  if (!els.promptText.contains(e.target)) return;
+  if (window.getSelection().toString().length > 0) return; // was a drag-select, handled by mouseup
+  e.stopPropagation();
+
+  const charIdx = clickPointToCharIndex(e.clientX, e.clientY);
+  if (charIdx === null) return;
+
+  const entry = entries[currentIndex];
+
+  if (resizeState.phase === 'start') {
+    resizeState.newStartChar = charIdx;
+    resizeState.phase = 'end';
+    els.resizeBannerText.textContent =
+      `Resizing "${entry.labels[resizeState.idx].class}" — highlight the new span, or click the character where it should END.`;
+    renderResizePreview();
+  } else {
+    let startChar = resizeState.newStartChar;
+    let endChar = charIdx;
+    if (endChar < startChar) { const t = startChar; startChar = endChar; endChar = t; }
+    finishResize(startChar, endChar + 1); // end is exclusive; include the clicked character
+  }
+}, { capture: true });
+
+function renderResizePreview() {
+  const entry = entries[currentIndex];
+  // Render the text normally (original spans untouched), then highlight the
+  // exact character the user clicked as the new start, so it's clear which
+  // glyph was picked while choosing the end point.
+  const base = renderLabeledText(entry.prompt, entry.labels);
+  els.promptText.innerHTML = base;
+  attachSpanClickHandlers();
+  highlightStartChar(resizeState.newStartChar);
+}
+
+function highlightStartChar(charIdx) {
+  const walker = document.createTreeWalker(els.promptText, NodeFilter.SHOW_TEXT);
+  let remaining = charIdx;
+  let node;
+  while ((node = walker.nextNode())) {
+    const len = node.textContent.length;
+    if (remaining < len) {
+      const range = document.createRange();
+      range.setStart(node, remaining);
+      range.setEnd(node, remaining + 1);
+      const marker = document.createElement('span');
+      marker.id = 'resizeStartMarker';
+      marker.style.background = '#f0d878';
+      marker.style.color = '#1e1f22';
+      marker.style.borderRadius = '2px';
+      range.surroundContents(marker);
+      return;
+    }
+    remaining -= len;
+  }
+}
+
+function positionFloating(el, clientX, clientY) {
+  el.style.left = '0px';
+  el.style.top = '0px';
+  el.style.visibility = 'hidden';
+  el.style.display = el === els.classPicker ? 'flex' : 'block';
+  requestAnimationFrame(() => {
+    const rect = el.getBoundingClientRect();
+    let left = clientX + window.scrollX + 8;
+    let top = clientY + window.scrollY + 8;
+    if (left + rect.width > window.innerWidth + window.scrollX) left = window.innerWidth + window.scrollX - rect.width - 8;
+    if (top + rect.height > window.innerHeight + window.scrollY) top = window.innerHeight + window.scrollY - rect.height - 8;
+    el.style.left = left + 'px';
+    el.style.top = top + 'px';
+    el.style.visibility = 'visible';
+  });
+}
+
+// ---------------------------------------------------------------------------
+// Complete / navigation
+// ---------------------------------------------------------------------------
+
+els.completeBtn.addEventListener('click', () => {
+  if (currentIndex < 0) return;
+  pushUndoSnapshot();
+  entries[currentIndex].complete = !entries[currentIndex].complete;
+  renderSidebar();
+  renderCurrent();
+});
+
+els.clearLabelsBtn.addEventListener('click', () => {
+  if (currentIndex < 0) return;
+  const entry = entries[currentIndex];
+  if (!entry.labels.length) return;
+  if (!confirm(`Clear all ${entry.labels.length} label(s) on "${entry.key}"?`)) return;
+  pushUndoSnapshot();
+  entry.labels = [];
+  renderCurrent();
+});
+
+els.prevBtn.addEventListener('click', () => goTo(currentIndex - 1));
+els.nextBtn.addEventListener('click', () => goTo(currentIndex + 1));
+
+function goTo(idx) {
+  if (idx < 0 || idx >= entries.length) return;
+  if (resizeState) cancelResize();
+  currentIndex = idx;
+  resetUndoHistory();
+  renderSidebar();
+  renderCurrent();
+}
+
+els.undoBtn.addEventListener('click', undo);
+els.redoBtn.addEventListener('click', redo);
+
+document.addEventListener('keydown', (e) => {
+  if (document.activeElement === els.searchBox) return;
+
+  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'z') {
+    e.preventDefault();
+    if (e.shiftKey) redo(); else undo();
+    return;
+  }
+  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'y') {
+    e.preventDefault();
+    redo();
+    return;
+  }
+
+  if (window.getSelection().toString().length > 0) return;
+  if (e.key === 'ArrowLeft') goTo(currentIndex - 1);
+  if (e.key === 'ArrowRight') goTo(currentIndex + 1);
+});
+
+// ---------------------------------------------------------------------------
+// Export
+// ---------------------------------------------------------------------------
+
+els.exportBtn.addEventListener('click', async () => {
+  if (!entries.length) {
+    alert('No entries to export.');
+    return;
+  }
+  const out = entries.map(e => ({
+    key: e.key,
+    prompt: e.prompt,
+    labels: e.labels.map(l => ({ class: l.class, span: { start: l.span.start, end: l.span.end } })),
+    complete: e.complete,
+  }));
+  const json = JSON.stringify(out, null, 4);
+
+  if (window.showSaveFilePicker) {
+    // Native save dialog: lets the user pick both name and location.
+    try {
+      const handle = await window.showSaveFilePicker({
+        suggestedName: 'labeled.json',
+        types: [{ description: 'JSON file', accept: { 'application/json': ['.json'] } }],
+      });
+      const writable = await handle.createWritable();
+      await writable.write(json);
+      await writable.close();
+    } catch (err) {
+      if (err.name !== 'AbortError') alert('Export failed: ' + err.message);
+    }
+    return;
+  }
+
+  // Fallback: prompt for a filename, then trigger a browser download
+  // (the browser's own download location setting decides where it lands).
+  let name = prompt('File name to export as:', 'labeled.json');
+  if (!name) return;
+  if (!name.toLowerCase().endsWith('.json')) name += '.json';
+
+  const blob = new Blob([json], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = name;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+});
+
+renderCurrent();
+
+// No autosave: everything lives only in memory. Warn before the tab closes,
+// refreshes, or navigates away so work isn't lost silently. Browsers ignore
+// custom messages here and show their own generic confirmation text.
+window.addEventListener('beforeunload', (e) => {
+  if (!entries.length) return;
+  e.preventDefault();
+  e.returnValue = '';
+});
+</script>
+</body>
+</html>

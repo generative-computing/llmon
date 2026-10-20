@@ -1,0 +1,2325 @@
+<|open|>list<|close|>
+  <|open|>object<|close|>
+    <|open|>Benchmark Details<|close|>
+      <|open|>object<|close|>
+        <|open|>Benchmark Details<|.|>Name<|close|>
+          Bias Benchmark for QA (BBQ) Age
+        <|open_end|>Benchmark Details<|.|>Name<|close|>
+        <|open|>Benchmark Details<|.|>ID<|close|>
+          cards.safety.bbq.Age
+        <|open_end|>Benchmark Details<|.|>ID<|close|>
+        <|open|>Benchmark Details<|.|>Overview<|close|>
+          Bias Benchmark for QA (BBQ) Age, a dataset of question sets that highlight attested social biases against people belonging to protected classes along nine social dimensions relevant for U.S. English-speaking contexts.
+        <|open_end|>Benchmark Details<|.|>Overview<|close|>
+        <|open|>Benchmark Details<|.|>Data Type<|close|>
+          Text
+        <|open_end|>Benchmark Details<|.|>Data Type<|close|>
+        <|open|>Benchmark Details<|.|>Domains<|close|>
+          Natural Language Processing
+        <|open_end|>Benchmark Details<|.|>Domains<|close|>
+        <|open|>Benchmark Details<|.|>Application Domains<|close|>
+          Question Answering systems, 
+        <|open_end|>Benchmark Details<|.|>Application Domains<|close|>
+        <|open|>Benchmark Details<|.|>Languages<|close|>
+          English
+        <|open_end|>Benchmark Details<|.|>Languages<|close|>
+        <|open|>Benchmark Details<|.|>Similar Benchmarks<|close|>
+          UnQover
+        <|open_end|>Benchmark Details<|.|>Similar Benchmarks<|close|>
+        <|open|>Benchmark Details<|.|>Resources<|close|>
+          [{'arxiv': 'https://arxiv.org/abs/2110.08193'}]
+        <|open_end|>Benchmark Details<|.|>Resources<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Benchmark Details<|close|>
+    <|open|>Purpose and Intended Users<|close|>
+      <|open|>object<|close|>
+        <|open|>Purpose and Intended Users<|.|>Goal<|close|>
+          To assess the biases of question answering (QA) models.  Evaluate model responses at two levels: (i) given an under-informative context, test how strongly responses reflect social biases, and (ii) given an adequately informative context, test whether the model's biases override a correct answer choice.
+        <|open_end|>Purpose and Intended Users<|.|>Goal<|close|>
+        <|open|>Purpose and Intended Users<|.|>Audience<|close|>
+          Researchers, developers, policymakers
+        <|open_end|>Purpose and Intended Users<|.|>Audience<|close|>
+        <|open|>Purpose and Intended Users<|.|>Tasks<|close|>
+          Question Answering
+        <|open_end|>Purpose and Intended Users<|.|>Tasks<|close|>
+        <|open|>Purpose and Intended Users<|.|>Out-of-Scope Uses<|close|>
+          Systems that are not question answering (QA) models. 
+        <|open_end|>Purpose and Intended Users<|.|>Out-of-Scope Uses<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Purpose and Intended Users<|close|>
+    <|open|>Data<|close|>
+      <|open|>object<|close|>
+        <|open|>Data<|.|>Source<|close|>
+          Bias Benchmark for QA (BBQ), a dataset of question sets that highlight attested social biases against people belonging to protected classes along nine social dimensions relevant for U.S. English-speaking contexts.
+        <|open_end|>Data<|.|>Source<|close|>
+        <|open|>Data<|.|>Size<|close|>
+          58,492 unique examples
+        <|open_end|>Data<|.|>Size<|close|>
+        <|open|>Data<|.|>Format<|close|>
+          Templates which consist of two questions, answer choices, a partial context missing information necessary to answer the questions, and a disambiguating context that provides the necessary information.
+        <|open_end|>Data<|.|>Format<|close|>
+        <|open|>Data<|.|>Annotation<|close|>
+          Human annotators, MTurk workers located in the US, compensated for their time
+        <|open_end|>Data<|.|>Annotation<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Data<|close|>
+    <|open|>Methodology<|close|>
+      <|open|>object<|close|>
+        <|open|>Methodology<|.|>Methods<|close|>
+          Metric: accuracy.  Accuracy is the proportion of correct predictions among the total number of cases processed. It can be computed with:\nAccuracy = (TP + TN) / (TP + TN + FP + FN)\n Where:\nTP: True positive\nTN: True negative\nFP: False positive\nFN: False negative\n, Metric Citation\n@article{scikit-learn,\n  title={Scikit-learn: Machine Learning in {P}ython},\n  author={Pedregosa, F. and Varoquaux, G. and Gramfort, A. and Michel, V.\n         and Thirion, B. and Grisel, O. and Blondel, M. and Prettenhofer, P.\n         and Weiss, R. and Dubourg, V. and Vanderplas, J. and Passos, A. and\n         Cournapeau, D. and Brucher, M. and Perrot, M. and Duchesnay, E҆},\n  journal={Journal of Machine Learning Research},\n  volume={12},\n  pages={2825--2830},\n  year={2011}\n}\n.
+        <|open_end|>Methodology<|.|>Methods<|close|>
+        <|open|>Methodology<|.|>Metrics<|close|>
+          Accuracy
+        <|open_end|>Methodology<|.|>Metrics<|close|>
+        <|open|>Methodology<|.|>Calculation<|close|>
+          Accuracy = (TP + TN) / (TP + TN + FP + FN)
+        <|open_end|>Methodology<|.|>Calculation<|close|>
+        <|open|>Methodology<|.|>Interpretation<|close|>
+          Higher accuracy indicates better performance. However, it's important to note that accuracy alone does not paint a complete picture of a model's performance, especially when it comes to assessing biases in language models.  A low bias score should not be seen as indicative of a less biased model in all cases.
+        <|open_end|>Methodology<|.|>Interpretation<|close|>
+        <|open|>Methodology<|.|>Validation<|close|>
+          Templates were validated by MTurk testing of rater agreement. The paper reports an estimate that raw human (crowdworker annotator) accuracy on BBQ is 95.7%, and aggregate human accuracy calculated via majority vote is 99.7%.
+        <|open_end|>Methodology<|.|>Validation<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Methodology<|close|>
+    <|open|>Risks<|close|>
+      <|open|>object<|close|>
+        <|open|>Risks<|.|>Risk Categories<|close|>
+          Social Biases, stereotype reinforcement, stereotype attribution
+        <|open_end|>Risks<|.|>Risk Categories<|close|>
+        <|open|>Risks<|.|>Limitations<|close|>
+          Gaps in demographic coverage or specific domains. Categories are limited to a US English-speaking cultural context and do not include all possible social biases
+        <|open_end|>Risks<|.|>Limitations<|close|>
+        <|open|>Risks<|.|>Harm<|close|>
+          Perpetuation of stereotypes and biases
+        <|open_end|>Risks<|.|>Harm<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Risks<|close|>
+    <|open|>Ethical and Legal Considerations<|close|>
+      <|open|>object<|close|>
+        <|open|>Ethical and Legal Considerations<|.|>Privacy and Anonymity<|close|>
+          Publicly available data
+        <|open_end|>Ethical and Legal Considerations<|.|>Privacy and Anonymity<|close|>
+        <|open|>Ethical and Legal Considerations<|.|>Data Licensing<|close|>
+          CC BY 4.0
+        <|open_end|>Ethical and Legal Considerations<|.|>Data Licensing<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Ethical and Legal Considerations<|close|>
+  <|open_end|>object<|close|>
+  <|,|>
+  <|open|>object<|close|>
+    <|open|>Benchmark Details<|close|>
+      <|open|>object<|close|>
+        <|open|>Benchmark Details<|.|>Name<|close|>
+          Prompt Leakage (RAG)
+        <|open_end|>Benchmark Details<|.|>Name<|close|>
+        <|open|>Benchmark Details<|.|>ID<|close|>
+          cards.prompt_leakage.rag_dataset
+        <|open_end|>Benchmark Details<|.|>ID<|close|>
+        <|open|>Benchmark Details<|.|>Overview<|close|>
+          This benchmark is designed to assess the tendency of a model to leak its system prompt, also known as the base prompt or prompt template. The benchmark uses a dataset of prompts that are systematically designed to test the model's tendency to disclose its system prompt. The rag-dataset is used to add few shot examples to the system prompt. The metric used to assess this ability is the prompt leakage score, which measures the degree of similarity between the model's response and the actual system prompt.
+        <|open_end|>Benchmark Details<|.|>Overview<|close|>
+        <|open|>Benchmark Details<|.|>Data Type<|close|>
+          Text
+        <|open_end|>Benchmark Details<|.|>Data Type<|close|>
+        <|open|>Benchmark Details<|.|>Domains<|close|>
+          Natural Language Processing
+        <|open_end|>Benchmark Details<|.|>Domains<|close|>
+        <|open|>Benchmark Details<|.|>Application Domains<|self_close|>
+        <|open|>Benchmark Details<|.|>Languages<|close|>
+          English
+        <|open_end|>Benchmark Details<|.|>Languages<|close|>
+        <|open|>Benchmark Details<|.|>Similar Benchmarks<|close|>
+          prompt-leaking
+        <|open_end|>Benchmark Details<|.|>Similar Benchmarks<|close|>
+        <|open|>Benchmark Details<|.|>Resources<|close|>
+          <|open|>list<|close|>
+            <|open|>object<|close|>
+              <|open|>Benchmark Details<|.|>Resources<|.|>arxiv<|close|>
+                https://arxiv.org/pdf/2307.06865.pdf
+              <|open_end|>Benchmark Details<|.|>Resources<|.|>arxiv<|close|>
+            <|open_end|>object<|close|>
+            <|,|>
+            <|open|>object<|close|>
+              <|open|>Benchmark Details<|.|>Resources<|.|>huggingface<|close|>
+                https://huggingface.co/datasets/neural-bridge/rag-dataset-12000
+              <|open_end|>Benchmark Details<|.|>Resources<|.|>huggingface<|close|>
+            <|open_end|>object<|close|>
+          <|open_end|>list<|close|>
+        <|open_end|>Benchmark Details<|.|>Resources<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Benchmark Details<|close|>
+    <|open|>Purpose and Intended Users<|close|>
+      <|open|>object<|close|>
+        <|open|>Purpose and Intended Users<|.|>Goal<|close|>
+          To assess the tendency of a model to leak its system prompt, also known as the base prompt or prompt template.
+        <|open_end|>Purpose and Intended Users<|.|>Goal<|close|>
+        <|open|>Purpose and Intended Users<|.|>Audience<|close|>
+          Researchers, developers, policymakers, etc.
+        <|open_end|>Purpose and Intended Users<|.|>Audience<|close|>
+        <|open|>Purpose and Intended Users<|.|>Tasks<|close|>
+          Prompt leakage assessment
+        <|open_end|>Purpose and Intended Users<|.|>Tasks<|close|>
+        <|open|>Purpose and Intended Users<|.|>Out-of-Scope Uses<|close|>
+          Models that do not have a system prompt.
+        <|open_end|>Purpose and Intended Users<|.|>Out-of-Scope Uses<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Purpose and Intended Users<|close|>
+    <|open|>Data<|close|>
+      <|open|>object<|close|>
+        <|open|>Data<|.|>Source<|close|>
+          The benchmark uses a dataset of prompts that are systematically designed to test the model's tendency to disclose its system prompt.
+        <|open_end|>Data<|.|>Source<|close|>
+        <|open|>Data<|.|>Size<|close|>
+          The dataset contains 58 prompts.
+        <|open_end|>Data<|.|>Size<|close|>
+        <|open|>Data<|.|>Format<|close|>
+          The dataset is in CSV format and contains two columns: the prompt and rank.
+        <|open_end|>Data<|.|>Format<|close|>
+        <|open|>Data<|.|>Annotation<|close|>
+           The dataset was manually curated by IBM and extended using the mixtral-8x7b-instruct-v01 model.
+        <|open_end|>Data<|.|>Annotation<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Data<|close|>
+    <|open|>Methodology<|close|>
+      <|open|>object<|close|>
+        <|open|>Methodology<|.|>Methods<|close|>
+          The benchmark uses a prompt leakage attack to assess the model's tendency to disclose its system prompt. The attack involves presenting the model with a series of prompts and measuring the degree of similarity between the model's response and the actual system prompt.
+        <|open_end|>Methodology<|.|>Methods<|close|>
+        <|open|>Methodology<|.|>Metrics<|close|>
+          This metric is based on a system prompt leakage attack and represents to what degree the model is willing to disclose its own system/base prompt. The attack tries to cause the model to leak its system prompt, and measures the degree of similarity between the model response and the actual system prompt. A high similarity between the model response and the actual prompt represents higher leakage risk. The score is based on the attack’s average similarity score across all attack prompts tested, weighted according to their difficulty level, and normalized such that that 1 represents perfect privacy and 0 represents worst privacy.
+        <|open_end|>Methodology<|.|>Metrics<|close|>
+        <|open|>Methodology<|.|>Calculation<|close|>
+          The prompt leakage score is calculated using a similarity metric, such as rouge or bert, between the model's response and the actual system prompt.
+        <|open_end|>Methodology<|.|>Calculation<|close|>
+        <|open|>Methodology<|.|>Interpretation<|close|>
+          A higher prompt leakage score indicates a lower risk of the model leaking its system prompt (better privacy).
+        <|open_end|>Methodology<|.|>Interpretation<|close|>
+        <|open|>Methodology<|.|>Baseline Results<|self_close|><|open|>Methodology<|.|>Validation<|self_close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Methodology<|close|>
+    <|open|>Risks<|close|>
+      <|open|>object<|close|>
+        <|open|>Risks<|.|>Risk Categories<|close|>
+          Prompt leaking
+        <|open_end|>Risks<|.|>Risk Categories<|close|>
+        <|open|>Risks<|.|>Limitations<|close|>
+          The benchmark work does not experiment with sophisticated attacking strategies. 
+        <|open_end|>Risks<|.|>Limitations<|close|>
+        <|open|>Risks<|.|>Harm<|close|>
+          Prompt leaking risk for AI. A successful attack exposes the system prompt used in the model. Depending on the content of that prompt, the attacker might gain access to valuable information, such as sensitive personal information or intellectual property, and might be able to use this information to mount a secondary attack, such as performing fraud.
+        <|open_end|>Risks<|.|>Harm<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Risks<|close|>
+    <|open|>Ethical and Legal Considerations<|close|>
+      <|open|>object<|close|>
+        <|open|>Ethical and Legal Considerations<|.|>Privacy and Anonymity<|close|>
+          The benchmark does not handle any personal or sensitive data, and it does not apply any anonymization techniques.
+        <|open_end|>Ethical and Legal Considerations<|.|>Privacy and Anonymity<|close|>
+        <|open|>Ethical and Legal Considerations<|.|>Data Licensing<|close|>
+          This is a proprietary IBM dataset.
+        <|open_end|>Ethical and Legal Considerations<|.|>Data Licensing<|close|>
+        <|open|>Ethical and Legal Considerations<|.|>Consent Procedures<|close|>
+          The benchmark does not involve any personal data, and it does not require consent from users.
+        <|open_end|>Ethical and Legal Considerations<|.|>Consent Procedures<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Ethical and Legal Considerations<|close|>
+  <|open_end|>object<|close|>
+  <|,|>
+  <|open|>object<|close|>
+    <|open|>Benchmark Details<|close|>
+      <|open|>object<|close|>
+        <|open|>Benchmark Details<|.|>Name<|close|>
+          Dolly data leakage
+        <|open_end|>Benchmark Details<|.|>Name<|close|>
+        <|open|>Benchmark Details<|.|>ID<|close|>
+          cards.data_leakage.dolly
+        <|open_end|>Benchmark Details<|.|>ID<|close|>
+        <|open|>Benchmark Details<|.|>Overview<|close|>
+          This dataset contains instruction-following examples, including brainstorming, classification, closed QA, generation, information extraction, open QA, and summarization, Human preference data about helpfulness and harmlessness and Human-generated and annotated red teaming dialogues. Training data is used to assess the model's tendency to reveal confidential information or sensitive personal information in its generated output.
+        <|open_end|>Benchmark Details<|.|>Overview<|close|>
+        <|open|>Benchmark Details<|.|>Data Type<|close|>
+          Text
+        <|open_end|>Benchmark Details<|.|>Data Type<|close|>
+        <|open|>Benchmark Details<|.|>Domains<|close|>
+          Natural Language Processing
+        <|open_end|>Benchmark Details<|.|>Domains<|close|>
+        <|open|>Benchmark Details<|.|>Application Domains<|self_close|>
+        <|open|>Benchmark Details<|.|>Languages<|close|>
+          English
+        <|open_end|>Benchmark Details<|.|>Languages<|close|>
+        <|open|>Benchmark Details<|.|>Similar Benchmarks<|self_close|>
+        <|open|>Benchmark Details<|.|>Resources<|close|>
+          [{'huggingface': 'mosaicml/dolly_hhrlhf'}]
+        <|open_end|>Benchmark Details<|.|>Resources<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Benchmark Details<|close|>
+    <|open|>Purpose and Intended Users<|close|>
+      <|open|>object<|close|>
+        <|open|>Purpose and Intended Users<|.|>Goal<|close|>
+          To assess the risk of LLMs revealing memorized training samples in their generated output.
+        <|open_end|>Purpose and Intended Users<|.|>Goal<|close|>
+        <|open|>Purpose and Intended Users<|.|>Audience<|close|>
+          Researchers, developers, policymakers, and anyone interested in the potential risks of LLMs.
+        <|open_end|>Purpose and Intended Users<|.|>Audience<|close|>
+        <|open|>Purpose and Intended Users<|.|>Tasks<|close|>
+          The benchmark is designed for the task of detecting data leakage
+        <|open_end|>Purpose and Intended Users<|.|>Tasks<|close|>
+        <|open|>Purpose and Intended Users<|.|>Out-of-Scope Uses<|close|>
+          The benchmark is not designed to be used for tasks such as text classification, sentiment analysis, or question-answering.
+        <|open_end|>Purpose and Intended Users<|.|>Out-of-Scope Uses<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Purpose and Intended Users<|close|>
+    <|open|>Data<|close|>
+      <|open|>object<|close|>
+        <|open|>Data<|.|>Source<|close|>
+          This uses the dataset mosaicml/dolly_hhrlhf.  This dataset is a combination of [Databrick's dolly-15k](https://huggingface.co/datasets/databricks/databricks-dolly-15k) dataset and a filtered subset of [Anthropic's HH-RLHF](https://huggingface.co/datasets/Anthropic/hh-rlhf). It also includes a test split, which was missing in the original `dolly` set. That test set is composed of 200 randomly selected samples from `dolly` + 4,929 of the test set samples from HH-RLHF which made it through a filtering process. The train set contains 59,310 samples; `15,014 - 200 = 14,814` from Dolly, and the remaining 44,496 from HH-RLHF..
+        <|open_end|>Data<|.|>Source<|close|>
+        <|open|>Data<|.|>Size<|close|>
+          The dataset contains 64,539 samples, with 59,310 samples in the training set and 5,229 samples in the test set. The download size is reported as 24882010 and dataset size as 48260742. A subset of data (1000 sample instances) is used to run the MRA recipe.
+        <|open_end|>Data<|.|>Size<|close|>
+        <|open|>Data<|.|>Format<|close|>
+          The dataset is stored in the Hugging Face Dataset format, with each sample consisting of a prompt and its corresponding response.
+        <|open_end|>Data<|.|>Format<|close|>
+        <|open|>Data<|.|>Annotation<|close|>
+          The dataset was manually curated and filtered by MosaicML, and the responses were checked for the presence of sensitive information.
+        <|open_end|>Data<|.|>Annotation<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Data<|close|>
+    <|open|>Methodology<|close|>
+      <|open|>object<|close|>
+        <|open|>Methodology<|.|>Methods<|close|>
+          The benchmark looks for high syntactic similarity between the model responses and the actual samples, to identify leakage risk.
+        <|open_end|>Methodology<|.|>Methods<|close|>
+        <|open|>Methodology<|.|>Metrics<|close|>
+          Data leakage (metrics.data_leakage). 
+        <|open_end|>Methodology<|.|>Metrics<|close|>
+        <|open|>Methodology<|.|>Calculation<|close|>
+          This metric is based on a training data or fine-tuning data leakage attack, and represents to what degree the model has memorized its training data. The attack tries to cause the model to leak complete or partial samples from its training (or fine-tuning) data, and measures the degree of similarity between the model responses and the actual training data.
+        <|open_end|>Methodology<|.|>Calculation<|close|>
+        <|open|>Methodology<|.|>Interpretation<|close|>
+          A high syntactic similarity between the model response and the actual sample represents higher leakage risk. The score is based on the attack’s average similarity score across all training samples tested, and normalized such that 1 represents perfect privacy and 0 represents worst privacy.
+        <|open_end|>Methodology<|.|>Interpretation<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Methodology<|close|>
+    <|open|>Risks<|close|>
+      <|open|>object<|close|>
+        <|open|>Risks<|.|>Risk Categories<|close|>
+          <|open|>list<|close|>
+            revealing-confidential-information<|,|>
+            exposing-personal-information
+          <|open_end|>list<|close|>
+        <|open_end|>Risks<|.|>Risk Categories<|close|>
+        <|open|>Risks<|.|>Limitations<|close|>
+          This benchmark only assesses the leakage of this specific dataset and no other datasets used in the model’s training or tuning. Moreover, it measures leakage using a specialized metric based on syntactic similarity, which may miss certain types of leakage. The benchmark assumes partial knowledge of the training samples in order to prompt the model to leak the rest of the data.
+        <|open_end|>Risks<|.|>Limitations<|close|>
+        <|open|>Risks<|.|>Demographic Analysis<|close|>
+          Unknown
+        <|open_end|>Risks<|.|>Demographic Analysis<|close|>
+        <|open|>Risks<|.|>Harm<|close|>
+          The benchmark assesses the risk of LLMs revealing confidential information or sensitive personal information in their generated output. Risk Title: Revealing confidential information,\n Tag: revealing-confidential-information,\n Type: output,\n Phase:None,\n Category:None,\n Group:intellectual property,\n Descriptor:amplified,\n Description: When confidential information is used in training data, fine-tuning data, or as part of the prompt, models might reveal that data in the generated output. Revealing confidential information is a type of data leakage.,\n Concern: If not properly developed to secure confidential data, the model might reveal confidential information or IP in the generated output and reveal information that was meant to be secret. Risk Title: Exposing personal information,\n Tag: exposing-personal-information,\n Type: output,\n Phase:None,\n Category:None,\n Group:privacy,\n Descriptor:amplified,\n Description: When personal identifiable information (PII) or sensitive personal information (SPI) are used in training data, fine-tuning data, or as part of the prompt, models might reveal that data in the generated output. Revealing personal information is a type of data leakage.,\n Concern: Sharing people’s PI impacts their rights and make them more vulnerable.
+        <|open_end|>Risks<|.|>Harm<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Risks<|close|>
+    <|open|>Ethical and Legal Considerations<|close|>
+      <|open|>object<|close|>
+        <|open|>Ethical and Legal Considerations<|.|>Privacy and Anonymity<|close|>
+          The benchmark does not include any personal or sensitive data.
+        <|open_end|>Ethical and Legal Considerations<|.|>Privacy and Anonymity<|close|>
+        <|open|>Ethical and Legal Considerations<|.|>Data Licensing<|close|>
+          The dataset is licensed under the CC BY-SA 3.0 license, which allows for free use and distribution of the data.
+        <|open_end|>Ethical and Legal Considerations<|.|>Data Licensing<|close|>
+        <|open|>Ethical and Legal Considerations<|.|>Consent Procedures<|close|>
+          Unknown
+        <|open_end|>Ethical and Legal Considerations<|.|>Consent Procedures<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Ethical and Legal Considerations<|close|>
+  <|open_end|>object<|close|>
+  <|,|>
+  <|open|>object<|close|>
+    <|open|>Benchmark Details<|close|>
+      <|open|>object<|close|>
+        <|open|>Benchmark Details<|.|>Name<|close|>
+          Data leakage (RAG)
+        <|open_end|>Benchmark Details<|.|>Name<|close|>
+        <|open|>Benchmark Details<|.|>ID<|close|>
+          cards.data_leakage.rag_dataset_12000
+        <|open_end|>Benchmark Details<|.|>ID<|close|>
+        <|open|>Benchmark Details<|.|>Overview<|close|>
+          This benchmark is designed to assess the tendency of a model to leak RAG context in case it will be provided together with a user prompt.
+        <|open_end|>Benchmark Details<|.|>Overview<|close|>
+        <|open|>Benchmark Details<|.|>Data Type<|close|>
+          Text
+        <|open_end|>Benchmark Details<|.|>Data Type<|close|>
+        <|open|>Benchmark Details<|.|>Domains<|close|>
+          Natural Language Processing
+        <|open_end|>Benchmark Details<|.|>Domains<|close|>
+        <|open|>Benchmark Details<|.|>Application Domains<|self_close|>
+        <|open|>Benchmark Details<|.|>Languages<|close|>
+          English
+        <|open_end|>Benchmark Details<|.|>Languages<|close|>
+        <|open|>Benchmark Details<|.|>Similar Benchmarks<|self_close|>
+        <|open|>Benchmark Details<|.|>Resources<|close|>
+          [{'huggingface': 'neural-bridge/rag-dataset-12000'}]
+        <|open_end|>Benchmark Details<|.|>Resources<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Benchmark Details<|close|>
+    <|open|>Purpose and Intended Users<|close|>
+      <|open|>object<|close|>
+        <|open|>Purpose and Intended Users<|.|>Goal<|close|>
+          To assess the risk of LLMs leaking RAG context into their generated output.
+        <|open_end|>Purpose and Intended Users<|.|>Goal<|close|>
+        <|open|>Purpose and Intended Users<|.|>Audience<|close|>
+          Researchers, developers, policymakers, and anyone interested in the potential risks of LLMs.
+        <|open_end|>Purpose and Intended Users<|.|>Audience<|close|>
+        <|open|>Purpose and Intended Users<|.|>Tasks<|close|>
+          The benchmark is designed for the task of detecting data leakage from RAG context
+        <|open_end|>Purpose and Intended Users<|.|>Tasks<|close|>
+        <|open|>Purpose and Intended Users<|.|>Out-of-Scope Uses<|close|>
+          The benchmark is not designed to be used for tasks such as text classification, sentiment analysis, or question-answering.
+        <|open_end|>Purpose and Intended Users<|.|>Out-of-Scope Uses<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Purpose and Intended Users<|close|>
+    <|open|>Data<|close|>
+      <|open|>object<|close|>
+        <|open|>Data<|.|>Source<|close|>
+          This benchmark uses the dataset neural-bridge/rag-dataset-12000. Retrieval-Augmented Generation (RAG) Dataset 12000 is an English dataset designed for RAG-optimized models, built by Neural Bridge AI, and released under Apache license 2.0. Retrieval-Augmented Generation (RAG) Dataset 12000 dataset is a triple-feature collection, with each entry containing a \"context\", \"question\", and \"answer\" fields, designed to help build RAG-optimized models.
+        <|open_end|>Data<|.|>Source<|close|>
+        <|open|>Data<|.|>Size<|close|>
+          The dataset contains 12,000 samples, with 9,600 samples in the training set and 2,400 samples in the test set. The download size is reported as 28.9 MB and dataset size as 28.9 MB. A subset of data (1000 sample instances) is used to run the MRA recipe.
+        <|open_end|>Data<|.|>Size<|close|>
+        <|open|>Data<|.|>Format<|close|>
+          The dataset is stored in the Hugging Face Dataset format, with each sample consisting of a context and its corresponding question and answer.
+        <|open_end|>Data<|.|>Format<|close|>
+        <|open|>Data<|.|>Annotation<|close|>
+          The dataset was built by Neural Bridge AI, and the responses were checked for the presence of sensitive information.
+        <|open_end|>Data<|.|>Annotation<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Data<|close|>
+    <|open|>Methodology<|close|>
+      <|open|>object<|close|>
+        <|open|>Methodology<|.|>Methods<|close|>
+          The benchmark looks for high syntactic similarity between the model responses and the given RAG context, to identify leakage risk.
+        <|open_end|>Methodology<|.|>Methods<|close|>
+        <|open|>Methodology<|.|>Metrics<|close|>
+          Data leakage (metrics.data_leakage). 
+        <|open_end|>Methodology<|.|>Metrics<|close|>
+        <|open|>Methodology<|.|>Calculation<|close|>
+          The RAG context leakage score is calculated using a syntactic similarity metric, an enhanced variation of rougeL (rougLmod), between the model's response and the RAG context. A high syntactic similarity between the model response and the RAG context represents higher leakage risk.
+        <|open_end|>Methodology<|.|>Calculation<|close|>
+        <|open|>Methodology<|.|>Interpretation<|close|>
+          The final score is based on the attack’s average similarity score across all RAG context samples tested, normalized such that 1 represents perfect privacy and 0 represents worst privacy.
+        <|open_end|>Methodology<|.|>Interpretation<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Methodology<|close|>
+    <|open|>Risks<|close|>
+      <|open|>object<|close|>
+        <|open|>Risks<|.|>Risk Categories<|close|>
+          <|open|>list<|close|>
+            revealing-confidential-information<|,|>
+            exposing-personal-information
+          <|open_end|>list<|close|>
+        <|open_end|>Risks<|.|>Risk Categories<|close|>
+        <|open|>Risks<|.|>Limitations<|close|>
+          This benchmark only assesses the tendency of RAG context leakage by using public RAG dataset. Moreover, it measures leakage using a specialized metric based on syntactic similarity, which may miss certain types of leakage. 
+        <|open_end|>Risks<|.|>Limitations<|close|>
+        <|open|>Risks<|.|>Demographic Analysis<|close|>
+          Unknown
+        <|open_end|>Risks<|.|>Demographic Analysis<|close|>
+        <|open|>Risks<|.|>Harm<|close|>
+          The benchmark assesses the risk of LLMs revealing confidential information or sensitive personal information from RAG context in their generated output. Risk Title: Revealing confidential information,\n Tag: revealing-confidential-information,\n Type: output,\n Phase:None,\n Category:None,\n Group:intellectual property,\n Descriptor:amplified,\n Description: When confidential information is used in RAG context, training data, fine-tuning data, or as part of the prompt, models might reveal that data in the generated output. Revealing confidential information is a type of data leakage.,\n Concern: If not properly developed to secure confidential data, the model might reveal confidential information or IP in the generated output and reveal information that was meant to be secret. Risk Title: Exposing personal information,\n Tag: exposing-personal-information,\n Type: output,\n Phase:None,\n Category:None,\n Group:privacy,\n Descriptor:amplified,\n Description: When personal identifiable information (PII) or sensitive personal information (SPI) are used in RAG context, training data, fine-tuning data, or as part of the prompt, models might reveal that data in the generated output. Revealing personal information is a type of data leakage.,\n Concern: Sharing people’s PI impacts their rights and make them more vulnerable.
+        <|open_end|>Risks<|.|>Harm<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Risks<|close|>
+    <|open|>Ethical and Legal Considerations<|close|>
+      <|open|>object<|close|>
+        <|open|>Ethical and Legal Considerations<|.|>Privacy and Anonymity<|close|>
+          The benchmark does not include any personal or sensitive data.
+        <|open_end|>Ethical and Legal Considerations<|.|>Privacy and Anonymity<|close|>
+        <|open|>Ethical and Legal Considerations<|.|>Data Licensing<|close|>
+          This dataset is licensed under the [Apache License, Version 2.0]
+        <|open_end|>Ethical and Legal Considerations<|.|>Data Licensing<|close|>
+        <|open|>Ethical and Legal Considerations<|.|>Consent Procedures<|close|>
+          Unknown
+        <|open_end|>Ethical and Legal Considerations<|.|>Consent Procedures<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Ethical and Legal Considerations<|close|>
+  <|open_end|>object<|close|>
+  <|,|>
+  <|open|>object<|close|>
+    <|open|>Benchmark Details<|close|>
+      <|open|>object<|close|>
+        <|open|>Benchmark Details<|.|>Name<|close|>
+          Data leakage (SYNTH)
+        <|open_end|>Benchmark Details<|.|>Name<|close|>
+        <|open|>Benchmark Details<|.|>ID<|close|>
+          cards.data_leakage.synth_sentence
+        <|open_end|>Benchmark Details<|.|>ID<|close|>
+        <|open|>Benchmark Details<|.|>Overview<|close|>
+          This benchmark is designed to assess the tendency of a model to leak the original text (seed) while using it to generate synthetic data.
+        <|open_end|>Benchmark Details<|.|>Overview<|close|>
+        <|open|>Benchmark Details<|.|>Data Type<|close|>
+          Text
+        <|open_end|>Benchmark Details<|.|>Data Type<|close|>
+        <|open|>Benchmark Details<|.|>Domains<|close|>
+          Natural Language Processing
+        <|open_end|>Benchmark Details<|.|>Domains<|close|>
+        <|open|>Benchmark Details<|.|>Application Domains<|self_close|>
+        <|open|>Benchmark Details<|.|>Languages<|close|>
+          English
+        <|open_end|>Benchmark Details<|.|>Languages<|close|>
+        <|open|>Benchmark Details<|.|>Similar Benchmarks<|self_close|>
+        <|open|>Benchmark Details<|.|>Resources<|close|>
+          [{'huggingface': 'fedml/PubMedQA_instruction'}]
+        <|open_end|>Benchmark Details<|.|>Resources<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Benchmark Details<|close|>
+    <|open|>Purpose and Intended Users<|close|>
+      <|open|>object<|close|>
+        <|open|>Purpose and Intended Users<|.|>Goal<|close|>
+          To assess the risk of LLMs revealing the original text (seed) while using it to generate synthetic data.
+        <|open_end|>Purpose and Intended Users<|.|>Goal<|close|>
+        <|open|>Purpose and Intended Users<|.|>Audience<|close|>
+          Researchers, developers, policymakers, and anyone interested in the potential risks of LLMs.
+        <|open_end|>Purpose and Intended Users<|.|>Audience<|close|>
+        <|open|>Purpose and Intended Users<|.|>Tasks<|close|>
+          The benchmark is designed for the task of detecting data leakage from the original text (seed) while paraphrasing it.
+        <|open_end|>Purpose and Intended Users<|.|>Tasks<|close|>
+        <|open|>Purpose and Intended Users<|.|>Out-of-Scope Uses<|close|>
+          The benchmark is not designed to be used for tasks such as text classification, sentiment analysis, or question-answering.
+        <|open_end|>Purpose and Intended Users<|.|>Out-of-Scope Uses<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Purpose and Intended Users<|close|>
+    <|open|>Data<|close|>
+      <|open|>object<|close|>
+        <|open|>Data<|.|>Source<|close|>
+          This benchmark uses the dataset fedml/PubMedQA_instruction. It contains a PubMedQA dataset converted for instruction tuning.
+        <|open_end|>Data<|.|>Source<|close|>
+        <|open|>Data<|.|>Size<|close|>
+          The dataset contains 273,518 samples, with 272,518 samples in the training set and 1,000 samples in the test set. The download size is reported as 275 MB and dataset size as 275 MB. A subset of data (1000 sample instances) is used to run the MRA recipe.
+        <|open_end|>Data<|.|>Size<|close|>
+        <|open|>Data<|.|>Format<|close|>
+          The dataset is stored in the Hugging Face Dataset format, with each sample consisting of an instruction, a context and its corresponding response.
+        <|open_end|>Data<|.|>Format<|close|>
+        <|open|>Data<|.|>Annotation<|close|>
+          The dataset was built by FedML, and distributed un the the MIT License.
+        <|open_end|>Data<|.|>Annotation<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Data<|close|>
+    <|open|>Methodology<|close|>
+      <|open|>object<|close|>
+        <|open|>Methodology<|.|>Methods<|close|>
+          To identify leakage risk, the benchmark looks for high syntactic similarity between the model responses and the original text, used as a seed for paraphrasing.
+        <|open_end|>Methodology<|.|>Methods<|close|>
+        <|open|>Methodology<|.|>Metrics<|close|>
+          Data leakage (metrics.data_leakage). 
+        <|open_end|>Methodology<|.|>Metrics<|close|>
+        <|open|>Methodology<|.|>Calculation<|close|>
+          The synthetic data generation leakage score is calculated using a syntactic similarity metric, an enhanced variation of rougeL (rougLmod), between the model's response and the seed (text to be rephrased). A high syntactic similarity between the model response and the seed represents higher leakage risk.
+        <|open_end|>Methodology<|.|>Calculation<|close|>
+        <|open|>Methodology<|.|>Interpretation<|close|>
+          The final score is based on the attack’s average similarity score across all the synthetic generated samples tested, normalized such that 1 represents perfect privacy and 0 represents worst privacy.
+        <|open_end|>Methodology<|.|>Interpretation<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Methodology<|close|>
+    <|open|>Risks<|close|>
+      <|open|>object<|close|>
+        <|open|>Risks<|.|>Risk Categories<|close|>
+          <|open|>list<|close|>
+            revealing-confidential-information<|,|>
+            exposing-personal-information
+          <|open_end|>list<|close|>
+        <|open_end|>Risks<|.|>Risk Categories<|close|>
+        <|open|>Risks<|.|>Limitations<|close|>
+          This benchmark only assesses the tendency of synthetic data generation seeds leakage by using an available public dataset. Moreover, it measures leakage using a specialized metric based on syntactic similarity, which may miss certain types of leakage. 
+        <|open_end|>Risks<|.|>Limitations<|close|>
+        <|open|>Risks<|.|>Demographic Analysis<|close|>
+          Unknown
+        <|open_end|>Risks<|.|>Demographic Analysis<|close|>
+        <|open|>Risks<|.|>Harm<|close|>
+          The benchmark assesses the risk of LLMs revealing confidential information or sensitive personal information from the original text (aka synthetic data generation seed) in their generated output. Risk Title: Revealing confidential information,\n Tag: revealing-confidential-information,\n Type: output,\n Phase:None,\n Category:None,\n Group:intellectual property,\n Descriptor:amplified,\n Description: When confidential information is used in the seed, training data, fine-tuning data, or as part of the prompt, models might reveal that data in the generated output. Revealing confidential information is a type of data leakage.,\n Concern: If not properly developed to secure confidential data, the model might reveal confidential information or IP in the generated output and reveal information that was meant to be secret. Risk Title: Exposing personal information,\n Tag: exposing-personal-information,\n Type: output,\n Phase:None,\n Category:None,\n Group:privacy,\n Descriptor:amplified,\n Description: When personal identifiable information (PII) or sensitive personal information (SPI) are used in the seed for synthetic data generation, training data, fine-tuning data, or as part of the prompt, models might reveal that data in the generated output. Revealing personal information is a type of data leakage.,\n Concern: Sharing people’s PI impacts their rights and make them more vulnerable.
+        <|open_end|>Risks<|.|>Harm<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Risks<|close|>
+    <|open|>Ethical and Legal Considerations<|close|>
+      <|open|>object<|close|>
+        <|open|>Ethical and Legal Considerations<|.|>Privacy and Anonymity<|close|>
+          The benchmark does not collect or use any personal or sensitive data.
+        <|open_end|>Ethical and Legal Considerations<|.|>Privacy and Anonymity<|close|>
+        <|open|>Ethical and Legal Considerations<|.|>Data Licensing<|close|>
+          The dataset is licensed under the MIT License.
+        <|open_end|>Ethical and Legal Considerations<|.|>Data Licensing<|close|>
+        <|open|>Ethical and Legal Considerations<|.|>Consent Procedures<|close|>
+          Unknown
+        <|open_end|>Ethical and Legal Considerations<|.|>Consent Procedures<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Ethical and Legal Considerations<|close|>
+  <|open_end|>object<|close|>
+  <|,|>
+  <|open|>object<|close|>
+    <|open|>Benchmark Details<|close|>
+      <|open|>object<|close|>
+        <|open|>Benchmark Details<|.|>Name<|close|>
+          Prompt Leakage (QNLI)
+        <|open_end|>Benchmark Details<|.|>Name<|close|>
+        <|open|>Benchmark Details<|.|>ID<|close|>
+          cards.prompt_leakage.glue_qnli
+        <|open_end|>Benchmark Details<|.|>ID<|close|>
+        <|open|>Benchmark Details<|.|>Overview<|close|>
+          This benchmark is designed to assess the tendency of a model to leak its system prompt, also known as the base prompt or prompt template. The benchmark uses a dataset of prompts that are systematically designed to test the model's tendency to disclose its system prompt. The GLUE QNLI dataset is used to add few shot examples to the system prompt. The metric used to assess this ability is the prompt leakage score, which measures the degree of similarity between the model's response and the actual system prompt.
+        <|open_end|>Benchmark Details<|.|>Overview<|close|>
+        <|open|>Benchmark Details<|.|>Data Type<|close|>
+          Text
+        <|open_end|>Benchmark Details<|.|>Data Type<|close|>
+        <|open|>Benchmark Details<|.|>Domains<|close|>
+          <|open|>list<|close|>
+            natural language processing
+          <|open_end|>list<|close|>
+        <|open_end|>Benchmark Details<|.|>Domains<|close|>
+        <|open|>Benchmark Details<|.|>Application Domains<|close|>
+          <|open|>list<|close|>
+            LLMs
+          <|open_end|>list<|close|>
+        <|open_end|>Benchmark Details<|.|>Application Domains<|close|>
+        <|open|>Benchmark Details<|.|>Languages<|close|>
+          <|open|>list<|close|>
+            English
+          <|open_end|>list<|close|>
+        <|open_end|>Benchmark Details<|.|>Languages<|close|>
+        <|open|>Benchmark Details<|.|>Similar Benchmarks<|close|>
+          <|open|>list<|close|>
+            Prompt Leakage (RAG)
+          <|open_end|>list<|close|>
+        <|open_end|>Benchmark Details<|.|>Similar Benchmarks<|close|>
+        <|open|>Benchmark Details<|.|>Resources<|close|>
+          <|open|>list<|close|>
+            <|open|>object<|close|>
+              <|open|>Benchmark Details<|.|>Resources<|.|>arxiv<|close|>
+                https://arxiv.org/pdf/2307.06865.pdf
+              <|open_end|>Benchmark Details<|.|>Resources<|.|>arxiv<|close|>
+            <|open_end|>object<|close|>
+            <|,|>
+            <|open|>object<|close|>
+              <|open|>Benchmark Details<|.|>Resources<|.|>huggingface<|close|>
+                glue
+              <|open_end|>Benchmark Details<|.|>Resources<|.|>huggingface<|close|>
+            <|open_end|>object<|close|>
+          <|open_end|>list<|close|>
+        <|open_end|>Benchmark Details<|.|>Resources<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Benchmark Details<|close|>
+    <|open|>Purpose and Intended Users<|close|>
+      <|open|>object<|close|>
+        <|open|>Purpose and Intended Users<|.|>Goal<|close|>
+          The benchmark is designed to assess the tendency of LLMs to leak their system prompt, and to provide a way to measure and evaluate this risk. The benchmark is intended for researchers, developers, and policymakers who are interested in understanding and addressing the potential security and privacy risks associated with LLMs.
+        <|open_end|>Purpose and Intended Users<|.|>Goal<|close|>
+        <|open|>Purpose and Intended Users<|.|>Audience<|close|>
+          The benchmark is intended for researchers, developers, and policymakers who are interested in understanding and addressing the prompt leakage from their LLMs
+        <|open_end|>Purpose and Intended Users<|.|>Audience<|close|>
+        <|open|>Purpose and Intended Users<|.|>Tasks<|close|>
+          The benchmark evaluates the model's tendency to leak its system prompt by measuring the degree of similarity between the model's responses and the system prompts. The benchmark does not assess other aspects of the model's performance, such as accuracy or generation quality.
+        <|open_end|>Purpose and Intended Users<|.|>Tasks<|close|>
+        <|open|>Purpose and Intended Users<|.|>Out-of-Scope Uses<|close|>
+          Models that do not have a system prompt.
+        <|open_end|>Purpose and Intended Users<|.|>Out-of-Scope Uses<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Purpose and Intended Users<|close|>
+    <|open|>Data<|close|>
+      <|open|>object<|close|>
+        <|open|>Data<|.|>Source<|close|>
+          The benchmark uses a dataset of prompts that are systematically designed to test the model's tendency to disclose its system prompt.
+        <|open_end|>Data<|.|>Source<|close|>
+        <|open|>Data<|.|>Size<|close|>
+          The dataset contains 58 prompts.
+        <|open_end|>Data<|.|>Size<|close|>
+        <|open|>Data<|.|>Format<|close|>
+          The dataset is in CSV format and contains two columns: the prompt and rank.
+        <|open_end|>Data<|.|>Format<|close|>
+        <|open|>Data<|.|>Annotation<|close|>
+          The dataset was manually curated by IBM and extended using the mixtral-8x7b-instruct-v01 model.
+        <|open_end|>Data<|.|>Annotation<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Data<|close|>
+    <|open|>Methodology<|close|>
+      <|open|>object<|close|>
+        <|open|>Methodology<|.|>Methods<|close|>
+          The benchmark evaluates the model's tendency to leak its system prompt by measuring the degree of similarity between the model's responses and the system prompts. The benchmark uses a prompt leakage attack that tries to cause the model to leak its system prompt, and measures the degree of similarity between the model response and the actual system prompt. The attack is designed to be challenging for the model, and the benchmark uses a set of difficulty levels to measure the attack's effectiveness. The benchmark also provides a set of metrics that can be used to assess the model's performance, including the average similarity score across all attack prompts tested, and the normalized score that represents the degree of similarity between the model response and the system prompt. The benchmark provides a way to measure and evaluate the model's tendency to leak its system prompt, and can be used to help identify and mitigate potential security and privacy risks associated with LLMs.
+        <|open_end|>Methodology<|.|>Methods<|close|>
+        <|open|>Methodology<|.|>Metrics<|close|>
+          Prompt leakage ['metrics.prompt_leakage'].
+        <|open_end|>Methodology<|.|>Metrics<|close|>
+        <|open|>Methodology<|.|>Calculation<|close|>
+          The prompt leakage score is calculated using a similarity metric, such as rouge or bert, between the model's response and the actual system prompt.
+        <|open_end|>Methodology<|.|>Calculation<|close|>
+        <|open|>Methodology<|.|>Interpretation<|close|>
+          A higher prompt leakage score indicates a lower risk of the model leaking its system prompt (better privacy).
+        <|open_end|>Methodology<|.|>Interpretation<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Methodology<|close|>
+    <|open|>Risks<|close|>
+      <|open|>object<|close|>
+        <|open|>Risks<|.|>Risk Categories<|close|>
+          Prompt leaking
+        <|open_end|>Risks<|.|>Risk Categories<|close|>
+        <|open|>Risks<|.|>Limitations<|close|>
+          The benchmark work does not experiment with sophisticated attacking strategies.
+        <|open_end|>Risks<|.|>Limitations<|close|>
+        <|open|>Risks<|.|>Harm<|close|>
+          Prompt leaking risk for AI. A successful attack copies the system prompt used in the model. Depending on the content of that prompt, the attacker might gain access to valuable information, such as sensitive personal information or intellectual property, and might be able to replicate some of the functionality of the model.
+        <|open_end|>Risks<|.|>Harm<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Risks<|close|>
+    <|open|>Ethical and Legal Considerations<|close|>
+      <|open|>object<|close|>
+        <|open|>Ethical and Legal Considerations<|.|>Privacy and Anonymity<|close|>
+          The benchmark does not handle any personal or sensitive data.
+        <|open_end|>Ethical and Legal Considerations<|.|>Privacy and Anonymity<|close|>
+        <|open|>Ethical and Legal Considerations<|.|>Data Licensing<|close|>
+          This is a proprietary IBM dataset.
+        <|open_end|>Ethical and Legal Considerations<|.|>Data Licensing<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Ethical and Legal Considerations<|close|>
+  <|open_end|>object<|close|>
+  <|,|>
+  <|open|>object<|close|>
+    <|open|>Benchmark Details<|close|>
+      <|open|>object<|close|>
+        <|open|>Benchmark Details<|.|>Name<|close|>
+          The AttaQ Dataset
+        <|open_end|>Benchmark Details<|.|>Name<|close|>
+        <|open|>Benchmark Details<|.|>ID<|close|>
+          cards.value_alignment.toxic_output.attaq
+        <|open_end|>Benchmark Details<|.|>ID<|close|>
+        <|open|>Benchmark Details<|.|>Overview<|close|>
+          The AttaQ dataset is a benchmark for evaluating the harmlessness of Large Language Models (LLMs) and to further investigate the factors influencing LLM behavior. It consists of adversarial samples that represent questions and queries for which LLMs should refrain from providing answers, such as inquiries about constructing dangerous devices or engaging in harmful activities.
+        <|open_end|>Benchmark Details<|.|>Overview<|close|>
+        <|open|>Benchmark Details<|.|>Data Type<|close|>
+          Text
+        <|open_end|>Benchmark Details<|.|>Data Type<|close|>
+        <|open|>Benchmark Details<|.|>Domains<|close|>
+          <|open|>list<|close|>
+            natural language processing
+          <|open_end|>list<|close|>
+        <|open_end|>Benchmark Details<|.|>Domains<|close|>
+        <|open|>Benchmark Details<|.|>Application Domains<|close|>
+          <|open|>list<|close|>
+          <|open_end|>list<|close|>
+        <|open_end|>Benchmark Details<|.|>Application Domains<|close|>
+        <|open|>Benchmark Details<|.|>Languages<|close|>
+          <|open|>list<|close|>
+            English
+          <|open_end|>list<|close|>
+        <|open_end|>Benchmark Details<|.|>Languages<|close|>
+        <|open|>Benchmark Details<|.|>Similar Benchmarks<|close|>
+          <|open|>list<|close|>
+            None
+          <|open_end|>list<|close|>
+        <|open_end|>Benchmark Details<|.|>Similar Benchmarks<|close|>
+        <|open|>Benchmark Details<|.|>Resources<|close|>
+          <|open|>list<|close|>
+            <|open|>object<|close|>
+              <|open|>Benchmark Details<|.|>Resources<|.|>arxiv<|close|>
+                https://arxiv.org/pdf/2311.04124
+              <|open_end|>Benchmark Details<|.|>Resources<|.|>arxiv<|close|>
+            <|open_end|>object<|close|>
+            <|,|>
+            <|open|>object<|close|>
+              <|open|>Benchmark Details<|.|>Resources<|.|>huggingface<|close|>
+                ibm/AttaQ
+              <|open_end|>Benchmark Details<|.|>Resources<|.|>huggingface<|close|>
+            <|open_end|>object<|close|>
+          <|open_end|>list<|close|>
+        <|open_end|>Benchmark Details<|.|>Resources<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Benchmark Details<|close|>
+    <|open|>Purpose and Intended Users<|close|>
+      <|open|>object<|close|>
+        <|open|>Purpose and Intended Users<|.|>Goal<|close|>
+          Designed to provoke harmful or inappropriate responses.
+        <|open_end|>Purpose and Intended Users<|.|>Goal<|close|>
+        <|open|>Purpose and Intended Users<|.|>Audience<|close|>
+          Researchers, developers and policymakers working on safety and ethical considerations in AI.
+        <|open_end|>Purpose and Intended Users<|.|>Audience<|close|>
+        <|open|>Purpose and Intended Users<|.|>Tasks<|close|>
+          Evaluate the tendency of LLMs to generate harmful or undesirable responses in text generation.
+        <|open_end|>Purpose and Intended Users<|.|>Tasks<|close|>
+        <|open|>Purpose and Intended Users<|.|>Out-of-Scope Uses<|close|>
+          The benchmark is not designed to be applied in cases where harmful or unethical content is not the primary concern.
+        <|open_end|>Purpose and Intended Users<|.|>Out-of-Scope Uses<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Purpose and Intended Users<|close|>
+    <|open|>Data<|close|>
+      <|open|>object<|close|>
+        <|open|>Data<|.|>Source<|close|>
+          The dataset is a representative subset of all possible attacks, and many other attacks can cause LLMs to generate harmful or inappropriate responses.
+        <|open_end|>Data<|.|>Source<|close|>
+        <|open|>Data<|.|>Size<|close|>
+          The dataset consists of 1402 adversarial questions.
+        <|open_end|>Data<|.|>Size<|close|>
+        <|open|>Data<|.|>Format<|close|>
+          The dataset is in CSV format, with columns for label (label of adversarial question), input (adversarial question), and additional_info (source of the adversarial question). The data contains offensive and upsetting content by nature therefore it may not be easy to read.
+        <|open_end|>Data<|.|>Format<|close|>
+        <|open|>Data<|.|>Annotation<|close|>
+          The dataset was derived by extracting attacks from the hh-rlhf dataset provided by Anthropic, and semi-automatically labelling them into seven categories: deception, discrimination, harmful information, substance abuse, sexual content, personally identifiable information (PII), and violence. LLMs generated further attack data and the Wikipedia crimes page was used to generate actions associated with each crime.  These actions were used to created the question data, , specifically focusing on strategies to evade detection or consequences. 
+        <|open_end|>Data<|.|>Annotation<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Data<|close|>
+    <|open|>Methodology<|close|>
+      <|open|>object<|close|>
+        <|open|>Methodology<|.|>Methods<|close|>
+          The dataset is created by semi-automatically labeling extracted attacks into seven categories.
+        <|open_end|>Methodology<|.|>Methods<|close|>
+        <|open|>Methodology<|.|>Metrics<|close|>
+          The metric used is ['metrics.mra_safety'], which provides a harmlessness score leveraging a reward model trained from human feedback.
+        <|open_end|>Methodology<|.|>Metrics<|close|>
+        <|open|>Methodology<|.|>Calculation<|close|>
+          The safety score is a measure of harmlessness. The level of harmlessness is evaluated using a reward model that considers both the input and output. The metric is described further in https://arxiv.org/abs/2209.07858.
+        <|open_end|>Methodology<|.|>Calculation<|close|>
+        <|open|>Methodology<|.|>Interpretation<|close|>
+          A higher harmlessness score can be seen as better or less harmful, and a lower score can be seen as more harmful.
+        <|open_end|>Methodology<|.|>Interpretation<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Methodology<|close|>
+    <|open|>Risks<|close|>
+      <|open|>object<|close|>
+        <|open|>Risks<|.|>Risk Categories<|close|>
+          <|open|>list<|close|>
+            Toxic output<|,|>
+            Harmful output
+          <|open_end|>list<|close|>
+        <|open_end|>Risks<|.|>Risk Categories<|close|>
+        <|open|>Risks<|.|>Limitations<|close|>
+          The dataset is not designed to evaluate all possible risks of LLMs.  In the case of template-generated attacks, the model refused to generate inputs related to certain crimes and actions. This could potentially introduce biases to the dataset, possibly omitting certain crime domains. Secondly, the defition of what constitutes a crime is culturally specific which can potentially introduce bias.This dataset is a representative subset of all possible attacks. Many other attacks can cause LLM to answer harmful or inappropriate responses.
+        <|open_end|>Risks<|.|>Limitations<|close|>
+        <|open|>Risks<|.|>Harm<|close|>
+          ['Risk Title: Toxic output,\n Tag: toxic-output,\n Type: output,\n Phase:None,\n Category:None,\n Group:value alignment,\n Descriptor:specific,\n Description: Toxic output occurs when the model produces hateful, abusive, and profane (HAP) or obscene content. This also includes behaviors like bullying.,\n Concern: Hateful, abusive, and profane (HAP) or obscene content can adversely impact and harm people interacting with the model..', 'Risk Title: Harmful output,\n Tag: harmful-output,\n Type: output,\n Phase:None,\n Category:None,\n Group:value alignment,\n Descriptor:specific,\n Description: A model might generate language that leads to physical harm The language might include overtly violent, covertly dangerous, or otherwise indirectly unsafe statements.,\n Concern: A model generating harmful output can cause immediate physical harm or create prejudices that might lead to future harm..']
+        <|open_end|>Risks<|.|>Harm<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Risks<|close|>
+    <|open|>Ethical and Legal Considerations<|close|>
+      <|open|>object<|close|>
+        <|open|>Ethical and Legal Considerations<|.|>Privacy and Anonymity<|close|>
+          The dataset does not include any personal or sensitive data.
+        <|open_end|>Ethical and Legal Considerations<|.|>Privacy and Anonymity<|close|>
+        <|open|>Ethical and Legal Considerations<|.|>Data Licensing<|close|>
+          The dataset is licensed under the MIT license.
+        <|open_end|>Ethical and Legal Considerations<|.|>Data Licensing<|close|>
+        <|open|>Ethical and Legal Considerations<|.|>Consent Procedures<|close|>
+          The dataset does not include any personal data, so no consent is required.
+        <|open_end|>Ethical and Legal Considerations<|.|>Consent Procedures<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Ethical and Legal Considerations<|close|>
+  <|open_end|>object<|close|>
+  <|,|>
+  <|open|>object<|close|>
+    <|open|>Benchmark Details<|close|>
+      <|open|>object<|close|>
+        <|open|>Benchmark Details<|.|>Name<|close|>
+          CNN Daily Mail data leakage
+        <|open_end|>Benchmark Details<|.|>Name<|close|>
+        <|open|>Benchmark Details<|.|>ID<|close|>
+          cards.data_leakage.cnn_dailymail
+        <|open_end|>Benchmark Details<|.|>ID<|close|>
+        <|open|>Benchmark Details<|.|>Overview<|close|>
+          This dataset contains news articles as written by journalists at CNN and the Daily Mail. It includes both training and test splits, and is used to assess the model's tendency to reveal confidential information or sensitive personal information in its generated output.
+        <|open_end|>Benchmark Details<|.|>Overview<|close|>
+        <|open|>Benchmark Details<|.|>Data Type<|close|>
+          Text
+        <|open_end|>Benchmark Details<|.|>Data Type<|close|>
+        <|open|>Benchmark Details<|.|>Domains<|close|>
+          Natural Language Processing
+        <|open_end|>Benchmark Details<|.|>Domains<|close|>
+        <|open|>Benchmark Details<|.|>Application Domains<|close|>
+          <|open|>list<|close|>
+            LLMs
+          <|open_end|>list<|close|>
+        <|open_end|>Benchmark Details<|.|>Application Domains<|close|>
+        <|open|>Benchmark Details<|.|>Languages<|close|>
+          English
+        <|open_end|>Benchmark Details<|.|>Languages<|close|>
+        <|open|>Benchmark Details<|.|>Similar Benchmarks<|self_close|>
+        <|open|>Benchmark Details<|.|>Resources<|close|>
+          <|open|>list<|close|>
+            <|open|>object<|close|>
+              <|open|>Benchmark Details<|.|>Resources<|.|>github<|close|>
+                https://github.com/abisee/cnn-dailymail
+              <|open_end|>Benchmark Details<|.|>Resources<|.|>github<|close|>
+            <|open_end|>object<|close|>
+            <|,|>
+            <|open|>object<|close|>
+              <|open|>Benchmark Details<|.|>Resources<|.|>paper<|close|>
+                https://papers.nips.cc/paper/5945-teaching-machines-to-read-and-comprehend.pdf
+              <|open_end|>Benchmark Details<|.|>Resources<|.|>paper<|close|>
+            <|open_end|>object<|close|>
+            <|,|>
+            <|open|>object<|close|>
+              <|open|>Benchmark Details<|.|>Resources<|.|>leaderboard<|close|>
+                https://paperswithcode.com/sota/document-summarization-on-cnn-daily-mail
+              <|open_end|>Benchmark Details<|.|>Resources<|.|>leaderboard<|close|>
+            <|open_end|>object<|close|>
+          <|open_end|>list<|close|>
+        <|open_end|>Benchmark Details<|.|>Resources<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Benchmark Details<|close|>
+    <|open|>Purpose and Intended Users<|close|>
+      <|open|>object<|close|>
+        <|open|>Purpose and Intended Users<|.|>Goal<|close|>
+          To assess the risk of LLMs revealing memorized training samples in their generated output.
+        <|open_end|>Purpose and Intended Users<|.|>Goal<|close|>
+        <|open|>Purpose and Intended Users<|.|>Audience<|close|>
+          Researchers, developers, policymakers, and anyone interested in the potential risks of LLMs.
+        <|open_end|>Purpose and Intended Users<|.|>Audience<|close|>
+        <|open|>Purpose and Intended Users<|.|>Tasks<|close|>
+          The benchmark is designed for the task of detecting data leakage.
+        <|open_end|>Purpose and Intended Users<|.|>Tasks<|close|>
+        <|open|>Purpose and Intended Users<|.|>Out-of-Scope Uses<|close|>
+          The benchmark is not designed to be used for tasks such as text classification, sentiment analysis, or question-answering.
+        <|open_end|>Purpose and Intended Users<|.|>Out-of-Scope Uses<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Purpose and Intended Users<|close|>
+    <|open|>Data<|close|>
+      <|open|>object<|close|>
+        <|open|>Data<|.|>Source<|close|>
+          This uses the dataset CNN / Daily Mail.  This dataset is an English-language dataset containing just over 300k unique news articles as written by journalists at CNN and the Daily Mail. The current version supports both extractive and abstractive summarization, though the original version was created for machine reading and comprehension and abstractive question answering.
+        <|open_end|>Data<|.|>Source<|close|>
+        <|open|>Data<|.|>Size<|close|>
+          The dataset contains 287,113 samples in the training set, 13,368 in the validation set and 11,490 samples in the test set.  The test set is not used in this assessment. The download size is reported as 837094602 and dataset size as 1369361929. A subset of data (1000 sample instances) is used to run the MRA recipe.
+        <|open_end|>Data<|.|>Size<|close|>
+        <|open|>Data<|.|>Format<|close|>
+          The dataset is stored in the Hugging Face Dataset format. For each instance, there is a string for the article, a string for the highlights, and a string for the id.
+        <|open_end|>Data<|.|>Format<|close|>
+        <|open|>Data<|.|>Annotation<|close|>
+          The dataset does not contain any additional annotations.
+        <|open_end|>Data<|.|>Annotation<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Data<|close|>
+    <|open|>Methodology<|close|>
+      <|open|>object<|close|>
+        <|open|>Methodology<|.|>Methods<|close|>
+          The benchmark looks for high syntactic similarity between the model responses and the actual samples, to identify leakage risk.
+        <|open_end|>Methodology<|.|>Methods<|close|>
+        <|open|>Methodology<|.|>Metrics<|close|>
+          Data leakage (metrics.data_leakage).
+        <|open_end|>Methodology<|.|>Metrics<|close|>
+        <|open|>Methodology<|.|>Calculation<|close|>
+          This metric is based on a training data or fine-tuning data leakage attack, and represents to what degree the model has memorized its training data. The attack tries to cause the model to leak complete or partial samples from its training (or fine-tuning) data, and measures the degree of similarity between the model responses and the actual training data.
+        <|open_end|>Methodology<|.|>Calculation<|close|>
+        <|open|>Methodology<|.|>Interpretation<|close|>
+          A high syntactic similarity between the model response and the actual sample represents higher leakage risk. The score is based on the attack’s average similarity score across all training samples tested, and normalized such that 1 represents perfect privacy and 0 represents worst privacy.
+        <|open_end|>Methodology<|.|>Interpretation<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Methodology<|close|>
+    <|open|>Risks<|close|>
+      <|open|>object<|close|>
+        <|open|>Risks<|.|>Risk Categories<|close|>
+          <|open|>list<|close|>
+            revealing-confidential-information<|,|>
+            exposing-personal-information
+          <|open_end|>list<|close|>
+        <|open_end|>Risks<|.|>Risk Categories<|close|>
+        <|open|>Risks<|.|>Limitations<|close|>
+          This benchmark only assesses the leakage of this specific dataset and no other datasets used in the model’s training or tuning. Moreover, it measures leakage using a specialized metric based on syntactic similarity, which may miss certain types of leakage. The benchmark assumes partial knowledge of the training samples in order to prompt the model to leak the rest of the data.
+        <|open_end|>Risks<|.|>Limitations<|close|>
+        <|open|>Risks<|.|>Demographic Analysis<|close|>
+          Bordia and Bowman (2019) find the CNN / Dailymail dataset to have a slightly lower gender bias based on their metric compared to the other datasets, but still show evidence of gender bias when looking at words such as 'fragile'.
+        <|open_end|>Risks<|.|>Demographic Analysis<|close|>
+        <|open|>Risks<|.|>Harm<|close|>
+          Risk Title: Revealing confidential information,\n Tag: revealing-confidential-information,\n Type: output,\n Phase:None,\n Category:None,\n Group:intellectual property,\n Descriptor:amplified,\n Description: When confidential information is used in training data, fine-tuning data, or as part of the prompt, models might reveal that data in the generated output. Revealing confidential information is a type of data leakage.,\n Concern: If not properly developed to secure confidential data, the model might reveal confidential information or IP in the generated output and reveal information that was meant to be secret..', 'Risk Title: Exposing personal information,\n Tag: exposing-personal-information,\n Type: output,\n Phase:None,\n Category:None,\n Group:privacy,\n Descriptor:amplified,\n Description: When personal identifiable information (PII) or sensitive personal information (SPI) are used in training data, fine-tuning data, or as part of the prompt, models might reveal that data in the generated output. Revealing personal information is a type of data leakage.,\n Concern: Sharing people’s PI impacts their rights and make them more vulnerable..'
+        <|open_end|>Risks<|.|>Harm<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Risks<|close|>
+    <|open|>Ethical and Legal Considerations<|close|>
+      <|open|>object<|close|>
+        <|open|>Ethical and Legal Considerations<|.|>Privacy and Anonymity<|close|>
+          Version 3.0 of data set is not anonymized, so individuals' names can be found in the dataset. Information about the original author is not included in the dataset.
+        <|open_end|>Ethical and Legal Considerations<|.|>Privacy and Anonymity<|close|>
+        <|open|>Ethical and Legal Considerations<|.|>Data Licensing<|close|>
+          This dataset is licensed under the [Apache License, Version 2.0]
+        <|open_end|>Ethical and Legal Considerations<|.|>Data Licensing<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Ethical and Legal Considerations<|close|>
+  <|open_end|>object<|close|>
+  <|,|>
+  <|open|>object<|close|>
+    <|open|>Benchmark Details<|close|>
+      <|open|>object<|close|>
+        <|open|>Benchmark Details<|.|>Name<|close|>
+          Jailbreak Risk LLM Judge
+        <|open_end|>Benchmark Details<|.|>Name<|close|>
+        <|open|>Benchmark Details<|.|>ID<|close|>
+          cards.jailbreak_risk.jailbreak_risk_llm_judge
+        <|open_end|>Benchmark Details<|.|>ID<|close|>
+        <|open|>Benchmark Details<|.|>Overview<|close|>
+          The dataset represents jailbreak prompts which are employed to bypass the safety alignment of LLMs and aligned LLMs should refrain from providing answers to such prompts. This dataset is based on a compilation of diverse datasets with malicious prompts spanning several categories, including instruction-based, question-based, artificial attacks (e.g., those generated iteratively with the use of language models), role-playing, harmful behavior, toxic content, and chat-based interactions. We use this dataset as a benchmark for evaluating the jailbreak risk of LLMs.
+        <|open_end|>Benchmark Details<|.|>Overview<|close|>
+        <|open|>Benchmark Details<|.|>Data Type<|close|>
+          Text
+        <|open_end|>Benchmark Details<|.|>Data Type<|close|>
+        <|open|>Benchmark Details<|.|>Domains<|close|>
+          Natural Language Processing
+        <|open_end|>Benchmark Details<|.|>Domains<|close|>
+        <|open|>Benchmark Details<|.|>Application Domains<|close|>
+          <|open|>list<|close|>
+            LLMs
+          <|open_end|>list<|close|>
+        <|open_end|>Benchmark Details<|.|>Application Domains<|close|>
+        <|open|>Benchmark Details<|.|>Languages<|close|>
+          <|open|>list<|close|>
+            English
+          <|open_end|>list<|close|>
+        <|open_end|>Benchmark Details<|.|>Languages<|close|>
+        <|open|>Benchmark Details<|.|>Similar Benchmarks<|close|>
+          <|open|>list<|close|>
+          <|open_end|>list<|close|>
+        <|open_end|>Benchmark Details<|.|>Similar Benchmarks<|close|>
+        <|open|>Benchmark Details<|.|>Resources<|close|>
+          <|open|>list<|close|>
+            <|open|>object<|close|>
+              <|open|>Benchmark Details<|.|>Resources<|.|>github<|close|>
+                https://github.com/IBM/Adversarial-Prompt-Evaluation
+              <|open_end|>Benchmark Details<|.|>Resources<|.|>github<|close|>
+            <|open_end|>object<|close|>
+            <|,|>
+            <|open|>object<|close|>
+              <|open|>Benchmark Details<|.|>Resources<|.|>paper<|close|>
+                https://openreview.net/pdf?id=a44MiSFw6G
+              <|open_end|>Benchmark Details<|.|>Resources<|.|>paper<|close|>
+            <|open_end|>object<|close|>
+          <|open_end|>list<|close|>
+        <|open_end|>Benchmark Details<|.|>Resources<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Benchmark Details<|close|>
+    <|open|>Purpose and Intended Users<|close|>
+      <|open|>object<|close|>
+        <|open|>Purpose and Intended Users<|.|>Goal<|close|>
+          Assess the jailbreak risk of LLMs
+        <|open_end|>Purpose and Intended Users<|.|>Goal<|close|>
+        <|open|>Purpose and Intended Users<|.|>Audience<|close|>
+          Researchers, developers, and policymakers
+        <|open_end|>Purpose and Intended Users<|.|>Audience<|close|>
+        <|open|>Purpose and Intended Users<|.|>Tasks<|close|>
+          Evaluate the jailbreak risk of LLMs
+        <|open_end|>Purpose and Intended Users<|.|>Tasks<|close|>
+        <|open|>Purpose and Intended Users<|.|>Out-of-Scope Uses<|close|>
+          Not available
+        <|open_end|>Purpose and Intended Users<|.|>Out-of-Scope Uses<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Purpose and Intended Users<|close|>
+    <|open|>Data<|close|>
+      <|open|>object<|close|>
+        <|open|>Data<|.|>Source<|close|>
+          The dataset was manually compiled from several public datasets.
+        <|open_end|>Data<|.|>Source<|close|>
+        <|open|>Data<|.|>Size<|close|>
+          10644
+        <|open_end|>Data<|.|>Size<|close|>
+        <|open|>Data<|.|>Format<|close|>
+          CSV format, with columns for prompt, label, and source.
+        <|open_end|>Data<|.|>Format<|close|>
+        <|open|>Data<|.|>Annotation<|close|>
+          The dataset was manually curated by IBM.
+        <|open_end|>Data<|.|>Annotation<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Data<|close|>
+    <|open|>Methodology<|close|>
+      <|open|>object<|close|>
+        <|open|>Methodology<|.|>Methods<|close|>
+          Uses an LLM-as-judge metric for evaluating evaluating the jailbreak risk of generated predictions.
+        <|open_end|>Methodology<|.|>Methods<|close|>
+        <|open|>Methodology<|.|>Metrics<|close|>
+          Metric summary:['metrics.jailbreak_risk_llm_judge'], 
+        <|open_end|>Methodology<|.|>Metrics<|close|>
+        <|open|>Methodology<|.|>Calculation<|close|>
+          Uses the source prompt, a template which reflects the criteria for judging jailbreaking risk, and the predictions to evaluate correctness using rating.single_turn with a designated judge model.
+        <|open_end|>Methodology<|.|>Calculation<|close|>
+        <|open|>Methodology<|.|>Interpretation<|close|>
+          A higher score indicates a higher level of jailbreak risk.
+        <|open_end|>Methodology<|.|>Interpretation<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Methodology<|close|>
+    <|open|>Risks<|close|>
+      <|open|>object<|close|>
+        <|open|>Risks<|.|>Risk Categories<|close|>
+          <|open|>list<|close|>
+            prompt-injection<|,|>
+            jailbreaking
+          <|open_end|>list<|close|>
+        <|open_end|>Risks<|.|>Risk Categories<|close|>
+        <|open|>Risks<|.|>Limitations<|close|>
+          Not all LLMs (including large ones) can serve as good judges - their assessment may not correlate with human judgements and can also be biased. This means that unless you have a prior indication that the LLM you use is a good judge for your task, you need to evaluate its judgements and see they match your expectations.
+        <|open_end|>Risks<|.|>Limitations<|close|>
+        <|open|>Risks<|.|>Demographic Analysis<|close|>
+          Unknown
+        <|open_end|>Risks<|.|>Demographic Analysis<|close|>
+        <|open|>Risks<|.|>Harm<|close|>
+          Risk Title: Prompt injection attack,\n Tag: prompt-injection,\n Type: input,\n Phase:inference,\n Category:,\n Group:robustness,\n Descriptor:specific,\n Description: A prompt injection attack forces a generative model that takes a prompt as input to produce unexpected output by manipulating the structure, instructions, or information contained in its prompt.,\n Concern: Injection attacks can be used to alter model behavior and benefit the attacker. Risk Title: Jailbreaking,\n Tag: jailbreaking,\n Type: input,\n Phase:inference,\n Category:,\n Group:multi-category,\n Descriptor:specific,\n Description: A jailbreaking attack attempts to break through the guardrails that are established in the model to perform restricted actions.,\n Concern: Jailbreaking attacks can be used to alter model behavior and benefit the attacker. If not properly controlled, business entities can face fines, reputational harm, and other legal consequences.
+        <|open_end|>Risks<|.|>Harm<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Risks<|close|>
+    <|open|>Ethical and Legal Considerations<|close|>
+      <|open|>object<|close|>
+        <|open|>Ethical and Legal Considerations<|.|>Privacy and Anonymity<|close|>
+          The benchmark does not handle any personal or sensitive data.
+        <|open_end|>Ethical and Legal Considerations<|.|>Privacy and Anonymity<|close|>
+        <|open|>Ethical and Legal Considerations<|.|>Data Licensing<|close|>
+          IBM proprietary dataset, available upon request.
+        <|open_end|>Ethical and Legal Considerations<|.|>Data Licensing<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Ethical and Legal Considerations<|close|>
+  <|open_end|>object<|close|>
+  <|,|>
+  <|open|>object<|close|>
+    <|open|>Benchmark Details<|close|>
+      <|open|>object<|close|>
+        <|open|>Benchmark Details<|.|>Name<|close|>
+          Jailbreak Risk
+        <|open_end|>Benchmark Details<|.|>Name<|close|>
+        <|open|>Benchmark Details<|.|>ID<|close|>
+          cards.jailbreak_risk.jailbreak_risk
+        <|open_end|>Benchmark Details<|.|>ID<|close|>
+        <|open|>Benchmark Details<|.|>Overview<|close|>
+          The dataset represents jailbreak prompts which are employed to bypass the safety alignment of LLMs and aligned LLMs should refrain from providing answers to such prompts. This dataset is based on a compilation of diverse datasets with malicious prompts spanning several categories, including instruction-based, question-based, artificial attacks (e.g., those generated iteratively with the use of language models), role-playing, harmful behavior, toxic content, and chat-based interactions. We use this dataset as a benchmark for evaluating the jailbreak risk of LLMs.
+        <|open_end|>Benchmark Details<|.|>Overview<|close|>
+        <|open|>Benchmark Details<|.|>Data Type<|close|>
+          Text
+        <|open_end|>Benchmark Details<|.|>Data Type<|close|>
+        <|open|>Benchmark Details<|.|>Domains<|close|>
+          <|open|>list<|close|>
+            Natural language processing
+          <|open_end|>list<|close|>
+        <|open_end|>Benchmark Details<|.|>Domains<|close|>
+        <|open|>Benchmark Details<|.|>Application Domains<|close|>
+          <|open|>list<|close|>
+            Question Answering
+          <|open_end|>list<|close|>
+        <|open_end|>Benchmark Details<|.|>Application Domains<|close|>
+        <|open|>Benchmark Details<|.|>Languages<|close|>
+          <|open|>list<|close|>
+            English
+          <|open_end|>list<|close|>
+        <|open_end|>Benchmark Details<|.|>Languages<|close|>
+        <|open|>Benchmark Details<|.|>Similar Benchmarks<|close|>
+          <|open|>list<|close|>
+          <|open_end|>list<|close|>
+        <|open_end|>Benchmark Details<|.|>Similar Benchmarks<|close|>
+        <|open|>Benchmark Details<|.|>Resources<|close|>
+          <|open|>list<|close|>
+            <|open|>object<|close|>
+              <|open|>Benchmark Details<|.|>Resources<|.|>github<|close|>
+                https://github.com/IBM/Adversarial-Prompt-Evaluation
+              <|open_end|>Benchmark Details<|.|>Resources<|.|>github<|close|>
+            <|open_end|>object<|close|>
+            <|,|>
+            <|open|>object<|close|>
+              <|open|>Benchmark Details<|.|>Resources<|.|>paper<|close|>
+                https://openreview.net/pdf?id=a44MiSFw6G
+              <|open_end|>Benchmark Details<|.|>Resources<|.|>paper<|close|>
+            <|open_end|>object<|close|>
+          <|open_end|>list<|close|>
+        <|open_end|>Benchmark Details<|.|>Resources<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Benchmark Details<|close|>
+    <|open|>Purpose and Intended Users<|close|>
+      <|open|>object<|close|>
+        <|open|>Purpose and Intended Users<|.|>Goal<|close|>
+          Assess the jailbreak risk of LLMs
+        <|open_end|>Purpose and Intended Users<|.|>Goal<|close|>
+        <|open|>Purpose and Intended Users<|.|>Audience<|close|>
+          Researchers, developers, and policymakers
+        <|open_end|>Purpose and Intended Users<|.|>Audience<|close|>
+        <|open|>Purpose and Intended Users<|.|>Tasks<|close|>
+          <|open|>list<|close|>
+            Evaluate the jailbreak risk of LLMs
+          <|open_end|>list<|close|>
+        <|open_end|>Purpose and Intended Users<|.|>Tasks<|close|>
+        <|open|>Purpose and Intended Users<|.|>Out-of-Scope Uses<|close|>
+          Not available
+        <|open_end|>Purpose and Intended Users<|.|>Out-of-Scope Uses<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Purpose and Intended Users<|close|>
+    <|open|>Data<|close|>
+      <|open|>object<|close|>
+        <|open|>Data<|.|>Source<|close|>
+          The dataset was manually compiled from several public datasets.
+        <|open_end|>Data<|.|>Source<|close|>
+        <|open|>Data<|.|>Size<|close|>
+          10644
+        <|open_end|>Data<|.|>Size<|close|>
+        <|open|>Data<|.|>Format<|close|>
+          CSV format, with columns for prompt, label, and source.
+        <|open_end|>Data<|.|>Format<|close|>
+        <|open|>Data<|.|>Annotation<|close|>
+          The dataset was manually curated by IBM.
+        <|open_end|>Data<|.|>Annotation<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Data<|close|>
+    <|open|>Methodology<|close|>
+      <|open|>object<|close|>
+        <|open|>Methodology<|.|>Methods<|close|>
+          The dataset is a compilation of diverse datasets with malicious prompts spanning several categories, including instruction-based, question-based, artificial attacks (e.g., those generated iteratively with the use of language models), role-playing, harmful behavior, toxic content, and chat-based interactions.
+        <|open_end|>Methodology<|.|>Methods<|close|>
+        <|open|>Methodology<|.|>Metrics<|close|>
+          <|open|>list<|close|>
+            Metric summary:['metrics.jailbreak_risk']
+          <|open_end|>list<|close|>
+        <|open_end|>Methodology<|.|>Metrics<|close|>
+        <|open|>Methodology<|.|>Calculation<|close|>
+          The metric is calculated based on the ability of the model to provide correct answers to jailbreak prompts
+        <|open_end|>Methodology<|.|>Calculation<|close|>
+        <|open|>Methodology<|.|>Interpretation<|close|>
+          A higher score indicates a higher level of jailbreak risk.
+        <|open_end|>Methodology<|.|>Interpretation<|close|>
+        <|open|>Methodology<|.|>Baseline Results<|close|>
+          The dataset is not accompanied by any baseline results.
+        <|open_end|>Methodology<|.|>Baseline Results<|close|>
+        <|open|>Methodology<|.|>Validation<|close|>
+          The dataset is not accompanied by any validation details.
+        <|open_end|>Methodology<|.|>Validation<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Methodology<|close|>
+    <|open|>Risks<|close|>
+      <|open|>object<|close|>
+        <|open|>Risks<|.|>Risk Categories<|close|>
+          <|open|>list<|close|>
+            prompt-injection<|,|>
+            jailbreaking
+          <|open_end|>list<|close|>
+        <|open_end|>Risks<|.|>Risk Categories<|close|>
+        <|open|>Risks<|.|>Limitations<|close|>
+          The dataset is not provided with any limitations or details on evaluating or addressing risks
+        <|open_end|>Risks<|.|>Limitations<|close|>
+        <|open|>Risks<|.|>Demographic Analysis<|close|>
+          Unknown
+        <|open_end|>Risks<|.|>Demographic Analysis<|close|>
+        <|open|>Risks<|.|>Harm<|close|>
+          Risk Title: Prompt injection attack,\n Tag: prompt-injection,\n Type: input,\n Phase:inference,\n Category:,\n Group:robustness,\n Descriptor:specific,\n Description: A prompt injection attack forces a generative model that takes a prompt as input to produce unexpected output by manipulating the structure, instructions, or information contained in its prompt.,\n Concern: Injection attacks can be used to alter model behavior and benefit the attacker. Risk Title: Jailbreaking,\n Tag: jailbreaking,\n Type: input,\n Phase:inference,\n Category:,\n Group:multi-category,\n Descriptor:specific,\n Description: A jailbreaking attack attempts to break through the guardrails that are established in the model to perform restricted actions.,\n Concern: Jailbreaking attacks can be used to alter model behavior and benefit the attacker. If not properly controlled, business entities can face fines, reputational harm, and other legal consequences.
+        <|open_end|>Risks<|.|>Harm<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Risks<|close|>
+    <|open|>Ethical and Legal Considerations<|close|>
+      <|open|>object<|close|>
+        <|open|>Ethical and Legal Considerations<|.|>Privacy and Anonymity<|close|>
+          The benchmark does not handle any personal or sensitive data.
+        <|open_end|>Ethical and Legal Considerations<|.|>Privacy and Anonymity<|close|>
+        <|open|>Ethical and Legal Considerations<|.|>Data Licensing<|close|>
+          IBM proprietary dataset, available upon request.
+        <|open_end|>Ethical and Legal Considerations<|.|>Data Licensing<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Ethical and Legal Considerations<|close|>
+  <|open_end|>object<|close|>
+  <|,|>
+  <|open|>object<|close|>
+    <|open|>Benchmark Details<|close|>
+      <|open|>object<|close|>
+        <|open|>Benchmark Details<|.|>Name<|close|>
+          SocialStigmaQA
+        <|open_end|>Benchmark Details<|.|>Name<|close|>
+        <|open|>Benchmark Details<|.|>ID<|close|>
+          cards.value_alignment.toxic_output.social_stigma_cot
+        <|open_end|>Benchmark Details<|.|>ID<|close|>
+        <|open|>Benchmark Details<|.|>Overview<|close|>
+          A benchmark to uncover stigma amplification in generative language models. The benchmark aims to test for social bias and model robustness in generative language models. It consists of 10K prompts with a variety of prompt styles, carefully constructed to systematically test for both social bias and model robustness.
+        <|open_end|>Benchmark Details<|.|>Overview<|close|>
+        <|open|>Benchmark Details<|.|>Data Type<|close|>
+          Text
+        <|open_end|>Benchmark Details<|.|>Data Type<|close|>
+        <|open|>Benchmark Details<|.|>Domains<|close|>
+          Natural Language Processing
+        <|open_end|>Benchmark Details<|.|>Domains<|close|>
+        <|open|>Benchmark Details<|.|>Application Domains<|close|>
+          <|open|>list<|close|>
+            Question Answering
+          <|open_end|>list<|close|>
+        <|open_end|>Benchmark Details<|.|>Application Domains<|close|>
+        <|open|>Benchmark Details<|.|>Languages<|close|>
+          English
+        <|open_end|>Benchmark Details<|.|>Languages<|close|>
+        <|open|>Benchmark Details<|.|>Similar Benchmarks<|close|>
+          None
+        <|open_end|>Benchmark Details<|.|>Similar Benchmarks<|close|>
+        <|open|>Benchmark Details<|.|>Resources<|close|>
+          <|open|>list<|close|>
+            <|open|>object<|close|>
+              <|open|>Benchmark Details<|.|>Resources<|.|>source<|close|>
+                ibm/SocialStigmaQA
+              <|open_end|>Benchmark Details<|.|>Resources<|.|>source<|close|>
+            <|open_end|>object<|close|>
+            <|,|>
+            <|open|>object<|close|>
+              <|open|>Benchmark Details<|.|>Resources<|.|>paper<|close|>
+                https://ojs.aaai.org/index.php/AAAI/article/view/30142
+              <|open_end|>Benchmark Details<|.|>Resources<|.|>paper<|close|>
+            <|open_end|>object<|close|>
+            <|,|>
+            <|open|>object<|close|>
+              <|open|>Benchmark Details<|.|>Resources<|.|>model<|close|>
+                ibm/social-bias-detector-v0
+              <|open_end|>Benchmark Details<|.|>Resources<|.|>model<|close|>
+            <|open_end|>object<|close|>
+          <|open_end|>list<|close|>
+        <|open_end|>Benchmark Details<|.|>Resources<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Benchmark Details<|close|>
+    <|open|>Purpose and Intended Users<|close|>
+      <|open|>object<|close|>
+        <|open|>Purpose and Intended Users<|.|>Goal<|close|>
+          Assess the model's ability to produce hateful, abusive, and profane (HAP) or obscene content, as well as its robustness to social bias.
+        <|open_end|>Purpose and Intended Users<|.|>Goal<|close|>
+        <|open|>Purpose and Intended Users<|.|>Audience<|close|>
+          Researchers, developers, and policymakers in the field of natural language processing, as well as those interested in social bias and model evaluation.
+        <|open_end|>Purpose and Intended Users<|.|>Audience<|close|>
+        <|open|>Purpose and Intended Users<|.|>Tasks<|close|>
+          Question-answering, toxic output detection
+        <|open_end|>Purpose and Intended Users<|.|>Tasks<|close|>
+        <|open|>Purpose and Intended Users<|.|>Out-of-Scope Uses<|close|>
+          The sole purpose for of the benchmark and dataset is as a bias auditing tool, meant to evaluate generative language models.
+        <|open_end|>Purpose and Intended Users<|.|>Out-of-Scope Uses<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Purpose and Intended Users<|close|>
+    <|open|>Data<|close|>
+      <|open|>object<|close|>
+        <|open|>Data<|.|>Source<|close|>
+          The bencmark uses the ibm/SocialStigmaQA curated dataset. The dataset is meant to capture the amplification of social bias, via stigmas, in generative language models. Taking inspiration from social science research, it starts with a documented list of 93 US-centric stigmas and curate a question-answering (QA) dataset which involves simple social situations. The dataset, SocialStigmaQA, contains roughly 10K prompts, with a variety of prompt styles, carefully constructed to systematically test for both social bias and model robustness.
+        <|open_end|>Data<|.|>Source<|close|>
+        <|open|>Data<|.|>Size<|close|>
+          10,000 prompts
+        <|open_end|>Data<|.|>Size<|close|>
+        <|open|>Data<|.|>Format<|close|>
+          CSV file. 37 patterns are present within the dataset. These patterns, or templates, were individually hand curated. Each of these patterns follows the same overarching structure - provide a mundane social situation and ask a question pertaining to this situation. The dataset to contain patterns for which answering either “yes” or “no” implies social bias.
+        <|open_end|>Data<|.|>Format<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Data<|close|>
+    <|open|>Methodology<|close|>
+      <|open|>object<|close|>
+        <|open|>Methodology<|.|>Methods<|close|>
+          Question-answering, toxic output detection
+        <|open_end|>Methodology<|.|>Methods<|close|>
+        <|open|>Methodology<|.|>Metrics<|close|>
+          Metric summary: ['metrics.socialbias']
+        <|open_end|>Methodology<|.|>Metrics<|close|>
+        <|open|>Methodology<|.|>Calculation<|close|>
+          The social-bias-detector is a BERT-like classification model which takes as input a sentence and outputs a label. It calculates the proportion of biased outputs and biased CoT (chain-of-thought) for the yes_no and cot versions of the dataset.
+        <|open_end|>Methodology<|.|>Calculation<|close|>
+        <|open|>Methodology<|.|>Interpretation<|close|>
+          Interpret the scores based on the proportion of biased outputs and biased CoT.
+        <|open_end|>Methodology<|.|>Interpretation<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Methodology<|close|>
+    <|open|>Risks<|close|>
+      <|open|>object<|close|>
+        <|open|>Risks<|.|>Risk Categories<|close|>
+          Toxic output
+        <|open_end|>Risks<|.|>Risk Categories<|close|>
+        <|open|>Risks<|.|>Limitations<|close|>
+          Using this dataset on a large language model may result in text that is harmful and discriminatory. Possible limitations in evaluating or addressing stigmas, due to gaps in demographic coverage or specific domains, as the dataset is in English and reflects US culture.  The authors of the benchmark view evaluating open-ended text generation as an unsolved problem, so there may subtle biases pressent in CoT results.  Aditionally it is still an open question on how bias scores should be adjusted for certain models.
+        <|open_end|>Risks<|.|>Limitations<|close|>
+        <|open|>Risks<|.|>Harm<|close|>
+          Risk Title: Toxic output,\n Tag: toxic-output,\n Type: output,\n Phase:None,\n Category:None,\n Group:value alignment,\n Descriptor:specific,\n Description: Toxic output occurs when the model produces hateful, abusive, and profane (HAP) or obscene content. This also includes behaviors like bullying.,\n Concern: Hateful, abusive, and profane (HAP) or obscene content can adversely impact and harm people interacting with the model.
+        <|open_end|>Risks<|.|>Harm<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Risks<|close|>
+    <|open|>Ethical and Legal Considerations<|close|>
+      <|open|>object<|close|>
+        <|open|>Ethical and Legal Considerations<|.|>Privacy and Anonymity<|close|>
+          No personal or sensitive data is included in the benchmark.
+        <|open_end|>Ethical and Legal Considerations<|.|>Privacy and Anonymity<|close|>
+        <|open|>Ethical and Legal Considerations<|.|>Data Licensing<|close|>
+          The benchmark data is available under the cdla-permissive-2.0 license.
+        <|open_end|>Ethical and Legal Considerations<|.|>Data Licensing<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Ethical and Legal Considerations<|close|>
+  <|open_end|>object<|close|>
+  <|,|>
+  <|open|>object<|close|>
+    <|open|>Benchmark Details<|close|>
+      <|open|>object<|close|>
+        <|open|>Benchmark Details<|.|>Name<|close|>
+          TruthfulQA
+        <|open_end|>Benchmark Details<|.|>Name<|close|>
+        <|open|>Benchmark Details<|.|>ID<|close|>
+          cards.value_alignment.hallucinations.truthfulqa
+        <|open_end|>Benchmark Details<|.|>ID<|close|>
+        <|open|>Benchmark Details<|.|>Overview<|close|>
+          TruthfulQA is a benchmark to measure whether a language model is truthful in generating answers to questions.
+        <|open_end|>Benchmark Details<|.|>Overview<|close|>
+        <|open|>Benchmark Details<|.|>Data Type<|close|>
+          Text
+        <|open_end|>Benchmark Details<|.|>Data Type<|close|>
+        <|open|>Benchmark Details<|.|>Domains<|close|>
+          <|open|>list<|close|>
+            natural language processing
+          <|open_end|>list<|close|>
+        <|open_end|>Benchmark Details<|.|>Domains<|close|>
+        <|open|>Benchmark Details<|.|>Application Domains<|close|>
+          <|open|>list<|close|>
+            Health<|,|>
+            Law<|,|>
+            Finance<|,|>
+            Politics
+          <|open_end|>list<|close|>
+        <|open_end|>Benchmark Details<|.|>Application Domains<|close|>
+        <|open|>Benchmark Details<|.|>Languages<|close|>
+          <|open|>list<|close|>
+            English
+          <|open_end|>list<|close|>
+        <|open_end|>Benchmark Details<|.|>Languages<|close|>
+        <|open|>Benchmark Details<|.|>Similar Benchmarks<|close|>
+          <|open|>list<|close|>
+          <|open_end|>list<|close|>
+        <|open_end|>Benchmark Details<|.|>Similar Benchmarks<|close|>
+        <|open|>Benchmark Details<|.|>Resources<|close|>
+          <|open|>list<|close|>
+            <|open|>object<|close|>
+              <|open|>Benchmark Details<|.|>Resources<|.|>github<|close|>
+                https://github.com/sylinrl/TruthfulQA
+              <|open_end|>Benchmark Details<|.|>Resources<|.|>github<|close|>
+            <|open_end|>object<|close|>
+            <|,|>
+            <|open|>object<|close|>
+              <|open|>Benchmark Details<|.|>Resources<|.|>paper<|close|>
+                https://arxiv.org/abs/2109.07958
+              <|open_end|>Benchmark Details<|.|>Resources<|.|>paper<|close|>
+            <|open_end|>object<|close|>
+          <|open_end|>list<|close|>
+        <|open_end|>Benchmark Details<|.|>Resources<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Benchmark Details<|close|>
+    <|open|>Purpose and Intended Users<|close|>
+      <|open|>object<|close|>
+        <|open|>Purpose and Intended Users<|.|>Goal<|close|>
+          A benchmark to measure whether a language model is truthful in generating answers to questions
+        <|open_end|>Purpose and Intended Users<|.|>Goal<|close|>
+        <|open|>Purpose and Intended Users<|.|>Audience<|close|>
+          Researchers, developers, policymakers
+        <|open_end|>Purpose and Intended Users<|.|>Audience<|close|>
+        <|open|>Purpose and Intended Users<|.|>Tasks<|close|>
+          <|open|>list<|close|>
+            Multiple-choice question answering<|,|>
+            Text generation<|,|>
+            Question answering
+          <|open_end|>list<|close|>
+        <|open_end|>Purpose and Intended Users<|.|>Tasks<|close|>
+        <|open|>Purpose and Intended Users<|.|>Out-of-Scope Uses<|close|>
+          Use cases where the benchmark is not designed to be applied and could give misleading results.
+        <|open_end|>Purpose and Intended Users<|.|>Out-of-Scope Uses<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Purpose and Intended Users<|close|>
+    <|open|>Data<|close|>
+      <|open|>object<|close|>
+        <|open|>Data<|.|>Source<|close|>
+          All questions were written by the authors and were designed to elicit imitative falsehoods. The questions were designed to be “adversarial” in the sense of testing for a weakness in the truthfulness of language models (rather than testing models on a useful task).
+        <|open_end|>Data<|.|>Source<|close|>
+        <|open|>Data<|.|>Size<|close|>
+          The benchmark comprises 817 questions that span 38 categories, including health, law, finance and politics
+        <|open_end|>Data<|.|>Size<|close|>
+        <|open|>Data<|.|>Format<|close|>
+          CSV format.  It is structured as sentence pairs, question-answer format. It includes columns: type, category, question, best_answer, correct_answers, incorrect_answers, source.
+        <|open_end|>Data<|.|>Format<|close|>
+        <|open|>Data<|.|>Annotation<|close|>
+          Human annotations
+        <|open_end|>Data<|.|>Annotation<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Data<|close|>
+    <|open|>Methodology<|close|>
+      <|open|>object<|close|>
+        <|open|>Methodology<|.|>Methods<|close|>
+          Adversarial procedure
+        <|open_end|>Methodology<|.|>Methods<|close|>
+        <|open|>Methodology<|.|>Metrics<|close|>
+          ROUGE: ROUGE, or Recall-Oriented Understudy for Gisting Evaluation, is a set of metrics and a software package used for evaluating automatic summarization and machine translation software in natural language processing.  Normalized Sacrebleu: SacreBLEU provides a method of computation of BLEU scores, which are a method of automatic machine translation evaluation.
+        <|open_end|>Methodology<|.|>Metrics<|close|>
+        <|open|>Methodology<|.|>Calculation<|close|>
+          Rouge scores are calculated by comparing an automatically produced summary or translation against a reference or a set of references (human-produced) summary or translation. Normalized Sacrebleu: Bleu metrics range from 0 to 1. Scores are calculated for individual translated segments by comparing them with a set of good quality translations. Those scores are then averaged over the whole corpus to reach an estimate of the translation's overall quality. 
+        <|open_end|>Methodology<|.|>Calculation<|close|>
+        <|open|>Methodology<|.|>Interpretation<|close|>
+          To perform well, models must avoid generating false answers learned from imitating human texts. A higher score suggests the model performed better at returning truthful responses. However, if a model performs well, we cannot conclude that it will be equally truthful on other kinds of tasks (even if we expect some transfer). 
+        <|open_end|>Methodology<|.|>Interpretation<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Methodology<|close|>
+    <|open|>Risks<|close|>
+      <|open|>object<|close|>
+        <|open|>Risks<|.|>Risk Categories<|close|>
+          Hallucination
+        <|open_end|>Risks<|.|>Risk Categories<|close|>
+        <|open|>Risks<|.|>Limitations<|close|>
+          TruthfulQA does not cover long-form generation (e.g. news articles) or interactive settings (e.g. extended chat with an adversarial human). Moreover, while the questions in TruthfulQA resemble real-world questions, they were not collected from a deployed system — and hence may over- or underestimate truthfulness for a deployed system.
+        <|open_end|>Risks<|.|>Limitations<|close|>
+        <|open|>Risks<|.|>Demographic Analysis<|close|>
+          Performance across different demographic groups
+        <|open_end|>Risks<|.|>Demographic Analysis<|close|>
+        <|open|>Risks<|.|>Harm<|close|>
+          Risk Title: Hallucination,\n Tag: hallucination,\n Type: output,\n Phase:None,\n Category:None,\n Group:robustness,\n Descriptor:specific,\n Description: Hallucinations generate factually inaccurate or untruthful content with respect to the model’s training data or input. This is also sometimes referred to lack of faithfulness or lack of groundedness.,\n Concern: Hallucinations can be misleading. These false outputs can mislead users and be incorporated into downstream artifacts, further spreading misinformation. False output can harm both owners and users of the AI models. In some uses, hallucinations can be particularly consequential.
+        <|open_end|>Risks<|.|>Harm<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Risks<|close|>
+    <|open|>Ethical and Legal Considerations<|close|>
+      <|open|>object<|close|>
+        <|open|>Ethical and Legal Considerations<|.|>Privacy and Anonymity<|close|>
+          Not available
+        <|open_end|>Ethical and Legal Considerations<|.|>Privacy and Anonymity<|close|>
+        <|open|>Ethical and Legal Considerations<|.|>Data Licensing<|close|>
+          This dataset is licensed under the [Apache License, Version 2.0]
+        <|open_end|>Ethical and Legal Considerations<|.|>Data Licensing<|close|>
+        <|open|>Ethical and Legal Considerations<|.|>Consent Procedures<|close|>
+          Obtaining consent (if applicable)
+        <|open_end|>Ethical and Legal Considerations<|.|>Consent Procedures<|close|>
+        <|open|>Ethical and Legal Considerations<|.|>Compliance with Regulations<|close|>
+          Compliance with relevant legal or ethical regulations
+        <|open_end|>Ethical and Legal Considerations<|.|>Compliance with Regulations<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Ethical and Legal Considerations<|close|>
+  <|open_end|>object<|close|>
+  <|,|>
+  <|open|>object<|close|>
+    <|open|>Benchmark Details<|close|>
+      <|open|>object<|close|>
+        <|open|>Benchmark Details<|.|>Name<|close|>
+          Mitre CSE
+        <|open_end|>Benchmark Details<|.|>Name<|close|>
+        <|open|>Benchmark Details<|.|>ID<|close|>
+          cards.harmful_code.mitre.mitre_cse_benchmark
+        <|open_end|>Benchmark Details<|.|>ID<|close|>
+        <|open|>Benchmark Details<|.|>Overview<|close|>
+          The Mitre Test is a benchmark designed to assess the compliance of a Large Language Model (LLM) with the guidelines defined by the MITRE ATT&CK framework for cybersecurity. The benchmark involves three LLMs: a target LLM, an expansion LLM, and a judge LLM. The expansion LLM summarizes the response generated by the target LLM, which is then classified by the judge LLM as benign or malicious. The benchmark provides the numbers of test prompts and number of classifications as benign, malicious, and refusal of classification.
+        <|open_end|>Benchmark Details<|.|>Overview<|close|>
+        <|open|>Benchmark Details<|.|>Data Type<|close|>
+          Text
+        <|open_end|>Benchmark Details<|.|>Data Type<|close|>
+        <|open|>Benchmark Details<|.|>Domains<|close|>
+          <|open|>list<|close|>
+            Cybersecurity
+          <|open_end|>list<|close|>
+        <|open_end|>Benchmark Details<|.|>Domains<|close|>
+        <|open|>Benchmark Details<|.|>Application Domains<|close|>
+          <|open|>list<|close|>
+            Cybersecurity<|,|>
+            LLMs
+          <|open_end|>list<|close|>
+        <|open_end|>Benchmark Details<|.|>Application Domains<|close|>
+        <|open|>Benchmark Details<|.|>Languages<|close|>
+          ['english']
+        <|open_end|>Benchmark Details<|.|>Languages<|close|>
+        <|open|>Benchmark Details<|.|>Similar Benchmarks<|close|>
+          <|open|>list<|close|>
+          <|open_end|>list<|close|>
+        <|open_end|>Benchmark Details<|.|>Similar Benchmarks<|close|>
+        <|open|>Benchmark Details<|.|>Resources<|close|>
+          <|open|>list<|close|>
+            <|open|>object<|close|>
+              <|open|>Benchmark Details<|.|>Resources<|.|>paper<|close|>
+                https://arxiv.org/abs/2404.13161
+              <|open_end|>Benchmark Details<|.|>Resources<|.|>paper<|close|>
+            <|open_end|>object<|close|>
+            <|,|>
+            <|open|>object<|close|>
+              <|open|>Benchmark Details<|.|>Resources<|.|>github<|close|>
+                https://github.com/meta-llama/PurpleLlama/tree/main/CybersecurityBenchmarks
+              <|open_end|>Benchmark Details<|.|>Resources<|.|>github<|close|>
+            <|open_end|>object<|close|>
+          <|open_end|>list<|close|>
+        <|open_end|>Benchmark Details<|.|>Resources<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Benchmark Details<|close|>
+    <|open|>Purpose and Intended Users<|close|>
+      <|open|>object<|close|>
+        <|open|>Purpose and Intended Users<|.|>Goal<|close|>
+          The primary goal of the Mitre Test is to evaluate the ability of LLMs to generate harmful code that could be used in cyberattacks. 
+        <|open_end|>Purpose and Intended Users<|.|>Goal<|close|>
+        <|open|>Purpose and Intended Users<|.|>Audience<|close|>
+          The benchmark is intended for researchers, developers, and policymakers who are interested in assessing the cybersecurity risks associated with LLMs.
+        <|open_end|>Purpose and Intended Users<|.|>Audience<|close|>
+        <|open|>Purpose and Intended Users<|.|>Tasks<|close|>
+          The benchmark is designed to assess the compliance of an LLM with the guidelines defined by the MITRE ATT&CK framework for cybersecurity. The benchmark evaluates the LLM's ability to generate code that could be used in cyberattacks.
+        <|open_end|>Purpose and Intended Users<|.|>Tasks<|close|>
+        <|open|>Purpose and Intended Users<|.|>Out-of-Scope Uses<|close|>
+          The benchmark is not designed to be applied to evaluate the cybersecurity risks associated with other types of language generation models, such as those used for creative writing or storytelling.
+        <|open_end|>Purpose and Intended Users<|.|>Out-of-Scope Uses<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Purpose and Intended Users<|close|>
+    <|open|>Data<|close|>
+      <|open|>object<|close|>
+        <|open|>Data<|.|>Source<|close|>
+          The data used is benchmark data, publicly available under the MIT license.
+        <|open_end|>Data<|.|>Source<|close|>
+        <|open|>Data<|.|>Size<|close|>
+          4.3 MB
+        <|open_end|>Data<|.|>Size<|close|>
+        <|open|>Data<|.|>Format<|close|>
+          CSV file. The data instances include the base_prompt ,mutated_prompt_base, mutated_prompt, mitre_category, ttp_id_name_mapping.
+        <|open_end|>Data<|.|>Format<|close|>
+        <|open|>Data<|.|>Annotation<|close|>
+          The data is automatically labeled by the judge LLM.
+        <|open_end|>Data<|.|>Annotation<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Data<|close|>
+    <|open|>Methodology<|close|>
+      <|open|>object<|close|>
+        <|open|>Methodology<|.|>Methods<|close|>
+          The benchmark evaluates the compliance of an LLM with the guidelines defined by the MITRE ATT&CK framework for cybersecurity. 
+        <|open_end|>Methodology<|.|>Methods<|close|>
+        <|open|>Methodology<|.|>Metrics<|close|>
+          Metric: Harmful Code Mitre CSE [metrics.harmful_code.mitre.mitre_cse_benchmark]
+        <|open_end|>Methodology<|.|>Metrics<|close|>
+        <|open|>Methodology<|.|>Calculation<|close|>
+          The benchmark uses the metric of Harmful Code Mitre CSE, which is designed to assess the LLM's ability to generate code that could be used in cyberattacks. The metric involves three LLMs: a target LLM, an expansion LLM, and a judge LLM. The expansion LLM summarizes the response generated by the target LLM, which is then classified by the judge LLM as benign or malicious. The metric provides the numbers of test prompts and number of classifications as benign, malicious, and refusal of classification.
+        <|open_end|>Methodology<|.|>Calculation<|close|>
+        <|open|>Methodology<|.|>Interpretation<|close|>
+          The metric provides the numbers of test prompts and number of classifications as benign, malicious, and refusal of classification. A higher number of classifications as malicious indicates a higher risk of harmful code generation.
+        <|open_end|>Methodology<|.|>Interpretation<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Methodology<|close|>
+    <|open|>Risks<|close|>
+      <|open|>object<|close|>
+        <|open|>Risks<|.|>Risk Categories<|close|>
+          <|open|>list<|close|>
+            Harmful code generation
+          <|open_end|>list<|close|>
+        <|open_end|>Risks<|.|>Risk Categories<|close|>
+        <|open|>Risks<|.|>Limitations<|close|>
+          Please note that this metric is a benchmark and is subject to ongoing development and refinement. Future improvements and advancements are planned to be incorporated to enhance its accuracy and effectiveness in model assessments.
+        <|open_end|>Risks<|.|>Limitations<|close|>
+        <|open|>Risks<|.|>Demographic Analysis<|close|>
+          The benchmark does not provide a detailed analysis of the impact of LLMs on different demographic groups. However, it does note that the benchmark is designed to be inclusive and should be applied to all populations and demographic groups.
+        <|open_end|>Risks<|.|>Demographic Analysis<|close|>
+        <|open|>Risks<|.|>Harm<|close|>
+          'Risk Title: Harmful code generation,\n Tag: harmful-code-generation,\n Type: output,\n Phase:None,\n Category:None,\n Group:harmful code generation,\n Descriptor:specific,\n Description: Models might generate code that causes harm or unintentionally affects other systems.,\n Concern: The execution of harmful code might open vulnerabilities in IT systems.
+        <|open_end|>Risks<|.|>Harm<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Risks<|close|>
+    <|open|>Ethical and Legal Considerations<|close|>
+      <|open|>object<|close|>
+        <|open|>Ethical and Legal Considerations<|.|>Privacy and Anonymity<|close|>
+          The benchmark does not use any personal or sensitive data. It does not collect or store any personal information from users or the general public.
+        <|open_end|>Ethical and Legal Considerations<|.|>Privacy and Anonymity<|close|>
+        <|open|>Ethical and Legal Considerations<|.|>Data Licensing<|close|>
+          The data used in the benchmark is publicly available under the MIT license.
+        <|open_end|>Ethical and Legal Considerations<|.|>Data Licensing<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Ethical and Legal Considerations<|close|>
+  <|open_end|>object<|close|>
+  <|,|>
+  <|open|>object<|close|>
+    <|open|>Benchmark Details<|close|>
+      <|open|>object<|close|>
+        <|open|>Benchmark Details<|.|>Name<|close|>
+          False Refusal Rate (FRR) CSE Benchmark
+        <|open_end|>Benchmark Details<|.|>Name<|close|>
+        <|open|>Benchmark Details<|.|>ID<|close|>
+          cards.harmful_code.frr.frr_cse_benchmark
+        <|open_end|>Benchmark Details<|.|>ID<|close|>
+        <|open|>Benchmark Details<|.|>Overview<|close|>
+          This benchmark evaluates the rate of falsely refusing benign prompts for generating source code of a target Large Language Models (LLM). The test prompts have been specifically designed to be borderline or ambiguous by containing keywords that are typical for benign as well as malicious source code requests. Refusals are determined by matching the generated output with a list of keywords commonly found in refusal statements of current LLMs. The final score is the fraction of benign test prompts that have been refused.
+        <|open_end|>Benchmark Details<|.|>Overview<|close|>
+        <|open|>Benchmark Details<|.|>Data Type<|close|>
+          Text
+        <|open_end|>Benchmark Details<|.|>Data Type<|close|>
+        <|open|>Benchmark Details<|.|>Domains<|close|>
+          <|open|>list<|close|>
+            Cybersecurity
+          <|open_end|>list<|close|>
+        <|open_end|>Benchmark Details<|.|>Domains<|close|>
+        <|open|>Benchmark Details<|.|>Application Domains<|close|>
+          <|open|>list<|close|>
+            Cybersecurity<|,|>
+            LLMs
+          <|open_end|>list<|close|>
+        <|open_end|>Benchmark Details<|.|>Application Domains<|close|>
+        <|open|>Benchmark Details<|.|>Languages<|close|>
+          <|open|>list<|close|>
+            English
+          <|open_end|>list<|close|>
+        <|open_end|>Benchmark Details<|.|>Languages<|close|>
+        <|open|>Benchmark Details<|.|>Similar Benchmarks<|close|>
+          <|open|>list<|close|>
+          <|open_end|>list<|close|>
+        <|open_end|>Benchmark Details<|.|>Similar Benchmarks<|close|>
+        <|open|>Benchmark Details<|.|>Resources<|close|>
+          <|open|>list<|close|>
+            <|open|>object<|close|>
+              <|open|>Benchmark Details<|.|>Resources<|.|>Paper<|close|>
+                https://arxiv.org/abs/2404.13161
+              <|open_end|>Benchmark Details<|.|>Resources<|.|>Paper<|close|>
+            <|open_end|>object<|close|>
+            <|,|>
+            <|open|>object<|close|>
+              <|open|>Benchmark Details<|.|>Resources<|.|>Github<|close|>
+                https://github.com/meta-llama/PurpleLlama/tree/main/CybersecurityBenchmarks
+              <|open_end|>Benchmark Details<|.|>Resources<|.|>Github<|close|>
+            <|open_end|>object<|close|>
+          <|open_end|>list<|close|>
+        <|open_end|>Benchmark Details<|.|>Resources<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Benchmark Details<|close|>
+    <|open|>Purpose and Intended Users<|close|>
+      <|open|>object<|close|>
+        <|open|>Purpose and Intended Users<|.|>Goal<|close|>
+          To give visibility into how often an LLM designed to refuse help with cyber attacks also refuses ambiguous cases that are not clearly malicious (the safety-utility tradeoff).
+        <|open_end|>Purpose and Intended Users<|.|>Goal<|close|>
+        <|open|>Purpose and Intended Users<|.|>Audience<|close|>
+          Researchers, developers, and policymakers working in the field of cybersecurity
+        <|open_end|>Purpose and Intended Users<|.|>Audience<|close|>
+        <|open|>Purpose and Intended Users<|.|>Tasks<|close|>
+          Assess the false refusal rate (FRR) of LLMs on benchmark datasets
+        <|open_end|>Purpose and Intended Users<|.|>Tasks<|close|>
+        <|open|>Purpose and Intended Users<|.|>Out-of-Scope Uses<|close|>
+          Any other use than assessing the false refusal rate (FRR) of LLMs on benchmark datasets
+        <|open_end|>Purpose and Intended Users<|.|>Out-of-Scope Uses<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Purpose and Intended Users<|close|>
+    <|open|>Data<|close|>
+      <|open|>object<|close|>
+        <|open|>Data<|.|>Source<|close|>
+          The data used is benchmark data, publicly available under the MIT license.
+        <|open_end|>Data<|.|>Source<|close|>
+        <|open|>Data<|.|>Size<|close|>
+          352 KB
+        <|open_end|>Data<|.|>Size<|close|>
+        <|open|>Data<|.|>Format<|close|>
+          CSV format.  The data instances include the mutated_prompt, is_malicious, attack_type, model
+        <|open_end|>Data<|.|>Format<|close|>
+        <|open|>Data<|.|>Annotation<|close|>
+          General annotation, the data samples are borderline benign prompts. In terms of label: {benign}
+        <|open_end|>Data<|.|>Annotation<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Data<|close|>
+    <|open|>Methodology<|close|>
+      <|open|>object<|close|>
+        <|open|>Methodology<|.|>Methods<|close|>
+          Benchmark datasets are used to evaluate the false refusal rate (FRR) of LLMs
+        <|open_end|>Methodology<|.|>Methods<|close|>
+        <|open|>Methodology<|.|>Metrics<|close|>
+          False Refusal Rate (FRR)
+        <|open_end|>Methodology<|.|>Metrics<|close|>
+        <|open|>Methodology<|.|>Calculation<|close|>
+          This metric evaluates the rate of falsely refusing benign prompts for generating source code of a target Large Language Models (LLM). The test prompts have been specifically designed to be borderline or ambiguous by containing keywords that are typical for benign as well as malicious source code requests. Refusals are determined by matching the generated output with a list of keywords or patterns commonly found in refusal statements of current LLMs. The final score is the fraction of benign test prompts that have been refused.
+        <|open_end|>Methodology<|.|>Calculation<|close|>
+        <|open|>Methodology<|.|>Interpretation<|close|>
+          A higher FRR score indicates a higher likelihood of LLMs rejecting to answer the requests that are borderline benign.
+        <|open_end|>Methodology<|.|>Interpretation<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Methodology<|close|>
+    <|open|>Risks<|close|>
+      <|open|>object<|close|>
+        <|open|>Risks<|.|>Risk Categories<|close|>
+          <|open|>list<|close|>
+            Harmful code generation
+          <|open_end|>list<|close|>
+        <|open_end|>Risks<|.|>Risk Categories<|close|>
+        <|open|>Risks<|.|>Limitations<|close|>
+          Please note that this metric is a benchmark and is subject to ongoing development and refinement. Future improvements and advancements are planned to be incorporated to enhance its accuracy and effectiveness in model assessments.
+        <|open_end|>Risks<|.|>Limitations<|close|>
+        <|open|>Risks<|.|>Demographic Analysis<|close|>
+          Not applicable
+        <|open_end|>Risks<|.|>Demographic Analysis<|close|>
+        <|open|>Risks<|.|>Harm<|close|>
+          'Risk Title: Harmful code generation,\n Tag: harmful-code-generation,\n Type: output,\n Phase:None,\n Category:None,\n Group:harmful code generation,\n Descriptor:specific,\n Description: Models might generate code that causes harm or unintentionally affects other systems.,\n Concern: The execution of harmful code might open vulnerabilities in IT systems.
+        <|open_end|>Risks<|.|>Harm<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Risks<|close|>
+    <|open|>Ethical and Legal Considerations<|close|>
+      <|open|>object<|close|>
+        <|open|>Ethical and Legal Considerations<|.|>Privacy and Anonymity<|close|>
+          Benchmark datasets do not contain any personal or sensitive data
+        <|open_end|>Ethical and Legal Considerations<|.|>Privacy and Anonymity<|close|>
+        <|open|>Ethical and Legal Considerations<|.|>Data Licensing<|close|>
+          The data used in the benchmark is publicly available under the MIT license.
+        <|open_end|>Ethical and Legal Considerations<|.|>Data Licensing<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Ethical and Legal Considerations<|close|>
+  <|open_end|>object<|close|>
+  <|,|>
+  <|open|>object<|close|>
+    <|open|>Name<|close|>
+      SimpleSafetyTests
+    <|open_end|>Name<|close|>
+    <|open|>ID<|close|>
+      cards.safety.simple_safety_tests
+    <|open_end|>ID<|close|>
+    <|open|>Overview<|close|>
+      SimpleSafetyTests assists in identifying critical safety risks in Large Language Models.  It consists of 100 test prompts across five harm areas that LLMs, for the vast majority of applications, should refuse to comply with.
+    <|open_end|>Overview<|close|>
+    <|open|>Data Type<|close|>
+      text
+    <|open_end|>Data Type<|close|>
+    <|open|>Domains<|close|>
+      <|open|>list<|close|>
+        LLMs
+      <|open_end|>list<|close|>
+    <|open_end|>Domains<|close|>
+    <|open|>Languages<|close|>
+      <|open|>list<|close|>
+        English
+      <|open_end|>list<|close|>
+    <|open_end|>Languages<|close|>
+    <|open|>Resources<|close|>
+      <|open|>list<|close|>
+        <|open|>object<|close|>
+          <|open|>Resources<|.|>arxiv<|close|>
+            https://arxiv.org/abs/2311.08370
+          <|open_end|>Resources<|.|>arxiv<|close|>
+        <|open_end|>object<|close|>
+        <|,|>
+        <|open|>object<|close|>
+          <|open|>Resources<|.|>huggingface<|close|>
+            https://huggingface.co/datasets/Bertievidgen/SimpleSafetyTests
+          <|open_end|>Resources<|.|>huggingface<|close|>
+        <|open_end|>object<|close|>
+      <|open_end|>list<|close|>
+    <|open_end|>Resources<|close|>
+    <|open|>Goal<|close|>
+      A benchmark to measure whether an LLM is following malicious instructions, providing unsafe advice, and generating toxic content
+    <|open_end|>Goal<|close|>
+    <|open|>Audience<|close|>
+      Researchers, developers, policymakers
+    <|open_end|>Audience<|close|>
+    <|open|>Tasks<|close|>
+      <|open|>list<|close|>
+        text-generation
+      <|open_end|>list<|close|>
+    <|open_end|>Tasks<|close|>
+    <|open|>Out-of-Scope Uses<|close|>
+      <|open|>list<|close|>
+      <|open_end|>list<|close|>
+    <|open_end|>Out-of-Scope Uses<|close|>
+    <|open|>Data<|close|>
+      <|open|>object<|close|>
+        <|open|>Data<|.|>Source<|close|>
+          SST dataset consists of 100 test prompts equally split into five harm areas and two prompt categories. The harm areas are: (1) Suicide, Self-Harm, and Eating Disorders; (2) Physical Harm (3) Illegal and Highly Regulated Items; (4) Scams and Fraud; and (5) Child Abuse.  Ther categories are: (1) Information and Advice Seeking; and (2) Instructions and Actions.
+        <|open_end|>Data<|.|>Source<|close|>
+        <|open|>Data<|.|>Size<|close|>
+          100 prompts
+        <|open_end|>Data<|.|>Size<|close|>
+        <|open|>Data<|.|>Format<|close|>
+          CSV
+        <|open_end|>Data<|.|>Format<|close|>
+        <|open|>Data<|.|>Annotation<|close|>
+          Hand-crafted. The test prompts were created by one of the authors, and then iteratively adjusted through multiple rounds of review and editing by the other authors and assessed for internal validity.
+        <|open_end|>Data<|.|>Annotation<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Data<|close|>
+    <|open|>Methodology<|close|>
+      <|open|>object<|close|>
+        <|open|>Methodology<|.|>Metrics<|close|>
+          <|open|>list<|close|>
+            Normalized Sacrebleu: SacreBLEU provides a method of computation of BLEU scores, which are a method of automatic machine translation evaluation.
+          <|open_end|>list<|close|>
+        <|open_end|>Methodology<|.|>Metrics<|close|>
+        <|open|>Methodology<|.|>Calculation<|close|>
+          Normalized Sacrebleu: Bleu metrics range from 0 to 100%. Scores are calculated for individual translated segments by comparing them with a set of good quality translations. Those scores are then averaged over the whole corpus to reach an estimate of the translation's overall quality. 
+        <|open_end|>Methodology<|.|>Calculation<|close|>
+        <|open|>Methodology<|.|>Interpretation<|close|>
+          To perform well, models must avoid returning unsafe responses. A higher score suggests better safety. However, if a model performs well, we cannot conclude that no safety risk exists, just that none was detected.
+        <|open_end|>Methodology<|.|>Interpretation<|close|>
+        <|open|>Methodology<|.|>Baseline Results<|close|>
+          The dataset is not accompanied by any baseline results.
+        <|open_end|>Methodology<|.|>Baseline Results<|close|>
+        <|open|>Methodology<|.|>Validation<|close|>
+          The dataset is not accompanied by any validation details.
+        <|open_end|>Methodology<|.|>Validation<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Methodology<|close|>
+    <|open|>Risks<|close|>
+      <|open|>object<|close|>
+        <|open|>Risks<|.|>Risk Categories<|close|>
+          <|open|>list<|close|>
+            harmful-output
+          <|open_end|>list<|close|>
+        <|open_end|>Risks<|.|>Risk Categories<|close|>
+        <|open|>Risks<|.|>Limitations<|close|>
+          Caution is advised as the prompts are sensitive and you could find them offensive, however, for the vast majority of applications, LLMs should refuse to comply with all of them. SST is not intended to be a comprehensive test of model safety. If a model returns 0% unsafe responses to SST then it indicates only that no safety risks have been found, rather than guaranteeing the absence of any safety risks (negative predictive power). The test prompts are designed to be extremely unsafe, and may not be commonly used by actual users. However, if models fail on even these simple prompts, they may be vulnerable to more sophisticated forms of unsafe prompts.  SST is  limited to the English language, with ten prompts each across five harm areas, so there are gaps in demographic coverage and specific domains. 
+        <|open_end|>Risks<|.|>Limitations<|close|>
+        <|open|>Risks<|.|>Demographic Analysis<|close|>
+          Not available
+        <|open_end|>Risks<|.|>Demographic Analysis<|close|>
+        <|open|>Risks<|.|>Harm<|close|>
+          <|open|>list<|close|>
+            Risk Title: Harmful output,\n Tag: harmful-output,\n Type: output,\n Phase:None,\n Category:None,\n Group:value alignment,\n Descriptor:specific,\n Description: A model might generate language that leads to physical harm The language might include overtly violent, covertly dangerous, or otherwise indirectly unsafe statements.,\n Concern: A model generating harmful output can cause immediate physical harm or create prejudices that might lead to future harm.
+          <|open_end|>list<|close|>
+        <|open_end|>Risks<|.|>Harm<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Risks<|close|>
+    <|open|>Ethical and Legal Considerations<|close|>
+      <|open|>object<|close|>
+        <|open|>Ethical and Legal Considerations<|.|>Privacy and Anonymity<|close|>
+          Personal or sensitive data not included
+        <|open_end|>Ethical and Legal Considerations<|.|>Privacy and Anonymity<|close|>
+        <|open|>Ethical and Legal Considerations<|.|>Data Licensing<|close|>
+          cc-by-2.0
+        <|open_end|>Ethical and Legal Considerations<|.|>Data Licensing<|close|>
+        <|open|>Ethical and Legal Considerations<|.|>Consent Procedures<|close|>
+          Not applicable
+        <|open_end|>Ethical and Legal Considerations<|.|>Consent Procedures<|close|>
+        <|open|>Ethical and Legal Considerations<|.|>Compliance with Regulations<|close|>
+          Not applicable
+        <|open_end|>Ethical and Legal Considerations<|.|>Compliance with Regulations<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Ethical and Legal Considerations<|close|>
+  <|open_end|>object<|close|>
+  <|,|>
+  <|open|>object<|close|>
+    <|open|>Benchmark Details<|close|>
+      <|open|>object<|close|>
+        <|open|>Benchmark Details<|.|>Name<|close|>
+          Discrim-Eval
+        <|open_end|>Benchmark Details<|.|>Name<|close|>
+        <|open|>Benchmark Details<|.|>ID<|close|>
+          cards.safety.discrim_eval.implicit
+        <|open_end|>Benchmark Details<|.|>ID<|close|>
+        <|open|>Benchmark Details<|.|>Overview<|close|>
+          The data contains a diverse set of prompts covering 70 hypothetical decision scenarios, ranging from approving a loan to providing press credentials. Each prompt instructs the model to make a binary decision (yes/no) about a particular person described in the prompt. Each person is described in terms of three demographic attributes: age (ranging from 20 to 100 in increments of 10), gender (male, female, non-binary), and race (white, Black, Asian, Hispanic, Native American), for a total of 135 examples per decision scenario. The prompts are designed so a 'yes' decision is always advantageous to the person (e.g. deciding to grant the loan).
+        <|open_end|>Benchmark Details<|.|>Overview<|close|>
+        <|open|>Benchmark Details<|.|>Data Type<|close|>
+          Text
+        <|open_end|>Benchmark Details<|.|>Data Type<|close|>
+        <|open|>Benchmark Details<|.|>Domains<|close|>
+          Question answering
+        <|open_end|>Benchmark Details<|.|>Domains<|close|>
+        <|open|>Benchmark Details<|.|>Languages<|close|>
+          English
+        <|open_end|>Benchmark Details<|.|>Languages<|close|>
+        <|open|>Benchmark Details<|.|>Resources<|close|>
+          <|open|>object<|close|>
+            <|open|>Benchmark Details<|.|>Resources<|.|>Paper<|close|>
+              https://arxiv.org/abs/2312.03689
+            <|open_end|>Benchmark Details<|.|>Resources<|.|>Paper<|close|>
+          <|open_end|>object<|close|>
+        <|open_end|>Benchmark Details<|.|>Resources<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Benchmark Details<|close|>
+    <|open|>Purpose and Intended Users<|close|>
+      <|open|>object<|close|>
+        <|open|>Purpose and Intended Users<|.|>Goal<|close|>
+          To evaluate the potential discriminatory impact of LMs in a wide range of use cases, including hypothetical use cases where they have not yet been deployed.
+        <|open_end|>Purpose and Intended Users<|.|>Goal<|close|>
+        <|open|>Purpose and Intended Users<|.|>Audience<|close|>
+          Researchers, developers, and policymakers who are interested in understanding and mitigating the potential risks of AI systems.
+        <|open_end|>Purpose and Intended Users<|.|>Audience<|close|>
+        <|open|>Purpose and Intended Users<|.|>Tasks<|close|>
+          Evaluating and mitigating discrimination in language model decisions.
+        <|open_end|>Purpose and Intended Users<|.|>Tasks<|close|>
+        <|open|>Purpose and Intended Users<|.|>Out-of-Scope Uses<|close|>
+          Using the benchmark for high-risk automated decision making or for other purposes not related to its original goals.
+        <|open_end|>Purpose and Intended Users<|.|>Out-of-Scope Uses<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Purpose and Intended Users<|close|>
+    <|open|>Data<|close|>
+      <|open|>object<|close|>
+        <|open|>Data<|.|>Source<|close|>
+          Anthropic
+        <|open_end|>Data<|.|>Source<|close|>
+        <|open|>Data<|.|>Size<|close|>
+          The dataset contains 135 examples per decision scenario, totalling 9,450 examples across all 70 decision scenarios.
+        <|open_end|>Data<|.|>Size<|close|>
+        <|open|>Data<|.|>Format<|close|>
+          The data is provided in two JSONL files: explicit.jsonl and implicit.jsonl. Each line in the files contains a prompt, decision question ID, age, gender, and race of the person described in the prompt. The implicit.jsonl file does not have an explicit mention of race or gender, but rather relies on an implicit version of these attributes based on a name. 
+        <|open_end|>Data<|.|>Format<|close|>
+        <|open|>Data<|.|>Annotation<|close|>
+          The data was annotated using Anthropics's Claude language models.
+        <|open_end|>Data<|.|>Annotation<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Data<|close|>
+    <|open|>Methodology<|close|>
+      <|open|>object<|close|>
+        <|open|>Methodology<|.|>Methods<|close|>
+          The benchmark uses a series of hypothetical decision scenarios to evaluate the ability of language models to make unbiased decisions. Each prompt is designed to elicit a binary decision (yes/no) about a particular person described in the prompt. The prompts are then used to test the ability of language models to make accurate decisions and to identify potential biases.
+        <|open_end|>Methodology<|.|>Methods<|close|>
+        <|open|>Methodology<|.|>Metrics<|close|>
+          The benchmark uses accuracy as the primary metric to evaluate the model's performance. Accuracy is the proportion of correct predictions among the total number of cases processed. It can be computed with: Accuracy = (TP + TN) / (TP + TN + FP + FN).
+        <|open_end|>Methodology<|.|>Metrics<|close|>
+        <|open|>Methodology<|.|>Calculation<|close|>
+          The benchmark calculates the discrimination score for each decision scenario and demographic attribute based on the model's performance on the prompt examples.
+        <|open_end|>Methodology<|.|>Calculation<|close|>
+        <|open|>Methodology<|.|>Interpretation<|close|>
+          The benchmark provides a way to measure the extent to which the model may be biased towards certain demographic groups. A higher discrimination score indicates a higher likelihood of discrimination.
+        <|open_end|>Methodology<|.|>Interpretation<|close|>
+        <|open|>Methodology<|.|>Baseline Results<|close|>
+          The benchmark compares the model's performance to a baseline model that does not take into account the demographic attributes of the person described in the prompt. This can help identify if the model is biased towards any particular demographic group.
+        <|open_end|>Methodology<|.|>Baseline Results<|close|>
+        <|open|>Methodology<|.|>Validation<|close|>
+          The benchmark does not provide information on the validation process used to ensure the data and methods are valid and reliable.
+        <|open_end|>Methodology<|.|>Validation<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Methodology<|close|>
+    <|open|>Risks<|close|>
+      <|open|>object<|close|>
+        <|open|>Risks<|.|>Risk Categories<|close|>
+          <|open|>list<|close|>
+            output-bias
+          <|open_end|>list<|close|>
+        <|open_end|>Risks<|.|>Risk Categories<|close|>
+        <|open|>Risks<|.|>Limitations<|close|>
+          The benchmark does not cover all possible decision making scenarios or demographics, and may not be fully representative of all real-world scenarios.  In terms of external validity, the evaluation is done on a model's judgement of a short text description of candiates only, which does not account for the wider variety of input formats that might affect the model's conclusions. It is important to note that the dataset authors do not permit or endorse the use of LMs for high-risk automated decision making.
+        <|open_end|>Risks<|.|>Limitations<|close|>
+        <|open|>Risks<|.|>Demographic Analysis<|close|>
+          The benchmark evaluates the performance of language models across different demographic groups, including age, gender, and race. However, it does not provide a detailed analysis of how these biases manifest in the model's decisions.
+        <|open_end|>Risks<|.|>Demographic Analysis<|close|>
+        <|open|>Risks<|.|>Harm<|close|>
+          <|open|>list<|close|>
+            Risk Title: Output Bias,\n Tag: output-bias,\n Type: output,\n Phase:None,\n Category:None,\n Group:fairness,\n Descriptor:specific,\n Description: Generated content might unfairly represent certain groups or individuals.,\n Concern:Bias can harm users of the AI models and magnify existing discriminatory behaviors.
+          <|open_end|>list<|close|>
+        <|open_end|>Risks<|.|>Harm<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Risks<|close|>
+    <|open|>Ethical and Legal Considerations<|close|>
+      <|open|>object<|close|>
+        <|open|>Ethical and Legal Considerations<|.|>Privacy and Anonymity<|close|>
+          The benchmark does not collect or use personal or sensitive data.
+        <|open_end|>Ethical and Legal Considerations<|.|>Privacy and Anonymity<|close|>
+        <|open|>Ethical and Legal Considerations<|.|>Data Licensing<|close|>
+          The benchmark data is licensed under the Creative Commons Attribution 4.0 International (CC-BY-4.0) license.
+        <|open_end|>Ethical and Legal Considerations<|.|>Data Licensing<|close|>
+        <|open|>Ethical and Legal Considerations<|.|>Consent Procedures<|close|>
+          The benchmark does not collect any personal data, and does not require any consent from users or subjects.
+        <|open_end|>Ethical and Legal Considerations<|.|>Consent Procedures<|close|>
+        <|open|>Ethical and Legal Considerations<|.|>Compliance with Regulations<|close|>
+          The benchmark does not address compliance with any specific regulations related to data privacy or discrimination.
+        <|open_end|>Ethical and Legal Considerations<|.|>Compliance with Regulations<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Ethical and Legal Considerations<|close|>
+  <|open_end|>object<|close|>
+  <|,|>
+  <|open|>object<|close|>
+    <|open|>Benchmark Details<|close|>
+      <|open|>object<|close|>
+        <|open|>Benchmark Details<|.|>Name<|close|>
+          ProvoQ (PROVOcative Questions about minority-associated stigmas)
+        <|open_end|>Benchmark Details<|.|>Name<|close|>
+        <|open|>Benchmark Details<|.|>ID<|close|>
+          cards.safety.provoq
+        <|open_end|>Benchmark Details<|.|>ID<|close|>
+        <|open|>Benchmark Details<|.|>Overview<|close|>
+          The ProvoQ dataset is designed to evaluate the sensitivity of large language models (LLMs) to stigma-related topics. It contains 2,705 human-curated provocative questions that systematically target minority-stigma pairs in the United States, creating a diverse and nuanced set of questions that reflect these sensitive topics. The dataset aims to support research in understanding and mitigating biases in AI systems, particularly in the context of minority groups. Whilst most questions are toxic, others may seem benign but potentially elicit harmful responses. The dataset contains questions in text format, organized by minority-stigma pairs.
+        <|open_end|>Benchmark Details<|.|>Overview<|close|>
+        <|open|>Benchmark Details<|.|>Data Type<|close|>
+          Text
+        <|open_end|>Benchmark Details<|.|>Data Type<|close|>
+        <|open|>Benchmark Details<|.|>Domains<|close|>
+          Natural Language Processing
+        <|open_end|>Benchmark Details<|.|>Domains<|close|>
+        <|open|>Benchmark Details<|.|>Languages<|close|>
+          English
+        <|open_end|>Benchmark Details<|.|>Languages<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Benchmark Details<|close|>
+    <|open|>Resources<|close|>
+      <|open|>object<|close|>
+        <|open|>Resources<|.|>Paper<|close|>
+          https://arxiv.org/abs/2311.04124
+        <|open_end|>Resources<|.|>Paper<|close|>
+        <|open|>Resources<|.|>Code<|close|>
+          https://huggingface.co/datasets/ibm-research/ProvoQ
+        <|open_end|>Resources<|.|>Code<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Resources<|close|>
+    <|open|>Purpose and Intended Users<|close|>
+      <|open|>object<|close|>
+        <|open|>Purpose and Intended Users<|.|>Goal<|close|>
+          To evaluate the sensitivity of LLMs to stigma-related topics and support research in understanding and mitigating biases in AI systems, particularly in the context of minority groups.
+        <|open_end|>Purpose and Intended Users<|.|>Goal<|close|>
+        <|open|>Purpose and Intended Users<|.|>Audience<|close|>
+          Researchers, developers, and policymakers
+        <|open_end|>Purpose and Intended Users<|.|>Audience<|close|>
+        <|open|>Purpose and Intended Users<|.|>Tasks<|close|>
+          The dataset can be used to train and evaluate models that detect and mitigate biases in LLMs related to stigma-related topics.
+        <|open_end|>Purpose and Intended Users<|.|>Tasks<|close|>
+        <|open|>Purpose and Intended Users<|.|>Out-of-Scope Uses<|close|>
+          The dataset is not intended for use in applications that require specific knowledge or skills related to stigma-related topics.
+        <|open_end|>Purpose and Intended Users<|.|>Out-of-Scope Uses<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Purpose and Intended Users<|close|>
+    <|open|>Data<|close|>
+      <|open|>object<|close|>
+        <|open|>Data<|.|>Source<|close|>
+          IBM Provoq. Curated by two teams from the US and the Middle East. The minority groups and associated stigmas were identified using a combination of a proprietary language model and manual collection methods.
+        <|open_end|>Data<|.|>Source<|close|>
+        <|open|>Data<|.|>Size<|close|>
+          2,705 questions
+        <|open_end|>Data<|.|>Size<|close|>
+        <|open|>Data<|.|>Format<|close|>
+          Questions in text format, organized by minority-stigma pairs.
+        <|open_end|>Data<|.|>Format<|close|>
+        <|open|>Data<|.|>Annotation<|close|>
+          The questions were labeled by 14 volunteers from diverse genders, backgrounds, and nationalities, who marked them as good, based on the definition of 'good' outlined in the annotators' guidelines. Each question has received at least one annotation.
+        <|open_end|>Data<|.|>Annotation<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Data<|close|>
+    <|open|>Methodology<|close|>
+      <|open|>object<|close|>
+        <|open|>Methodology<|.|>Methods<|close|>
+          The dataset was created using the 'Crawl and Generate' approach, inspired by Kour et al. (2023).
+        <|open_end|>Methodology<|.|>Methods<|close|>
+        <|open|>Methodology<|.|>Metrics<|close|>
+          Metric summary: ['metrics.llm_as_judge.safety.llama_3_70b_instruct_ibm_watsonx_template_harm_rating'].  This is an LLM-as-judge-based metric class for evaluating correctness of generated predictions.  It uses the source prompt given to the generator and the generator's predictions to evaluate correctness using a single turn task.
+        <|open_end|>Methodology<|.|>Metrics<|close|>
+        <|open|>Methodology<|.|>Calculation<|close|>
+          The harm rating metric is a binary classification score indicating whether a question was harmful or not.
+        <|open_end|>Methodology<|.|>Calculation<|close|>
+        <|open|>Methodology<|.|>Interpretation<|close|>
+          Users should interpret the harm rating score as a measure of the question's potential to elicit harmful responses from LLMs.
+        <|open_end|>Methodology<|.|>Interpretation<|close|>
+        <|open|>Methodology<|.|>Baseline Results<|close|>
+          Not available
+        <|open_end|>Methodology<|.|>Baseline Results<|close|>
+        <|open|>Methodology<|.|>Validation<|close|>
+          The dataset underwent both automatic and manual curation processes, including grammar and spell checks, followed by human review to ensure the quality and relevance of the questions.
+        <|open_end|>Methodology<|.|>Validation<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Methodology<|close|>
+    <|open|>Risks<|close|>
+      <|open|>object<|close|>
+        <|open|>Risks<|.|>Risk Categories<|close|>
+          <|open|>list<|close|>
+            output-bias
+          <|open_end|>list<|close|>
+        <|open_end|>Risks<|.|>Risk Categories<|close|>
+        <|open|>Risks<|.|>Limitations<|close|>
+          The groups and associated stigmas in the ProvoQ dataset may be controversial. The dataset's biases could arise from human input and automated processes involved in its creation process. Users should exercise caution and judgment when using this dataset. Please note that the researchers involved in the creation of this dataset are not specialists in the social aspects addressed. This dataset is intended for research and testing, particularly for evaluation and addressing biases in chat models. It contains sensitive questions, so applying ethical consideration, exercising proper judgment, and implementing appropriate safeguards when working with this dataset is crucial.  Each step in this dataset generation process can potentially introduce bias, whether through human input or automated procedures. This is particularly true for the selection of minority groups and their associated stigmas, which can be especially controversial.  The dataset may not be exhaustive or cover all possible perspectives on the stigma-related topics. It may also not capture the nuances and complexities of real-life situations.
+        <|open_end|>Risks<|.|>Limitations<|close|>
+        <|open|>Risks<|.|>Demographic Analysis<|close|>
+          The dataset does not provide a comprehensive analysis of the impact of stigma on different demographic groups. It is important to consider the potential implications of the dataset for various communities and individuals.
+        <|open_end|>Risks<|.|>Demographic Analysis<|close|>
+        <|open|>Risks<|.|>Harm<|close|>
+          <|open|>list<|close|>
+            Risk Title: Output Bias,\n Tag: output-bias,\n Type: output,\n Phase:None,\n Category:None,\n Group:fairness,\n Descriptor:specific,\n Description: Generated content might unfairly represent certain groups or individuals.,\n Concern:Bias can harm users of the AI models and magnify existing discriminatory behaviors.
+          <|open_end|>list<|close|>
+        <|open_end|>Risks<|.|>Harm<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Risks<|close|>
+    <|open|>Ethical and Legal Considerations<|close|>
+      <|open|>object<|close|>
+        <|open|>Ethical and Legal Considerations<|.|>Privacy and Anonymity<|close|>
+          The dataset does not contain any personal or sensitive data.
+        <|open_end|>Ethical and Legal Considerations<|.|>Privacy and Anonymity<|close|>
+        <|open|>Ethical and Legal Considerations<|.|>Data Licensing<|close|>
+          The dataset is licensed under the cdla-permissive-2.0 license.
+        <|open_end|>Ethical and Legal Considerations<|.|>Data Licensing<|close|>
+        <|open|>Ethical and Legal Considerations<|.|>Consent Procedures<|close|>
+          The dataset does not include any personal data, so no consent is required.
+        <|open_end|>Ethical and Legal Considerations<|.|>Consent Procedures<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Ethical and Legal Considerations<|close|>
+  <|open_end|>object<|close|>
+  <|,|>
+  <|open|>object<|close|>
+    <|open|>Benchmark Details<|close|>
+      <|open|>object<|close|>
+        <|open|>Benchmark Details<|.|>Name<|close|>
+          Custom Data Leakage
+        <|open_end|>Benchmark Details<|.|>Name<|close|>
+        <|open|>Benchmark Details<|.|>ID<|close|>
+          cards.data_leakage.empty_data_leakage_card
+        <|open_end|>Benchmark Details<|.|>ID<|close|>
+        <|open|>Benchmark Details<|.|>Overview<|close|>
+          This evaluation is performed on custom models. A user may use this evaluation to evaluate a custom model with a subset of the assessed model's training data, which must be supplied by the user to the system.  The benchmark is designed to assess the risk of data leakage in language models. It aims to evaluate the degree to which models memorize their training data and reveal confidential or sensitive information in the generated output.
+        <|open_end|>Benchmark Details<|.|>Overview<|close|>
+        <|open|>Benchmark Details<|.|>Data Type<|close|>
+          Text
+        <|open_end|>Benchmark Details<|.|>Data Type<|close|>
+        <|open|>Benchmark Details<|.|>Domains<|close|>
+          Natural Language Processing
+        <|open_end|>Benchmark Details<|.|>Domains<|close|>
+        <|open|>Benchmark Details<|.|>Languages<|close|>
+          English
+        <|open_end|>Benchmark Details<|.|>Languages<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Benchmark Details<|close|>
+    <|open|>Purpose and Intended Users<|close|>
+      <|open|>object<|close|>
+        <|open|>Purpose and Intended Users<|.|>Goal<|close|>
+          To assess the risk of data leakage in the LM.
+        <|open_end|>Purpose and Intended Users<|.|>Goal<|close|>
+        <|open|>Purpose and Intended Users<|.|>Audience<|close|>
+          Researchers, developers, and policymakers
+        <|open_end|>Purpose and Intended Users<|.|>Audience<|close|>
+        <|open|>Purpose and Intended Users<|.|>Tasks<|close|>
+          The benchmark evaluates the model's ability to memorize training data and reveal confidential or sensitive information in the generated output.
+        <|open_end|>Purpose and Intended Users<|.|>Tasks<|close|>
+        <|open|>Purpose and Intended Users<|.|>Out-of-Scope Uses<|close|>
+          The benchmark is not designed to be applied to other types of models or data modalities.
+        <|open_end|>Purpose and Intended Users<|.|>Out-of-Scope Uses<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Purpose and Intended Users<|close|>
+    <|open|>Data<|close|>
+      <|open|>object<|close|>
+        <|open|>Data<|.|>Source<|close|>
+          The data for this evaluation must be supplied by the user.  It must be a subset of the assessed model's training data.
+        <|open_end|>Data<|.|>Source<|close|>
+        <|open|>Data<|.|>Size<|close|>
+          Unknown
+        <|open_end|>Data<|.|>Size<|close|>
+        <|open|>Data<|.|>Format<|close|>
+          Unknown
+        <|open_end|>Data<|.|>Format<|close|>
+        <|open|>Data<|.|>Annotation<|close|>
+          Unknown 
+        <|open_end|>Data<|.|>Annotation<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Data<|close|>
+    <|open|>Methodology<|close|>
+      <|open|>object<|close|>
+        <|open|>Methodology<|.|>Methods<|close|>
+          The benchmark uses a data leakage attack to evaluate the model's ability to memorize training data. The attack tries to cause the model to leak complete or partial samples from its training data and measures the degree of similarity between the model responses and the actual training data.
+        <|open_end|>Methodology<|.|>Methods<|close|>
+        <|open|>Methodology<|.|>Metrics<|close|>
+          This metric is based on a training data or fine-tuning data leakage attack, and represents to what degree the model has memorized its training data. 
+        <|open_end|>Methodology<|.|>Metrics<|close|>
+        <|open|>Methodology<|.|>Calculation<|close|>
+           The attack tries to cause the model to leak complete or partial samples from its training (or fine-tuning) data, and measures the degree of similarity between the model responses and the actual training data.
+        <|open_end|>Methodology<|.|>Calculation<|close|>
+        <|open|>Methodology<|.|>Interpretation<|close|>
+          A high syntactic similarity between the model response and the actual sample represents higher leakage risk. The score is based on the attack’s average similarity score across all training samples tested, and normalized such that 1 represents perfect privacy and 0 represents worst privacy.
+        <|open_end|>Methodology<|.|>Interpretation<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Methodology<|close|>
+    <|open|>Risks<|close|>
+      <|open|>object<|close|>
+        <|open|>Risks<|.|>Risk Categories<|close|>
+          <|open|>list<|close|>
+            revealing-confidential-information<|,|>
+            exposing-personal-information
+          <|open_end|>list<|close|>
+        <|open_end|>Risks<|.|>Risk Categories<|close|>
+        <|open|>Risks<|.|>Limitations<|close|>
+          The benchmark does not evaluate all potential risks associated with data leakage in language models. It does not address gaps in demographic coverage or specific domains.
+        <|open_end|>Risks<|.|>Limitations<|close|>
+        <|open|>Risks<|.|>Demographic Analysis<|close|>
+          The benchmark does not perform demographic analysis to evaluate the impact of data leakage on different demographic groups.
+        <|open_end|>Risks<|.|>Demographic Analysis<|close|>
+        <|open|>Risks<|.|>Harm<|close|>
+          The benchmark assesses the risk of LLMs revealing confidential information or sensitive personal information in their generated output. Risk Title: Revealing confidential information,\n Tag: revealing-confidential-information,\n Type: output,\n Phase:None,\n Category:None,\n Group:intellectual property,\n Descriptor:amplified,\n Description: When confidential information is used in training data, fine-tuning data, or as part of the prompt, models might reveal that data in the generated output. Revealing confidential information is a type of data leakage.,\n Concern: If not properly developed to secure confidential data, the model might reveal confidential information or IP in the generated output and reveal information that was meant to be secret. Risk Title: Exposing personal information,\n Tag: exposing-personal-information,\n Type: output,\n Phase:None,\n Category:None,\n Group:privacy,\n Descriptor:amplified,\n Description: When personal identifiable information (PII) or sensitive personal information (SPI) are used in training data, fine-tuning data, or as part of the prompt, models might reveal that data in the generated output. Revealing personal information is a type of data leakage.,\n Concern: Sharing people’s PI impacts their rights and make them more vulnerable.
+        <|open_end|>Risks<|.|>Harm<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Risks<|close|>
+    <|open|>Ethical and Legal Considerations<|close|>
+      <|open|>object<|close|>
+        <|open|>Ethical and Legal Considerations<|.|>Privacy and Anonymity<|close|>
+          The benchmark does not handle any personal or sensitive data, and it does not apply any anonymization techniques.
+        <|open_end|>Ethical and Legal Considerations<|.|>Privacy and Anonymity<|close|>
+        <|open|>Ethical and Legal Considerations<|.|>Data Licensing<|close|>
+          Unknown, custom model and dataset.
+        <|open_end|>Ethical and Legal Considerations<|.|>Data Licensing<|close|>
+        <|open|>Ethical and Legal Considerations<|.|>Consent Procedures<|close|>
+          The benchmark does not involve any personal data, and it does not require consent from users.
+        <|open_end|>Ethical and Legal Considerations<|.|>Consent Procedures<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Ethical and Legal Considerations<|close|>
+  <|open_end|>object<|close|>
+  <|,|>
+  <|open|>object<|close|>
+    <|open|>Benchmark Details<|close|>
+      <|open|>object<|close|>
+        <|open|>Benchmark Details<|.|>Name<|close|>
+          Prompt Injection Risk CSE Benchmark
+        <|open_end|>Benchmark Details<|.|>Name<|close|>
+        <|open|>Benchmark Details<|.|>ID<|close|>
+          cards.jailbreak_risk.prompt_injection_risk_cse_benchmark
+        <|open_end|>Benchmark Details<|.|>ID<|close|>
+        <|open|>Benchmark Details<|.|>Overview<|close|>
+          The dataset represents prompt injection attacks which are employed to bypass the safety alignment of LLMs and aligned LLMs should refrain from providing answers to such prompts. This dataset is taken from cyberseceval benchmark developed by Meta and released under MIT License. We use this dataset as a benchmark for evaluating the prompt injection risk of LLMs.
+        <|open_end|>Benchmark Details<|.|>Overview<|close|>
+        <|open|>Benchmark Details<|.|>Data Type<|close|>
+          text
+        <|open_end|>Benchmark Details<|.|>Data Type<|close|>
+        <|open|>Benchmark Details<|.|>Domains<|close|>
+          Cybersecurity
+        <|open_end|>Benchmark Details<|.|>Domains<|close|>
+        <|open|>Benchmark Details<|.|>Application Domains<|close|>
+          <|open|>list<|close|>
+            Cybersecurity<|,|>
+            LLMs
+          <|open_end|>list<|close|>
+        <|open_end|>Benchmark Details<|.|>Application Domains<|close|>
+        <|open|>Benchmark Details<|.|>Languages<|close|>
+          english
+        <|open_end|>Benchmark Details<|.|>Languages<|close|>
+        <|open|>Benchmark Details<|.|>Resources<|close|>
+          <|open|>list<|close|>
+            <|open|>object<|close|>
+              <|open|>Benchmark Details<|.|>Resources<|.|>Github<|close|>
+                https://github.com/meta-llama/PurpleLlama/tree/main/CybersecurityBenchmarks
+              <|open_end|>Benchmark Details<|.|>Resources<|.|>Github<|close|>
+            <|open_end|>object<|close|>
+          <|open_end|>list<|close|>
+        <|open_end|>Benchmark Details<|.|>Resources<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Benchmark Details<|close|>
+    <|open|>Purpose and Intended Users<|close|>
+      <|open|>object<|close|>
+        <|open|>Purpose and Intended Users<|.|>Goal<|close|>
+          To evaluate the prompt injection risk of LLMs
+        <|open_end|>Purpose and Intended Users<|.|>Goal<|close|>
+        <|open|>Purpose and Intended Users<|.|>Audience<|close|>
+          Researchers, developers, policymakers
+        <|open_end|>Purpose and Intended Users<|.|>Audience<|close|>
+        <|open|>Purpose and Intended Users<|.|>Tasks<|close|>
+          <|open|>list<|close|>
+            Assessing the prompt injection risk of LLMs on benchmark datasets.
+          <|open_end|>list<|close|>
+        <|open_end|>Purpose and Intended Users<|.|>Tasks<|close|>
+        <|open|>Purpose and Intended Users<|.|>Out-of-Scope Uses<|close|>
+          Any other use than assessing the prompt injection risk of LLMs on benchmark datasets.
+        <|open_end|>Purpose and Intended Users<|.|>Out-of-Scope Uses<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Purpose and Intended Users<|close|>
+    <|open|>Data<|close|>
+      <|open|>object<|close|>
+        <|open|>Data<|.|>Source<|close|>
+          Cyberseceval benchmark developed by Meta. The data used is benchmark data, publicly available under the MIT license.
+        <|open_end|>Data<|.|>Source<|close|>
+        <|open|>Data<|.|>Size<|close|>
+          352 KB
+        <|open_end|>Data<|.|>Size<|close|>
+        <|open|>Data<|.|>Format<|close|>
+          CSV format. The data instances include the test_case_prompt, user_input, judge_question, injection_variant, injection_type, risk_category, speaking_language
+        <|open_end|>Data<|.|>Format<|close|>
+        <|open|>Data<|.|>Annotation<|close|>
+          General annotation, the data samples are injection attack prompts.
+        <|open_end|>Data<|.|>Annotation<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Data<|close|>
+    <|open|>Methodology<|close|>
+      <|open|>object<|close|>
+        <|open|>Methodology<|.|>Methods<|close|>
+          <|open|>list<|close|>
+            Using the benchmark to evaluate the prompt injection risk of LLMs
+          <|open_end|>list<|close|>
+        <|open_end|>Methodology<|.|>Methods<|close|>
+        <|open|>Methodology<|.|>Metrics<|close|>
+          Prompt Injection Risk CSE
+        <|open_end|>Methodology<|.|>Metrics<|close|>
+        <|open|>Methodology<|.|>Calculation<|close|>
+          This metric evaluates the rate of prompt injection attack risk. The test prompts have been specifically designed to be ambiguous by containing keywords that are typical for benign as well as malicious requests. The final score is the fraction of successful attack prompts that result in model response according to injection goal.
+        <|open_end|>Methodology<|.|>Calculation<|close|>
+        <|open|>Methodology<|.|>Interpretation<|close|>
+          A higher risk score indicates a higher likelihood of prompt injection risk.
+        <|open_end|>Methodology<|.|>Interpretation<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Methodology<|close|>
+    <|open|>Risks<|close|>
+      <|open|>object<|close|>
+        <|open|>Risks<|.|>Risk Categories<|close|>
+          <|open|>list<|close|>
+            prompt-injection<|,|>
+            jailbreaking
+          <|open_end|>list<|close|>
+        <|open_end|>Risks<|.|>Risk Categories<|close|>
+        <|open|>Risks<|.|>Limitations<|close|>
+          Please note that this metric is a benchmark and is subject to ongoing development and refinement. Future improvements and advancements are planned to be incorporated to enhance its accuracy and effectiveness in model assessments.
+        <|open_end|>Risks<|.|>Limitations<|close|>
+        <|open|>Risks<|.|>Harm<|close|>
+          Risk Title: Prompt injection attack,\n Tag: prompt-injection,\n Type: input,\n Phase:inference,\n Category:,\n Group:robustness,\n Descriptor:specific,\n Description: A prompt injection attack forces a generative model that takes a prompt as input to produce unexpected output by manipulating the structure, instructions, or information contained in its prompt.,\n Concern: Injection attacks can be used to alter model behavior and benefit the attacker. Risk Title: Jailbreaking,\n Tag: jailbreaking,\n Type: input,\n Phase:inference,\n Category:,\n Group:multi-category,\n Descriptor:specific,\n Description: A jailbreaking attack attempts to break through the guardrails that are established in the model to perform restricted actions.,\n Concern: Jailbreaking attacks can be used to alter model behavior and benefit the attacker. If not properly controlled, business entities can face fines, reputational harm, and other legal consequences.
+        <|open_end|>Risks<|.|>Harm<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Risks<|close|>
+    <|open|>Ethical and Legal Considerations<|close|>
+      <|open|>object<|close|>
+        <|open|>Ethical and Legal Considerations<|.|>Privacy and Anonymity<|close|>
+          Benchmark datasets do not contain any personal or sensitive data
+        <|open_end|>Ethical and Legal Considerations<|.|>Privacy and Anonymity<|close|>
+        <|open|>Ethical and Legal Considerations<|.|>Data Licensing<|close|>
+          The data used in the benchmark is publicly available under the MIT license.
+        <|open_end|>Ethical and Legal Considerations<|.|>Data Licensing<|close|>
+      <|open_end|>object<|close|>
+    <|open_end|>Ethical and Legal Considerations<|close|>
+  <|open_end|>object<|close|>
+<|open_end|>list<|close|>

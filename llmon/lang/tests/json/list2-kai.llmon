@@ -1,0 +1,9 @@
+<|open|>object<|close|>
+  <|open|>item<|close|>emp_details<|:|>
+  <|open|>list<|close|>
+    emp_name<|,|>
+    hello<|,|>
+    goodbye
+  <|open_end|>list<|close|>
+  <|open_end|>item<|close|>
+<|open_end|>object<|close|>

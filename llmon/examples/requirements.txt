@@ -1,0 +1,6 @@
+torch
+transformers>=5.0
+accelerate
+huggingface_hub
+ipywidgets
+jupyterlab

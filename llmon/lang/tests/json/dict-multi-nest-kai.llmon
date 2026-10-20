@@ -1,0 +1,13 @@
+<|open|>object<|close|>
+  <|open|>item<|close|>nest1<|:|>
+  <|open|>object<|close|>
+    <|open|>item<|close|>nest2a<|:|>
+    <|open|>object<|close|>
+      <|open|>item<|close|>nest3a<|:|>val3a<|open_end|>item<|close|>
+      <|open|>item<|close|>nest3b<|:|>val3b<|open_end|>item<|close|>
+    <|open_end|>object<|close|>
+    <|open_end|>item<|close|>
+    <|open|>item<|close|>nest2b<|:|>val2b<|open_end|>item<|close|>
+  <|open_end|>object<|close|>
+  <|open_end|>item<|close|>
+<|open_end|>object<|close|>

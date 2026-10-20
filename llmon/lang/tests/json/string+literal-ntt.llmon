@@ -1,0 +1,26 @@
+<|open|>object<|close|>
+  <|open|>a<|close|>
+    1000
+  <|open_end|>a<|close|>
+  <|open|>b<|close|>
+    1000
+  <|open_end|>b<|close|>
+  <|open|>c<|close|>
+    3.14
+  <|open_end|>c<|close|>
+  <|open|>d<|close|>
+    3.14
+  <|open_end|>d<|close|>
+  <|open|>e<|close|>
+    true
+  <|open_end|>e<|close|>
+  <|open|>f<|close|>
+    true
+  <|open_end|>f<|close|>
+  <|open|>g<|close|>
+    false
+  <|open_end|>g<|close|>
+  <|open|>h<|close|>
+    false
+  <|open_end|>h<|close|>
+<|open_end|>object<|close|>

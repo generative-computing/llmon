@@ -1,0 +1,11 @@
+\nest1\
+    A
+    \nest2a\
+        text1
+    /nest2a/
+    B
+    \nest2b\
+        text2
+    /nest2b/
+    C
+/nest1/

@@ -1,0 +1,26 @@
+{
+  "brackets": [
+    ["\\object\\", "/object/"],
+    ["\\list\\", "/list/"],
+    ["\\item\\", "/item/"]
+  ],
+
+  "autoClosingPairs": [
+    {
+      "open": "\"",
+      "close": "\""
+    }
+  ],
+
+  "surroundingPairs": [
+    {
+      "open": "\"",
+      "close": "\""
+    }
+  ],
+
+  "indentationRules": {
+    "increaseIndentPattern": "(?=.*\\\\[A-Za-z0-9_][A-Za-z0-9._:]*\\\\(?!\\/))(?!.*\\/[A-Za-z0-9_][A-Za-z0-9._:]*\\/[\\s\\u200b]*$).*",
+    "decreaseIndentPattern": "^[\\s\\u200b]*\\/[A-Za-z0-9_][A-Za-z0-9._:]*\\/"
+  }
+}

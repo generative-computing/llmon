@@ -1,0 +1,22 @@
+<|open|>email<|close|>
+<|open|>header<|close|>
+<|open|>from<|close|>alice@example.com<|open_end|>from<|close|>
+<|open|>to<|close|>bob@example.com<|open_end|>to<|close|>
+<|open|>subject<|close|>Design docs<|open_end|>subject<|close|>
+<|open|>smpt<|self_close|>
+<|open_end|>header<|close|>
+<|open|>body<|close|>
+<|open|>paragraph<|close|>Please see the attachments.<|open_end|>paragraph<|close|>
+<|open|>notes<|close|>We’ll review at 2 PM.<|open_end|>notes<|close|>
+<|open_end|>body<|close|>
+<|open|>attachments<|close|>
+<|open|>attachment<|:|>1<|close|>
+<|open|>filename<|close|>design_spec.pdf<|open_end|>filename<|close|>
+<|open|>type<|close|>pdf<|open_end|>type<|close|>
+<|open_end|>attachment<|:|>1<|close|>
+<|open|>attachment<|:|>2<|close|>
+<|open|>filename<|close|>design_spec.pdf<|open_end|>filename<|close|>
+<|open|>type<|close|>pdf<|open_end|>type<|close|>
+<|open_end|>attachment<|:|>2<|close|>
+<|open_end|>attachments<|close|>
+<|open_end|>email<|close|>

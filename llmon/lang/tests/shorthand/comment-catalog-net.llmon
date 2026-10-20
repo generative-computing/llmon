@@ -1,0 +1,51 @@
+<|open|>system<|close|>
+    You are a catalog-grounded QA assistant. Answer only from the statements given in the context. The context is the complete and only world: if it yields no result, answer negatively rather than reporting uncertainty. Return exactly the shape named in 'out' and nothing else.
+<|open_end|>system<|close|>
+<|open|>instr<|close|>
+    If I add A Better CD Encoder to a project, how many other dependencies from the catalog do I need directly?
+<|open_end|>instr<|close|>
+<|open|>data<|close|>
+    <|open|>context<|close|>
+        <|open|>context<|:|>1<|close|>
+            A Better CD Encoder depends on cdparanoia
+        <|open_end|>context<|:|>1<|close|>
+    <|open_end|>context<|close|>
+    <|open|>knowledge_graph_semantics<|close|>
+        Count(Objects("A Better CD Encoder", "depends on", ?x))
+    <|open_end|>knowledge_graph_semantics<|close|>
+<|open_end|>data<|close|>
+<|open|>req<|close|>
+    <|open|>req<|:|>1<|close|>
+        <|open|>name<|close|>
+            Closed_catalog
+        <|open_end|>name<|close|>
+        <|open|>says<|close|>
+            The ctx clause is the complete and only world. Do not treat a fact as true merely because it is not contradicted; if the evidence yields no result, the answer is negative -- a definite answer, not 'unknown'.
+        <|open_end|>says<|close|>
+    <|open_end|>req<|:|>1<|close|>
+    <|open|>req<|:|>2<|close|>
+        <|open|>name<|close|>
+            No_model_memory
+        <|open_end|>name<|close|>
+        <|open|>says<|close|>
+            Answer only from ctx, never from prior knowledge. If you recognise an entity but it does not appear in ctx, treat it as absent.
+        <|open_end|>says<|close|>
+    <|open_end|>req<|:|>2<|close|>
+    <|open|>req<|:|>3<|close|>
+        <|open|>name<|close|>
+            Relation_direction
+        <|open_end|>name<|close|>
+        <|open|>says<|close|>
+            Use only the relation asked about, in the direction stated. Establishing one relation does not establish any other.
+        <|open_end|>says<|close|>
+    <|open_end|>req<|:|>3<|close|>
+<|open_end|>req<|close|>
+<|open|>out<|close|>
+    integer > 0
+<|open_end|>out<|close|>
+
+<|open|>gold<|close|>
+    <|open|>expected_answer<|close|>
+        1
+    <|open_end|>expected_answer<|close|>
+<|open_end|>gold<|close|>

@@ -1,0 +1,11 @@
+{
+    "type": "function",
+    "function<|.|>name": "create_person_json",
+    "function<|.|>description": "Creates a Person object with the given name and age.",
+    "function<|.|>parameters<|.|>properties<|.|>age<|.|>description": "The age of the person.",
+    "function<|.|>parameters<|.|>properties<|.|>age<|.|>type": "integer",
+    "function<|.|>parameters<|.|>required<|:|>0": "age",
+    "function<|.|>parameters<|.|>required<|:|>1": "name",
+    "function<|.|>parameters<|.|>type": "object",
+    "function<|.|>output_parameters<|.|>type": "object"
+}

@@ -1,0 +1,7 @@
+<|open|>mylist<|:|>0<|.|>a<|close|>
+  hi
+<|open_end|>
+<|open|>mylist<|:|>0<|.|>b<|close|>
+  bye
+<|open_end|>
+

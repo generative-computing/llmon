@@ -1,0 +1,13 @@
+<|open|>system<|close|>    You are a catalog-grounded QA assistant. Answer only from the statements given in the context. The context is the complete and only world: if it yields no result, answer negatively rather than reporting uncertainty. Return exactly the shape named in 'out' and nothing else.
+<|open_end|><|open|>instr<|close|>    If I add A Better CD Encoder to a project, how many other dependencies from the catalog do I need directly?
+<|open_end|><|open|>data<|.|>context<|.|>context<|:|>1<|close|>            A Better CD Encoder depends on cdparanoia
+        <|open_end|><|open|>data<|.|>knowledge_graph_semantics<|close|>        Count(Objects("A Better CD Encoder", "depends on", ?x))
+    <|open_end|><|open|>req<|.|>req<|:|>1<|.|>name<|close|>            Closed_catalog
+        <|open_end|><|open|>req<|.|>req<|:|>1<|.|>says<|close|>            The ctx clause is the complete and only world. Do not treat a fact as true merely because it is not contradicted; if the evidence yields no result, the answer is negative -- a definite answer, not 'unknown'.
+        <|open_end|><|open|>req<|.|>req<|:|>2<|.|>name<|close|>            No_model_memory
+        <|open_end|><|open|>req<|.|>req<|:|>2<|.|>says<|close|>            Answer only from ctx, never from prior knowledge. If you recognise an entity but it does not appear in ctx, treat it as absent.
+        <|open_end|><|open|>req<|.|>req<|:|>3<|.|>name<|close|>            Relation_direction
+        <|open_end|><|open|>req<|.|>req<|:|>3<|.|>says<|close|>            Use only the relation asked about, in the direction stated. Establishing one relation does not establish any other.
+        <|open_end|><|open|>out<|close|>    integer > 0
+<|open_end|><|open|>gold<|.|>expected_answer<|close|>        1
+    <|open_end|>

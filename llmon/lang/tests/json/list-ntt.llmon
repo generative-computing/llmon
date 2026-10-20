@@ -1,0 +1,11 @@
+<|open|>object<|close|>
+  <|open|>emp_details<|close|>
+    <|open|>list<|close|>
+      emp_name<|,|>
+      34<|,|>
+      true<|,|>
+      null<|,|>
+      3.32
+    <|open_end|>list<|close|>
+  <|open_end|>emp_details<|close|>
+<|open_end|>object<|close|>

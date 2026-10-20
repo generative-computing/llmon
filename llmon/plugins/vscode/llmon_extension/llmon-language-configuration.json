@@ -1,0 +1,6 @@
+{
+  "indentationRules": {
+    "increaseIndentPattern": "(?=.*<\\|open\\|>)(?!.*<\\|self_close\\|>)(?!.*<\\|open_end\\|>.*<\\|close\\|>[\\s\\u200b]*$).*",
+    "decreaseIndentPattern": "^[\\s\\u200b]*<\\|open_end\\|>"
+  }
+}

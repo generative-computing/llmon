@@ -1,0 +1,7 @@
+\str\hello/str/
+\int\42/int/
+\float\3.14159/float/
+\bool\true/bool/
+\date\2025-10-01/date/
+\datatime\2025:10-01T12:00:00Z/datatime/
+\null/

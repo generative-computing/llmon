@@ -1,0 +1,5 @@
+<|open|>list<|close|>
+  <|open|>item<|close|>apple<|open_end|>item<|close|>
+  <|open|>item<|close|>banana<|open_end|>item<|close|>
+  <|open|>item<|close|>cherry<|open_end|>item<|close|>
+<|open_end|>list<|close|>

@@ -1,0 +1,16 @@
+# Task
+Summarize the following article in under 150 words.
+
+# Constraints
+Do not include any personal opinions. Maximum three sentences.
+
+# Output Format
+Respond with a JSON schema: {"summary": "..."}
+
+# Input
+<data>
+The Amazon is the largest tropical forest on Earth, spread across nine countries
+with the greater part lying inside Brazil. Its dense canopy shelters a huge
+variety of plants and animals, and its trees store enough carbon to influence
+the climate of the whole planet.
+</data>

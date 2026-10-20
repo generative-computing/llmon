@@ -1,0 +1,79 @@
+\system\
+    You are a catalog-grounded QA assistant. Answer only from the statements given in the context. The context is the complete and only world\: if it yields no result, answer negatively rather than reporting uncertainty. Return exactly the shape named in 'out' and nothing else.
+/system/
+\instr\
+    If I add A Better CD Encoder to a project, how many other dependencies from the catalog do I need directly?
+/instr/
+\data\
+    \context\
+        \context:1\
+            A Better CD Encoder depends on cdparanoia
+        /context:1/
+    /context/
+    \knowledge_graph_semantics\
+        Count(Objects("A Better CD Encoder", "depends on", ?x))
+    /knowledge_graph_semantics/
+/data/
+\req\
+    \req:1\
+        \name\
+            Closed_catalog
+        /name/
+        \says\
+            The ctx clause is the complete and only world. Do not treat a fact as true merely because it is not contradicted; if the evidence yields no result, the answer is negative -- a definite answer, not 'unknown'.
+        /says/
+    /req:1/
+    \req:2\
+        \name\
+            No_model_memory
+        /name/
+        \says\
+            Answer only from ctx, never from prior knowledge. If you recognise an entity but it does not appear in ctx, treat it as absent.
+        /says/
+    /req:2/
+    \req:3\
+        \name\
+            Relation_direction
+        /name/
+        \says\
+            Use only the relation asked about, in the direction stated. Establishing one relation does not establish any other.
+        /says/
+    /req:3/
+/req/
+\out\
+    integer > 0
+/out/
+\comment\
+    \template_id\
+        T1
+    /template_id/
+    \wording_id\
+        T1.P3
+    /wording_id/
+    \answer_type\
+        number
+    /answer_type/
+    \polarity\
+        normal
+    /polarity/
+    \subject\
+        A Better CD Encoder
+    /subject/
+    \subject_iri\
+        A_Better_CD_Encoder
+    /subject_iri/
+    \evidence\
+        {"direct_dependencies"\: ["cdparanoia"]}
+    /evidence/
+    \justification\
+        A Better CD Encoder directly depends on 1\: cdparanoia
+    /justification/
+    \provenance\
+        {"ontology"\: "benchmark_ontology_software_V3.ttl", "seed"\: 20260822}
+    /provenance/
+/comment/
+\gold\
+    \expected_answer\
+        1
+    /expected_answer/
+/gold/

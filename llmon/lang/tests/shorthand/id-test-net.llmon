@@ -1,0 +1,10 @@
+<|open|>attachments<|close|>
+  <|open|>email<|.|>attachment<|:|>att_01<|close|>
+    <|open|>filename<|close|>design_spec.pdf<|open_end|>filename<|close|>
+    <|open|>type<|close|>pdf<|open_end|>type<|close|>
+  <|open_end|>email<|.|>attachment<|:|>att_01<|close|>
+  <|open|>email<|.|>attachment<|:|>att_02<|close|>
+    <|open|>filename<|close|>diagram.png<|open_end|>filename<|close|>
+    <|open|>type<|close|>image<|open_end|>type<|close|>
+  <|open_end|>email<|.|>attachment<|:|>att_02<|close|>
+<|open_end|>attachments<|close|>

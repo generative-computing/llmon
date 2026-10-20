@@ -1,0 +1,6 @@
+{
+    "exec<|:|>2": {
+        "exec<|:|>2<|.|>instruction": "instr<|:|>1",
+        "exec<|:|>2<|.|>input": "data<|.|>age"
+    }
+}

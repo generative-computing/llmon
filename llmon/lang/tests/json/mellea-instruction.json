@@ -1,0 +1,19 @@
+{
+  "args": {
+    "description": "None",
+    "requirements": [],
+    "icl_examples": [],
+    "grounding_context": {},
+    "prefix": null,
+    "output_prefix": null,
+    "repair": null
+  },
+  "tools": null,
+  "fields": null,
+  "template": null,
+  "template_order": [
+    "*",
+    "Instruction"
+  ],
+  "images": null
+}

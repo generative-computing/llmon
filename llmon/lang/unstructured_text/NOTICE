@@ -1,0 +1,45 @@
+llmon -- lang/unstructured_text
+Copyright 2026 IBM Corp.
+
+This product includes software developed as part of the LLMON project
+(https://github.com/generative-computing/llmon), licensed under the Apache
+License, Version 2.0. See LICENSE.
+
+--------------------------------------------------------------------------------
+Third-party models
+--------------------------------------------------------------------------------
+
+The `tagger` backend fine-tunes ModernBERT-base
+(https://huggingface.co/answerdotai/ModernBERT-base), distributed by Answer.AI
+and LightOn under the Apache License, Version 2.0. Checkpoints published for this
+project are derivative works of that model and carry the same license.
+
+--------------------------------------------------------------------------------
+Training data
+--------------------------------------------------------------------------------
+
+No training or evaluation corpus is distributed with this project. The published
+tagger checkpoint was trained on span annotations produced for this project,
+layered over prompts drawn from four upstream benchmarks, and docs/guidelines.html
+quotes example prompts from them. That prompt text remains subject to its
+original terms:
+
+  IFEval                    Apache License, Version 2.0
+    Zhou et al., "Instruction-Following Evaluation for Large Language Models",
+    arXiv:2311.07911.  https://huggingface.co/datasets/google/IFEval
+
+  MMLU                      MIT License
+    Hendrycks et al., "Measuring Massive Multitask Language Understanding",
+    arXiv:2009.03300.  https://huggingface.co/datasets/cais/mmlu
+
+  InfoBench                 see upstream
+    Qin et al., "InFoBench: Evaluating Instruction Following Ability in Large
+    Language Models", arXiv:2401.03601.
+
+  ComplexBench              see upstream
+    Wen et al., "Benchmarking Complex Instruction-Following with Multiple
+    Constraints Composition", arXiv:2407.03978.
+
+The two marked "see upstream" are recorded here without a license assertion
+because their terms were not verified by the authors of this NOTICE. Consult each
+project before reusing that text in a context those terms do not permit.

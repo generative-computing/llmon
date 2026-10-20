@@ -1,0 +1,22 @@
+\email\
+\header\
+\from\alice@example.com/from/
+\to\bob@example.com/to/
+\subject\Design docs/subject/
+\smpt/
+/header/
+\body\
+\paragraph\Please see the attachments./paragraph/
+\notes\We’ll review at 2 PM./notes/
+/body/
+\attachments\
+\attachment:1\
+\filename\design_spec.pdf/filename/
+\type\pdf/type/
+/attachment:1/
+\attachment:2\
+\filename\design_spec.pdf/filename/
+\type\pdf/type/
+/attachment:2/
+/attachments/
+/email/

@@ -1,0 +1,1 @@
+This folder contains the code for the VSCode extension for LLMON. Please read the README within /llmon_extension

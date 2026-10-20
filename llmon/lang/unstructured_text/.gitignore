@@ -1,0 +1,35 @@
+# ---------------------------------------------------------------------------
+# Model checkpoints (~570 MB each). Not committed: they are build artifacts,
+# they dwarf the source, and git handles neither their size nor their opacity
+# well. Fetch from HuggingFace or train locally -- see docs/TRAINING.md and
+# .env.example.
+# ---------------------------------------------------------------------------
+*_ckpt/
+*_ckpt_*/
+
+# Corpora. None ships with this repository; a corpus you build or bring
+# yourself (see docs/CORPUS.md) stays local.
+data/
+
+# Evaluation reports, prediction dumps and sweep caches. Regenerate with
+# `llmon-seg-eval` and `training/sweep.py`.
+out/
+
+# HPC job logs
+logs/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.venv/
+venv/
+.pytest_cache/
+
+# Local configuration (see .env.example for the documented keys)
+.env
+
+# OS
+.DS_Store

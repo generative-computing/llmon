@@ -1,0 +1,140 @@
+[build-system]
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
+
+[project]
+name = "llmon-core"
+version = "0.0.2"
+authors = [
+    { name = "Michael Hind", email = "hindm@us.ibm.com" },
+    { name = "Basel Shbita", email = "basel@ibm.com" },
+    { name = "Chad DeLuca", email = "delucac@us.ibm.com" },
+    { name = "Shubhi Asthana", email = "sasthan@us.ibm.com" },
+    { name = "Abrar Zaki", email = "abzak1230@gmail.com" },
+    { name = "Nigel Jones", email = "jonesn@uk.ibm.com" },
+    { name = "Bo Wu", email = "bo.wu@ibm.com" },
+    { name = "Masataro Asai", email = "masataro.asai@ibm.com" },
+]
+description = "LLM-native markup language"
+readme = { file = "README.md", content-type = "text/markdown" }
+requires-python = ">=3.10"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+]
+
+[project.scripts]
+short-to-llmon = "llmon.lang.shorthand.short_to_llmon:main"
+llmon-to-short = "llmon.lang.shorthand.llmon_to_short:main"
+text-to-escaped-short = "llmon.lang.shorthand.text_to_escaped:main"
+json-to-llmon = "llmon.lang.json.json_to_llmon:main"
+llmon-to-json = "llmon.lang.json.llmon_to_json:main"
+process-llmon = "llmon.lang.llmon_parsing.process_llmon:main"
+
+llmon-segment = "llmon.lang.unstructured_text.cli:main"
+llmon-seg-train = "llmon.lang.unstructured_text.training.cli:main"
+llmon-seg-eval = "llmon.lang.unstructured_text.evaluation.cli:main"
+
+[project.optional-dependencies]
+# Use these like:
+# pip install -e .[dev]
+# pip install llmon[dev]
+
+# llmon/lang/unstructured_text ships with every install -- it is ~600 KB of pure
+# Python and imports nothing heavy at module scope, so a bare `pip install llmon`
+# pays nothing for it and its `rules` backend works out of the box. This extra adds
+# the ML stack its `tagger` backend needs. No model weights are ever downloaded at
+# install or import time: a checkpoint is fetched on the first tagger call, and only
+# when one has been configured.
+unstructured-text = [
+    "torch>=2.1",
+    # transformers>=4.48 is a hard floor: that is the release where ModernBERT
+    # support landed, and the tagger's encoder is ModernBERT-base.
+    "transformers>=4.48",
+    "huggingface-hub>=0.23",
+]
+dev = [
+    "pdm>=2.24.0",
+    "mypy",
+    "mypy-extensions",
+    "pytest>=7.0",
+]
+sphinx = [
+    "sphinx_rtd_theme",
+    "sphinx-autodoc-typehints",
+    "sphinx_mdinclude",
+]
+
+[dependency-groups]
+# Use these like:
+# pip install -e . --group dev
+# pip install llmon --group dev
+dev = [
+    "pdm>=2.24.0",
+    "mypy",
+    "mypy-extensions",
+    "pytest>=7.0",
+]
+sphinx = [
+    "sphinx_rtd_theme",
+    "sphinx-autodoc-typehints",
+    "sphinx_mdinclude",
+]
+
+[tool.pdm.build]
+# `llmon/__init__.py` and `llmon/lang/__init__.py` make these regular packages, so
+# pdm-backend sweeps in everything beneath them. That is what we want for the code and
+# ruinous for everything else: a working copy of llmon/lang/unstructured_text can hold a
+# local corpus, a ~570 MB checkpoint directory and its own docs, and an early build of
+# this wheel held 20,931 files, of which 20,916 came from that one subdirectory.
+#
+# So exclude the payload rather than the package. Anything listed here must not be
+# needed at runtime. `data/` and `out/` are gitignored and never committed, but are
+# excluded here too so a local corpus or report is never swept into a wheel.
+excludes = [
+    "llmon/lang/unstructured_text/data",          # local corpora; never committed
+    "llmon/lang/unstructured_text/tagger_ckpt",   # ~570 MB, never committed
+    "llmon/lang/unstructured_text/out",           # local evaluation reports
+    "llmon/lang/unstructured_text/tests",
+    "llmon/lang/unstructured_text/docs",
+    "llmon/lang/unstructured_text/notebooks",
+    "llmon/lang/unstructured_text/examples",
+    "llmon/lang/unstructured_text/scripts",
+    "llmon/lang/unstructured_text/logs",
+    # Non-code that a site-packages copy has no use for. Its LICENSE, NOTICE and
+    # README do ship, matching the sibling lang.
+    "llmon/lang/unstructured_text/.env.example",
+    "llmon/lang/unstructured_text/.gitignore",
+    # `examples/` and `plugins/` now sit INSIDE the `llmon` package directory, so the
+    # same sweep that picks up the code would otherwise ship the notebooks and the
+    # packed .vsix with every install. Neither is needed at runtime.
+    "llmon/examples",
+    "llmon/plugins",
+    "**/.pdm-build",
+    "**/.venv",
+    "**/__pycache__",
+    "**/.DS_Store",
+    "llmon/lang/tests/*_test_results/"
+]
+
+[tool.pydocstyle]
+convention = "google"
+
+[tool.mypy]
+install_types = true
+non_interactive = true
+disable_error_code = [
+    "import-untyped",
+    "import-not-found",
+]
+[[tool.mypy.overrides]]
+module = ["mellea.*"]
+ignore_missing_imports = true
+
+
+[tool.pytest.ini_options]
+testpaths = ["llmon/lang/unstructured_text/tests", "llmon/lang/tests"]
+addopts = "-q"

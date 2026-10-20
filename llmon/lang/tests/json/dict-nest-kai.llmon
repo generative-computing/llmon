@@ -1,0 +1,13 @@
+<|open|>list<|close|>
+  <|open|>object<|close|>
+    <|open|>item<|close|>a<|:|>
+    <|open|>object<|close|>
+      <|open|>item<|close|>b<|:|>
+      <|open|>int<|close|>
+        23
+      <|open_end|>int<|close|>
+      <|open_end|>item<|close|>
+    <|open_end|>object<|close|>
+    <|open_end|>item<|close|>
+  <|open_end|>object<|close|>
+<|open_end|>list<|close|>

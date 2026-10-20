@@ -1,0 +1,5 @@
+\hi\hello/hi/
+\exec:3\
+    \instr:2\ \l3\ ab /l3/ /instr:2/
+    \input:1\ bar/input:1/
+/exec:3/

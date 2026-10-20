@@ -1,0 +1,26 @@
+<|open|>object<|close|>
+  <|open|>item<|close|>a<|:|>
+  <|open|>int<|close|>
+    1000
+  <|open_end|>int<|close|>
+  <|open_end|>item<|close|>
+  <|open|>item<|close|>b<|:|>1000<|open_end|>item<|close|>
+  <|open|>item<|close|>c<|:|>
+  <|open|>float<|close|>
+    3.14
+  <|open_end|>float<|close|>
+  <|open_end|>item<|close|>
+  <|open|>item<|close|>d<|:|>3.14<|open_end|>item<|close|>
+  <|open|>item<|close|>e<|:|>
+  <|open|>bool<|close|>
+    true
+  <|open_end|>bool<|close|>
+  <|open_end|>item<|close|>
+  <|open|>item<|close|>f<|:|>true<|open_end|>item<|close|>
+  <|open|>item<|close|>g<|:|>
+  <|open|>bool<|close|>
+    false
+  <|open_end|>bool<|close|>
+  <|open_end|>item<|close|>
+  <|open|>item<|close|>h<|:|>false<|open_end|>item<|close|>
+<|open_end|>object<|close|>

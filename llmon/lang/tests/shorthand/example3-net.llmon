@@ -1,0 +1,16 @@
+<|open|>instr<|:|>f<|close|>
+Translate the text into French
+<|open_end|>instr<|:|>f<|close|>
+<|open|>instr<|:|>g<|close|>
+Count the number of words in the given sentence
+<|open_end|>instr<|:|>g<|close|>
+<|open|>instr<|:|>h<|close|>
+Summarize the text in one short sentence
+<|open_end|>instr<|:|>h<|close|>
+<|open|>data<|:|>1<|close|>
+The quick brown fox jumps over the lazy dog
+<|open_end|>data<|:|>1<|close|>
+<|open|>exec<|:|>y<|close|>
+<|open|>exec<|:|>y<|.|>instr<|close|> instr:g <|open_end|>exec<|:|>y<|.|>instr<|close|>
+<|open|>exec<|:|>y<|.|>input<|close|> data:1 <|open_end|>exec<|:|>y<|.|>input<|close|>
+<|open_end|>exec<|:|>y<|close|>

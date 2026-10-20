@@ -1,0 +1,531 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "LLMON",
+  "scopeName": "source.llmon",
+  "fileTypes": ["llmon"],
+
+  "foldingStartMarker": "<\\|open\\|>",
+  "foldingStopMarker": "<\\|open_end\\|>",
+
+  "patterns": [
+    { "include": "#llmon-content" }
+  ],
+
+  "repository": {
+    "llmon-content": {
+      "patterns": [
+        { "include": "#instruction-tag" },
+        { "include": "#data-tag" },
+        { "include": "#exec-tag" },
+        { "include": "#object-tag" },
+        { "include": "#item-tag" },
+        { "include": "#list-tag" },
+        { "include": "#int-tag" },
+        { "include": "#float-tag" },
+        { "include": "#bool-tag" },
+        { "include": "#none-tag" },
+        { "include": "#input-tag" },
+        { "include": "#output-tag" },
+        { "include": "#user-tag" },
+        { "include": "#bare-close-tag" },
+        { "include": "#list-separator" },
+        { "include": "#primitives" }
+      ]
+    },
+
+    "instruction-tag": {
+      "patterns": [
+        {
+          "comment": "Opening instruction tag: <|open|>instr<|:|>label<|close|>",
+          "name": "meta.tag.instruction.llmon",
+          "match": "(<\\|open\\|>)((?:instruction|instr)(?:(?:<\\|:\\|>|<\\|\\.\\|>)[A-Za-z0-9_][A-Za-z0-9_]*)*)(<\\|close\\|>)",
+          "captures": {
+            "1": { "name": "punctuation.definition.tag.instruction.llmon" },
+            "2": { "name": "entity.name.tag.instruction.llmon" },
+            "3": { "name": "punctuation.definition.tag.instruction.llmon" }
+          }
+        },
+        {
+          "comment": "Closing instruction tag: <|open_end|>instr<|:|>label<|close|>",
+          "name": "meta.tag.instruction.end.llmon",
+          "match": "(<\\|open_end\\|>)((?:instruction|instr)(?:(?:<\\|:\\|>|<\\|\\.\\|>)[A-Za-z0-9_][A-Za-z0-9_]*)*)(<\\|close\\|>)",
+          "captures": {
+            "1": { "name": "punctuation.definition.tag.instruction.llmon" },
+            "2": { "name": "entity.name.tag.instruction.llmon" },
+            "3": { "name": "punctuation.definition.tag.instruction.llmon" }
+          }
+        },
+        {
+          "comment": "Self-closing instruction tag: <|open|>instr<|self_close|>",
+          "name": "meta.tag.instruction.self-closing.llmon",
+          "match": "(<\\|open\\|>)((?:instruction|instr)(?:(?:<\\|:\\|>|<\\|\\.\\|>)[A-Za-z0-9_][A-Za-z0-9_]*)*)(<\\|self_close\\|>)",
+          "captures": {
+            "1": { "name": "punctuation.definition.tag.instruction.llmon" },
+            "2": { "name": "entity.name.tag.instruction.llmon" },
+            "3": { "name": "punctuation.definition.tag.instruction.llmon" }
+          }
+        }
+      ]
+    },
+
+    "data-tag": {
+      "patterns": [
+        {
+          "comment": "Opening data tag: <|open|>data<|:|>label<|close|>",
+          "name": "meta.tag.data.llmon",
+          "match": "(<\\|open\\|>)(data(?:(?:<\\|:\\|>|<\\|\\.\\|>)[A-Za-z0-9_][A-Za-z0-9_]*)*)(<\\|close\\|>)",
+          "captures": {
+            "1": { "name": "punctuation.definition.tag.data.llmon" },
+            "2": { "name": "entity.name.tag.data.llmon" },
+            "3": { "name": "punctuation.definition.tag.data.llmon" }
+          }
+        },
+        {
+          "comment": "Closing data tag: <|open_end|>data<|close|>",
+          "name": "meta.tag.data.end.llmon",
+          "match": "(<\\|open_end\\|>)(data(?:(?:<\\|:\\|>|<\\|\\.\\|>)[A-Za-z0-9_][A-Za-z0-9_]*)*)(<\\|close\\|>)",
+          "captures": {
+            "1": { "name": "punctuation.definition.tag.data.llmon" },
+            "2": { "name": "entity.name.tag.data.llmon" },
+            "3": { "name": "punctuation.definition.tag.data.llmon" }
+          }
+        },
+        {
+          "comment": "Self-closing data tag",
+          "name": "meta.tag.data.self-closing.llmon",
+          "match": "(<\\|open\\|>)(data(?:(?:<\\|:\\|>|<\\|\\.\\|>)[A-Za-z0-9_][A-Za-z0-9_]*)*)(<\\|self_close\\|>)",
+          "captures": {
+            "1": { "name": "punctuation.definition.tag.data.llmon" },
+            "2": { "name": "entity.name.tag.data.llmon" },
+            "3": { "name": "punctuation.definition.tag.data.llmon" }
+          }
+        }
+      ]
+    },
+
+    "exec-tag": {
+      "patterns": [
+        {
+          "comment": "Opening exec tag: <|open|>exec<|:|>label<|close|>",
+          "name": "meta.tag.exec.llmon",
+          "match": "(<\\|open\\|>)((?:execution|exec)(?:(?:<\\|:\\|>|<\\|\\.\\|>)[A-Za-z0-9_][A-Za-z0-9_]*)*)(<\\|close\\|>)",
+          "captures": {
+            "1": { "name": "punctuation.definition.tag.exec.llmon" },
+            "2": { "name": "entity.name.tag.exec.llmon" },
+            "3": { "name": "punctuation.definition.tag.exec.llmon" }
+          }
+        },
+        {
+          "comment": "Closing exec tag",
+          "name": "meta.tag.exec.end.llmon",
+          "match": "(<\\|open_end\\|>)((?:execution|exec)(?:(?:<\\|:\\|>|<\\|\\.\\|>)[A-Za-z0-9_][A-Za-z0-9_]*)*)(<\\|close\\|>)",
+          "captures": {
+            "1": { "name": "punctuation.definition.tag.exec.llmon" },
+            "2": { "name": "entity.name.tag.exec.llmon" },
+            "3": { "name": "punctuation.definition.tag.exec.llmon" }
+          }
+        },
+        {
+          "comment": "Self-closing exec tag",
+          "name": "meta.tag.exec.self-closing.llmon",
+          "match": "(<\\|open\\|>)((?:execution|exec)(?:(?:<\\|:\\|>|<\\|\\.\\|>)[A-Za-z0-9_][A-Za-z0-9_]*)*)(<\\|self_close\\|>)",
+          "captures": {
+            "1": { "name": "punctuation.definition.tag.exec.llmon" },
+            "2": { "name": "entity.name.tag.exec.llmon" },
+            "3": { "name": "punctuation.definition.tag.exec.llmon" }
+          }
+        }
+      ]
+    },
+
+    "object-tag": {
+      "patterns": [
+        {
+          "name": "meta.tag.object.llmon",
+          "match": "(<\\|open\\|>)(object(?:(?:<\\|:\\|>|<\\|\\.\\|>)[A-Za-z0-9_][A-Za-z0-9_]*)*)(<\\|close\\|>)",
+          "captures": {
+            "1": { "name": "punctuation.definition.tag.object.llmon" },
+            "2": { "name": "entity.name.tag.object.llmon" },
+            "3": { "name": "punctuation.definition.tag.object.llmon" }
+          }
+        },
+        {
+          "name": "meta.tag.object.end.llmon",
+          "match": "(<\\|open_end\\|>)(object(?:(?:<\\|:\\|>|<\\|\\.\\|>)[A-Za-z0-9_][A-Za-z0-9_]*)*)(<\\|close\\|>)",
+          "captures": {
+            "1": { "name": "punctuation.definition.tag.object.llmon" },
+            "2": { "name": "entity.name.tag.object.llmon" },
+            "3": { "name": "punctuation.definition.tag.object.llmon" }
+          }
+        },
+        {
+          "name": "meta.tag.object.self-closing.llmon",
+          "match": "(<\\|open\\|>)(object(?:(?:<\\|:\\|>|<\\|\\.\\|>)[A-Za-z0-9_][A-Za-z0-9_]*)*)(<\\|self_close\\|>)",
+          "captures": {
+            "1": { "name": "punctuation.definition.tag.object.llmon" },
+            "2": { "name": "entity.name.tag.object.llmon" },
+            "3": { "name": "punctuation.definition.tag.object.llmon" }
+          }
+        }
+      ]
+    },
+
+    "item-tag": {
+      "patterns": [
+        {
+          "name": "meta.tag.item.llmon",
+          "match": "(<\\|open\\|>)(item(?:(?:<\\|:\\|>|<\\|\\.\\|>)[A-Za-z0-9_][A-Za-z0-9_]*)*)(<\\|close\\|>)",
+          "captures": {
+            "1": { "name": "punctuation.definition.tag.item.llmon" },
+            "2": { "name": "entity.name.tag.item.llmon" },
+            "3": { "name": "punctuation.definition.tag.item.llmon" }
+          }
+        },
+        {
+          "name": "meta.tag.item.end.llmon",
+          "match": "(<\\|open_end\\|>)(item(?:(?:<\\|:\\|>|<\\|\\.\\|>)[A-Za-z0-9_][A-Za-z0-9_]*)*)(<\\|close\\|>)",
+          "captures": {
+            "1": { "name": "punctuation.definition.tag.item.llmon" },
+            "2": { "name": "entity.name.tag.item.llmon" },
+            "3": { "name": "punctuation.definition.tag.item.llmon" }
+          }
+        },
+        {
+          "name": "meta.tag.item.self-closing.llmon",
+          "match": "(<\\|open\\|>)(item(?:(?:<\\|:\\|>|<\\|\\.\\|>)[A-Za-z0-9_][A-Za-z0-9_]*)*)(<\\|self_close\\|>)",
+          "captures": {
+            "1": { "name": "punctuation.definition.tag.item.llmon" },
+            "2": { "name": "entity.name.tag.item.llmon" },
+            "3": { "name": "punctuation.definition.tag.item.llmon" }
+          }
+        }
+      ]
+    },
+
+    "list-tag": {
+      "patterns": [
+        {
+          "name": "meta.tag.list.llmon",
+          "match": "(<\\|open\\|>)(list(?:(?:<\\|:\\|>|<\\|\\.\\|>)[A-Za-z0-9_][A-Za-z0-9_]*)*)(<\\|close\\|>)",
+          "captures": {
+            "1": { "name": "punctuation.definition.tag.list.llmon" },
+            "2": { "name": "entity.name.tag.list.llmon" },
+            "3": { "name": "punctuation.definition.tag.list.llmon" }
+          }
+        },
+        {
+          "name": "meta.tag.list.end.llmon",
+          "match": "(<\\|open_end\\|>)(list(?:(?:<\\|:\\|>|<\\|\\.\\|>)[A-Za-z0-9_][A-Za-z0-9_]*)*)(<\\|close\\|>)",
+          "captures": {
+            "1": { "name": "punctuation.definition.tag.list.llmon" },
+            "2": { "name": "entity.name.tag.list.llmon" },
+            "3": { "name": "punctuation.definition.tag.list.llmon" }
+          }
+        },
+        {
+          "name": "meta.tag.list.self-closing.llmon",
+          "match": "(<\\|open\\|>)(list(?:(?:<\\|:\\|>|<\\|\\.\\|>)[A-Za-z0-9_][A-Za-z0-9_]*)*)(<\\|self_close\\|>)",
+          "captures": {
+            "1": { "name": "punctuation.definition.tag.list.llmon" },
+            "2": { "name": "entity.name.tag.list.llmon" },
+            "3": { "name": "punctuation.definition.tag.list.llmon" }
+          }
+        }
+      ]
+    },
+
+    "int-tag": {
+      "patterns": [
+        {
+          "name": "meta.tag.int.llmon",
+          "match": "(<\\|open\\|>)(int(?:(?:<\\|:\\|>|<\\|\\.\\|>)[A-Za-z0-9_][A-Za-z0-9_]*)*)(<\\|close\\|>)",
+          "captures": {
+            "1": { "name": "punctuation.definition.tag.int.llmon" },
+            "2": { "name": "entity.name.tag.int.llmon" },
+            "3": { "name": "punctuation.definition.tag.int.llmon" }
+          }
+        },
+        {
+          "name": "meta.tag.int.end.llmon",
+          "match": "(<\\|open_end\\|>)(int(?:(?:<\\|:\\|>|<\\|\\.\\|>)[A-Za-z0-9_][A-Za-z0-9_]*)*)(<\\|close\\|>)",
+          "captures": {
+            "1": { "name": "punctuation.definition.tag.int.llmon" },
+            "2": { "name": "entity.name.tag.int.llmon" },
+            "3": { "name": "punctuation.definition.tag.int.llmon" }
+          }
+        },
+        {
+          "name": "meta.tag.int.self-closing.llmon",
+          "match": "(<\\|open\\|>)(int(?:(?:<\\|:\\|>|<\\|\\.\\|>)[A-Za-z0-9_][A-Za-z0-9_]*)*)(<\\|self_close\\|>)",
+          "captures": {
+            "1": { "name": "punctuation.definition.tag.int.llmon" },
+            "2": { "name": "entity.name.tag.int.llmon" },
+            "3": { "name": "punctuation.definition.tag.int.llmon" }
+          }
+        }
+      ]
+    },
+
+    "float-tag": {
+      "patterns": [
+        {
+          "name": "meta.tag.float.llmon",
+          "match": "(<\\|open\\|>)(float(?:(?:<\\|:\\|>|<\\|\\.\\|>)[A-Za-z0-9_][A-Za-z0-9_]*)*)(<\\|close\\|>)",
+          "captures": {
+            "1": { "name": "punctuation.definition.tag.float.llmon" },
+            "2": { "name": "entity.name.tag.float.llmon" },
+            "3": { "name": "punctuation.definition.tag.float.llmon" }
+          }
+        },
+        {
+          "name": "meta.tag.float.end.llmon",
+          "match": "(<\\|open_end\\|>)(float(?:(?:<\\|:\\|>|<\\|\\.\\|>)[A-Za-z0-9_][A-Za-z0-9_]*)*)(<\\|close\\|>)",
+          "captures": {
+            "1": { "name": "punctuation.definition.tag.float.llmon" },
+            "2": { "name": "entity.name.tag.float.llmon" },
+            "3": { "name": "punctuation.definition.tag.float.llmon" }
+          }
+        },
+        {
+          "name": "meta.tag.float.self-closing.llmon",
+          "match": "(<\\|open\\|>)(float(?:(?:<\\|:\\|>|<\\|\\.\\|>)[A-Za-z0-9_][A-Za-z0-9_]*)*)(<\\|self_close\\|>)",
+          "captures": {
+            "1": { "name": "punctuation.definition.tag.float.llmon" },
+            "2": { "name": "entity.name.tag.float.llmon" },
+            "3": { "name": "punctuation.definition.tag.float.llmon" }
+          }
+        }
+      ]
+    },
+
+    "bool-tag": {
+      "patterns": [
+        {
+          "name": "meta.tag.bool.llmon",
+          "match": "(<\\|open\\|>)(bool(?:(?:<\\|:\\|>|<\\|\\.\\|>)[A-Za-z0-9_][A-Za-z0-9_]*)*)(<\\|close\\|>)",
+          "captures": {
+            "1": { "name": "punctuation.definition.tag.bool.llmon" },
+            "2": { "name": "entity.name.tag.bool.llmon" },
+            "3": { "name": "punctuation.definition.tag.bool.llmon" }
+          }
+        },
+        {
+          "name": "meta.tag.bool.end.llmon",
+          "match": "(<\\|open_end\\|>)(bool(?:(?:<\\|:\\|>|<\\|\\.\\|>)[A-Za-z0-9_][A-Za-z0-9_]*)*)(<\\|close\\|>)",
+          "captures": {
+            "1": { "name": "punctuation.definition.tag.bool.llmon" },
+            "2": { "name": "entity.name.tag.bool.llmon" },
+            "3": { "name": "punctuation.definition.tag.bool.llmon" }
+          }
+        },
+        {
+          "name": "meta.tag.bool.self-closing.llmon",
+          "match": "(<\\|open\\|>)(bool(?:(?:<\\|:\\|>|<\\|\\.\\|>)[A-Za-z0-9_][A-Za-z0-9_]*)*)(<\\|self_close\\|>)",
+          "captures": {
+            "1": { "name": "punctuation.definition.tag.bool.llmon" },
+            "2": { "name": "entity.name.tag.bool.llmon" },
+            "3": { "name": "punctuation.definition.tag.bool.llmon" }
+          }
+        }
+      ]
+    },
+
+    "none-tag": {
+      "patterns": [
+        {
+          "name": "meta.tag.none.llmon",
+          "match": "(<\\|open\\|>)(none(?:(?:<\\|:\\|>|<\\|\\.\\|>)[A-Za-z0-9_][A-Za-z0-9_]*)*)(<\\|close\\|>)",
+          "captures": {
+            "1": { "name": "punctuation.definition.tag.none.llmon" },
+            "2": { "name": "entity.name.tag.none.llmon" },
+            "3": { "name": "punctuation.definition.tag.none.llmon" }
+          }
+        },
+        {
+          "name": "meta.tag.none.end.llmon",
+          "match": "(<\\|open_end\\|>)(none(?:(?:<\\|:\\|>|<\\|\\.\\|>)[A-Za-z0-9_][A-Za-z0-9_]*)*)(<\\|close\\|>)",
+          "captures": {
+            "1": { "name": "punctuation.definition.tag.none.llmon" },
+            "2": { "name": "entity.name.tag.none.llmon" },
+            "3": { "name": "punctuation.definition.tag.none.llmon" }
+          }
+        },
+        {
+          "name": "meta.tag.none.self-closing.llmon",
+          "match": "(<\\|open\\|>)(none(?:(?:<\\|:\\|>|<\\|\\.\\|>)[A-Za-z0-9_][A-Za-z0-9_]*)*)(<\\|self_close\\|>)",
+          "captures": {
+            "1": { "name": "punctuation.definition.tag.none.llmon" },
+            "2": { "name": "entity.name.tag.none.llmon" },
+            "3": { "name": "punctuation.definition.tag.none.llmon" }
+          }
+        }
+      ]
+    },
+
+    "input-tag": {
+      "patterns": [
+        {
+          "name": "meta.tag.input.llmon",
+          "match": "(<\\|open\\|>)(input(?:(?:<\\|:\\|>|<\\|\\.\\|>)[A-Za-z0-9_][A-Za-z0-9_]*)*)(<\\|close\\|>)",
+          "captures": {
+            "1": { "name": "punctuation.definition.tag.input.llmon" },
+            "2": { "name": "entity.name.tag.input.llmon" },
+            "3": { "name": "punctuation.definition.tag.input.llmon" }
+          }
+        },
+        {
+          "name": "meta.tag.input.end.llmon",
+          "match": "(<\\|open_end\\|>)(input(?:(?:<\\|:\\|>|<\\|\\.\\|>)[A-Za-z0-9_][A-Za-z0-9_]*)*)(<\\|close\\|>)",
+          "captures": {
+            "1": { "name": "punctuation.definition.tag.input.llmon" },
+            "2": { "name": "entity.name.tag.input.llmon" },
+            "3": { "name": "punctuation.definition.tag.input.llmon" }
+          }
+        },
+        {
+          "name": "meta.tag.input.self-closing.llmon",
+          "match": "(<\\|open\\|>)(input(?:(?:<\\|:\\|>|<\\|\\.\\|>)[A-Za-z0-9_][A-Za-z0-9_]*)*)(<\\|self_close\\|>)",
+          "captures": {
+            "1": { "name": "punctuation.definition.tag.input.llmon" },
+            "2": { "name": "entity.name.tag.input.llmon" },
+            "3": { "name": "punctuation.definition.tag.input.llmon" }
+          }
+        }
+      ]
+    },
+
+    "output-tag": {
+      "patterns": [
+        {
+          "name": "meta.tag.output.llmon",
+          "match": "(<\\|open\\|>)(output(?:(?:<\\|:\\|>|<\\|\\.\\|>)[A-Za-z0-9_][A-Za-z0-9_]*)*)(<\\|close\\|>)",
+          "captures": {
+            "1": { "name": "punctuation.definition.tag.output.llmon" },
+            "2": { "name": "entity.name.tag.output.llmon" },
+            "3": { "name": "punctuation.definition.tag.output.llmon" }
+          }
+        },
+        {
+          "name": "meta.tag.output.end.llmon",
+          "match": "(<\\|open_end\\|>)(output(?:(?:<\\|:\\|>|<\\|\\.\\|>)[A-Za-z0-9_][A-Za-z0-9_]*)*)(<\\|close\\|>)",
+          "captures": {
+            "1": { "name": "punctuation.definition.tag.output.llmon" },
+            "2": { "name": "entity.name.tag.output.llmon" },
+            "3": { "name": "punctuation.definition.tag.output.llmon" }
+          }
+        },
+        {
+          "name": "meta.tag.output.self-closing.llmon",
+          "match": "(<\\|open\\|>)(output(?:(?:<\\|:\\|>|<\\|\\.\\|>)[A-Za-z0-9_][A-Za-z0-9_]*)*)(<\\|self_close\\|>)",
+          "captures": {
+            "1": { "name": "punctuation.definition.tag.output.llmon" },
+            "2": { "name": "entity.name.tag.output.llmon" },
+            "3": { "name": "punctuation.definition.tag.output.llmon" }
+          }
+        }
+      ]
+    },
+
+    "user-tag": {
+      "patterns": [
+        {
+          "comment": "Opening user tag with optional dot/colon separators: <|open|>name<|.|>sub<|close|>",
+          "name": "meta.tag.user.llmon",
+          "match": "(<\\|open\\|>)([A-Za-z0-9_][A-Za-z0-9_]*(?:(?:<\\|\\.|>|<\\|:\\|>)[A-Za-z0-9_][A-Za-z0-9_]*)*)(<\\|close\\|>)",
+          "captures": {
+            "1": { "name": "punctuation.definition.tag.begin.llmon" },
+            "2": { "name": "entity.name.tag.user.llmon" },
+            "3": { "name": "punctuation.definition.tag.begin.llmon" }
+          }
+        },
+        {
+          "comment": "Closing user tag: <|open_end|>name<|close|>",
+          "name": "meta.tag.user.end.llmon",
+          "match": "(<\\|open_end\\|>)([A-Za-z0-9_][A-Za-z0-9_]*(?:(?:<\\|\\.|>|<\\|:\\|>)[A-Za-z0-9_][A-Za-z0-9_]*)*)(<\\|close\\|>)",
+          "captures": {
+            "1": { "name": "punctuation.definition.tag.end.llmon" },
+            "2": { "name": "entity.name.tag.user.llmon" },
+            "3": { "name": "punctuation.definition.tag.end.llmon" }
+          }
+        },
+        {
+          "comment": "Self-closing user tag: <|open|>name<|self_close|>",
+          "name": "meta.tag.user.self-closing.llmon",
+          "match": "(<\\|open\\|>)([A-Za-z0-9_][A-Za-z0-9_]*(?:(?:<\\|\\.|>|<\\|:\\|>)[A-Za-z0-9_][A-Za-z0-9_]*)*)(<\\|self_close\\|>)",
+          "captures": {
+            "1": { "name": "punctuation.definition.tag.begin.llmon" },
+            "2": { "name": "entity.name.tag.user.llmon" },
+            "3": { "name": "punctuation.definition.tag.end.llmon" }
+          }
+        }
+      ]
+    },
+
+    "bare-close-tag": {
+      "comment": "Bare closing tag (token-saving form): <|open_end|> with no name/close, closes the innermost open tag",
+      "name": "punctuation.definition.tag.end.llmon",
+      "match": "<\\|open_end\\|>(?!(?:instruction|instr|data|execution|exec|object|item|list|int|float|bool|none|input|output|[A-Za-z0-9_]))"
+    },
+
+    "list-separator": {
+      "name": "punctuation.separator.list.llmon",
+      "match": "<\\|list-separator\\|>"
+    },
+
+    "primitives": {
+      "patterns": [
+        { "include": "#string" },
+        { "include": "#number" },
+        { "include": "#keywords" }
+      ]
+    },
+
+    "string": {
+      "name": "string.quoted.double.llmon",
+      "begin": "\"",
+      "beginCaptures": {
+        "0": { "name": "punctuation.definition.string.begin.llmon" }
+      },
+      "end": "\"",
+      "endCaptures": {
+        "0": { "name": "punctuation.definition.string.end.llmon" }
+      },
+      "patterns": [
+        {
+          "name": "constant.character.escape.llmon",
+          "match": "\\\\."
+        }
+      ]
+    },
+
+    "number": {
+      "patterns": [
+        {
+          "name": "constant.numeric.float.llmon",
+          "match": "\\b[-+]?(?:\\d+\\.\\d+)(?:[eE][-+]?\\d+)?\\b"
+        },
+        {
+          "name": "constant.numeric.integer.llmon",
+          "match": "\\b[-+]?\\d+\\b"
+        }
+      ]
+    },
+
+    "keywords": {
+      "patterns": [
+        {
+          "name": "constant.language.boolean.true.llmon",
+          "match": "\\btrue\\b"
+        },
+        {
+          "name": "constant.language.boolean.false.llmon",
+          "match": "\\bfalse\\b"
+        },
+        {
+          "name": "constant.language.null.llmon",
+          "match": "\\bnull\\b"
+        }
+      ]
+    }
+  }
+}

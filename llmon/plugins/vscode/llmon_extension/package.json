@@ -1,0 +1,214 @@
+{
+  "name": "llmon",
+  "displayName": "LLMON",
+  "description": "Language support for LLMON (LLM Object Notation) and its Shorthand form",
+  "version": "0.0.10",
+  "publisher": "ibm-research",
+  "license": "Apache-2.0",
+  "engines": {
+    "vscode": "^1.120.0"
+  },
+  "icon": "themes/llmon_icon.png",
+  "categories": [
+    "Programming Languages"
+  ],
+  "main": "./src/extension.js",
+  "contributes": {
+    "configuration": {
+      "title": "LLMON",
+      "properties": {
+        "llmon.converterPath": {
+          "type": "string",
+          "default": "",
+          "markdownDescription": "Folder containing the LLMON converter binaries (e.g. your virtualenv's `bin` or `Scripts` folder). Leave empty to resolve the converters from your `PATH`."
+        }
+      }
+    },
+    "commands": [
+      { "command": "short.compact",                         "title": "Compact" },
+      { "command": "short.convertToLlmon",                "title": "Default" },
+      { "command": "short.convertToLlmon.expandTags",      "title": "Expand Tags" },
+      { "command": "llmon.compact",                        "title": "Compact" },
+      { "command": "llmon.convertToShort",                 "title": "Convert to Shorthand" },
+      { "command": "llmon.convertToJson",                  "title": "Default" },
+      { "command": "llmon.convertToJson.keysAsItems",      "title": "Keys as Items" },
+      { "command": "llmon.convertToJson.noExpandTags",     "title": "No Expand Tags" },
+      { "command": "llmon.convertToJson.nameArrayInstances","title": "Name Array Instances" },
+      { "command": "json.convertToLlmon",                  "title": "Default" },
+      { "command": "json.convertToLlmon.keysAsItems",      "title": "Keys as Items" },
+      { "command": "json.convertToLlmon.noExpandTags",     "title": "No Expand Tags" },
+      { "command": "json.convertToLlmon.nameArrayInstances","title": "Name Array Instances" },
+      { "command": "json.convertToLlmon.compact",          "title": "Compact" },
+      { "command": "json.convertToLlmon.noCompositeTag",    "title": "No Composite Tag" },
+      { "command": "json.convertToLlmon.noOpenEndTag",     "title": "No Open End Tag" },
+      { "command": "json.convertToLlmon.noTypeTags",       "title": "No Type Tags" }
+    ],
+    "submenus": [
+      { "id": "short.convertToLlmon.submenu",  "label": "Convert to LLMON" },
+      { "id": "llmon.convertToJson.submenu",   "label": "Convert to JSON" },
+      { "id": "json.convertToLlmon.submenu",   "label": "Convert to LLMON" }
+    ],
+    "menus": {
+      "commandPalette": [
+        { "command": "short.compact",                         "when": "false" },
+        { "command": "short.convertToLlmon",                 "when": "false" },
+        { "command": "short.convertToLlmon.expandTags",      "when": "false" },
+        { "command": "llmon.compact",                        "when": "false" },
+        { "command": "llmon.convertToJson",                  "when": "false" },
+        { "command": "llmon.convertToJson.keysAsItems",      "when": "false" },
+        { "command": "llmon.convertToJson.noExpandTags",     "when": "false" },
+        { "command": "llmon.convertToJson.nameArrayInstances","when": "false" },
+        { "command": "json.convertToLlmon",                  "when": "false" },
+        { "command": "json.convertToLlmon.keysAsItems",      "when": "false" },
+        { "command": "json.convertToLlmon.noExpandTags",     "when": "false" },
+        { "command": "json.convertToLlmon.nameArrayInstances","when": "false" },
+        { "command": "json.convertToLlmon.compact",          "when": "false" },
+        { "command": "json.convertToLlmon.noCompositeTag",    "when": "false" },
+        { "command": "json.convertToLlmon.noOpenEndTag",     "when": "false" },
+        { "command": "json.convertToLlmon.noTypeTags",       "when": "false" }
+      ],
+      "editor/context": [
+        {
+          "command": "short.compact",
+          "when": "editorLangId == short",
+          "group": "llmon_convert@1"
+        },
+        {
+          "submenu": "short.convertToLlmon.submenu",
+          "when": "editorLangId == short",
+          "group": "llmon_convert@2"
+        },
+        {
+          "command": "llmon.compact",
+          "when": "editorLangId == llmon",
+          "group": "llmon_convert@1"
+        },
+        {
+          "command": "llmon.convertToShort",
+          "when": "editorLangId == llmon",
+          "group": "llmon_convert@2"
+        },
+        {
+          "submenu": "llmon.convertToJson.submenu",
+          "when": "editorLangId == llmon",
+          "group": "llmon_convert@3"
+        },
+        {
+          "submenu": "json.convertToLlmon.submenu",
+          "when": "editorLangId == json || resourceExtname == .json",
+          "group": "llmon_convert@1"
+        }
+      ],
+      "short.convertToLlmon.submenu": [
+        { "command": "short.convertToLlmon",            "group": "default@1" },
+        { "command": "short.convertToLlmon.expandTags", "group": "flags@1" }
+      ],
+      "llmon.convertToJson.submenu": [
+        { "command": "llmon.convertToJson",                   "group": "default@1" },
+        { "command": "llmon.convertToJson.keysAsItems",       "group": "flags@1" },
+        { "command": "llmon.convertToJson.nameArrayInstances","group": "flags@2" },
+        { "command": "llmon.convertToJson.noExpandTags",      "group": "flags@3" }
+      ],
+      "json.convertToLlmon.submenu": [
+        { "command": "json.convertToLlmon",                   "group": "default@1" },
+        { "command": "json.convertToLlmon.compact",           "group": "flags@1" },
+        { "command": "json.convertToLlmon.keysAsItems",       "group": "flags@2" },
+        { "command": "json.convertToLlmon.nameArrayInstances","group": "flags@3" },
+        { "command": "json.convertToLlmon.noExpandTags",      "group": "flags@4" },
+        { "command": "json.convertToLlmon.noCompositeTag",     "group": "flags@5" },
+        { "command": "json.convertToLlmon.noOpenEndTag",      "group": "flags@6" },
+        { "command": "json.convertToLlmon.noTypeTags",        "group": "flags@7" }
+      ]
+    },
+    "languages": [
+      {
+        "id": "short",
+        "aliases": ["Shorthand", "short"],
+        "extensions": [".short"],
+        "configuration": "./short-language-configuration.json",
+        "icon": {
+          "light": "./themes/short.svg",
+          "dark": "./themes/short.svg"
+        }
+      },
+      {
+        "id": "llmon",
+        "aliases": ["LLMON", "llmon"],
+        "extensions": [".llmon"],
+        "configuration": "./llmon-language-configuration.json",
+        "icon": {
+          "light": "./themes/llmon.svg",
+          "dark": "./themes/llmon.svg"
+        }
+      }
+    ],
+    "grammars": [
+      {
+        "language": "short",
+        "scopeName": "source.short",
+        "path": "./syntaxes/short.tmLanguage.json"
+      },
+      {
+        "language": "llmon",
+        "scopeName": "source.llmon",
+        "path": "./syntaxes/llmon.tmLanguage.json"
+      }
+    ],
+    "themes": [
+      {
+        "label": "LLMON Theme",
+        "uiTheme": "vs-dark",
+        "path": "./themes/llmon-color-theme.json"
+      }
+    ],
+    "semanticTokenTypes": [
+      { "id": "userTag0",    "description": "User-defined tag, color bucket 0" },
+      { "id": "userTag1",    "description": "User-defined tag, color bucket 1" },
+      { "id": "userTag2",    "description": "User-defined tag, color bucket 2" },
+      { "id": "userTag3",    "description": "User-defined tag, color bucket 3" },
+      { "id": "userTag4",    "description": "User-defined tag, color bucket 4" },
+      { "id": "userTagRef0", "description": "Reference to user tag, color bucket 0" },
+      { "id": "userTagRef1", "description": "Reference to user tag, color bucket 1" },
+      { "id": "userTagRef2", "description": "Reference to user tag, color bucket 2" },
+      { "id": "userTagRef3", "description": "Reference to user tag, color bucket 3" },
+      { "id": "userTagRef4", "description": "Reference to user tag, color bucket 4" },
+      { "id": "instrRef",    "description": "Validated instr/instruction reference" },
+      { "id": "dataRef",     "description": "Validated data reference" },
+      { "id": "execRef",     "description": "Validated exec/execution reference" },
+      { "id": "objectTag",   "description": "Built-in object tag" },
+      { "id": "itemTag",     "description": "Built-in item tag" },
+      { "id": "listTag",     "description": "Built-in list tag" },
+      { "id": "intTag",      "description": "Built-in int tag" },
+      { "id": "floatTag",    "description": "Built-in float tag" },
+      { "id": "boolTag",     "description": "Built-in bool tag" },
+      { "id": "noneTag",     "description": "Built-in none tag" },
+      { "id": "inputTag",    "description": "Built-in input tag" },
+      { "id": "outputTag",   "description": "Built-in output tag" },
+      { "id": "objectRef",   "description": "Reference to object tag" },
+      { "id": "itemRef",     "description": "Reference to item tag" },
+      { "id": "listRef",     "description": "Reference to list tag" },
+      { "id": "intRef",      "description": "Reference to int tag" },
+      { "id": "floatRef",    "description": "Reference to float tag" },
+      { "id": "boolRef",     "description": "Reference to bool tag" },
+      { "id": "noneRef",     "description": "Reference to none tag" },
+      { "id": "inputRef",    "description": "Reference to input tag" },
+      { "id": "outputRef",   "description": "Reference to output tag" }
+    ],
+    "semanticTokenScopes": [
+      {
+        "scopes": {
+          "userTag0":    ["entity.name.tag.user.short", "entity.name.tag.user.llmon"],
+          "userTag1":    ["entity.name.tag.user.short", "entity.name.tag.user.llmon"],
+          "userTag2":    ["entity.name.tag.user.short", "entity.name.tag.user.llmon"],
+          "userTag3":    ["entity.name.tag.user.short", "entity.name.tag.user.llmon"],
+          "userTag4":    ["entity.name.tag.user.short", "entity.name.tag.user.llmon"],
+          "userTagRef0": ["variable.other.reference.user.short", "variable.other.reference.user.llmon"],
+          "userTagRef1": ["variable.other.reference.user.short", "variable.other.reference.user.llmon"],
+          "userTagRef2": ["variable.other.reference.user.short", "variable.other.reference.user.llmon"],
+          "userTagRef3": ["variable.other.reference.user.short", "variable.other.reference.user.llmon"],
+          "userTagRef4": ["variable.other.reference.user.short", "variable.other.reference.user.llmon"]
+        }
+      }
+    ]
+  }
+}

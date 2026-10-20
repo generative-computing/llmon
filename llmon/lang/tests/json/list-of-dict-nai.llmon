@@ -1,0 +1,17 @@
+<|open|>list<|close|>
+  <|open|><|:|>0<|close|>
+    emp_name
+  <|open_end|><|:|>0<|close|>
+  <|,|>
+  <|open|><|:|>1<|close|>
+    hello
+  <|open_end|><|:|>1<|close|>
+  <|,|>
+  <|open|><|:|>2<|close|>
+    <|open|>object<|close|>
+      <|open|><|:|>2<|.|>key<|close|>
+        value
+      <|open_end|><|:|>2<|.|>key<|close|>
+    <|open_end|>object<|close|>
+  <|open_end|><|:|>2<|close|>
+<|open_end|>list<|close|>

@@ -1,0 +1,10 @@
+<|open|>object<|close|>
+  <|open|>item<|close|>Purpose<|:|>Trips<|open_end|>item<|close|>
+  <|open|>item<|close|>Cities<|:|>
+  <|open|>list<|close|>
+    New York<|,|>
+    Tokyo<|,|>
+    Cairo
+  <|open_end|>list<|close|>
+  <|open_end|>item<|close|>
+<|open_end|>object<|close|>

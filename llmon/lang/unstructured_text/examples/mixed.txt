@@ -1,0 +1,8 @@
+Extract all the dates from the document, but do not include relative dates like "yesterday".
+
+For example, "March 3, 2024" should be captured but "last week" should not.
+
+config:
+  retries: 3
+  timeout: 30
+  mode: strict

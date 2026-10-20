@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Labeling Guidelines</title>
+<style>
+  :root {
+    --bg: #1e1f22;
+    --panel: #26272b;
+    --panel-alt: #2d2e33;
+    --border: #3a3b40;
+    --text: #e6e6e6;
+    --text-dim: #9a9ba0;
+    --accent: #5b9dff;
+
+    --c-instruction: #4c8bf5;
+    --c-constraint: #e5534b;
+    --c-outputformat: #a35bf5;
+    --c-content: #ff8000;
+    --c-structureddata: #16a394;
+    --c-quotedcontent: #f1f902;
+    --c-example: #4caf50;
+    --c-role: #e857a0;
+    --c-context: #00ffea;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--bg); color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  }
+  body { padding: 32px 40px 80px; max-width: 880px; margin: 0 auto; }
+  h1 { font-size: 22px; margin-bottom: 4px; }
+  .subtitle { color: var(--text-dim); font-size: 13px; margin-bottom: 28px; }
+  h2 { font-size: 15px; margin: 36px 0 8px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
+  h3.rule-title {
+    font-size: 14px; margin: 28px 0 6px; display: flex; align-items: center; gap: 8px;
+  }
+  .rule-desc { font-size: 13px; color: var(--text-dim); margin-bottom: 10px; line-height: 1.5; }
+  .example {
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    font-size: 13px; line-height: 1.9; white-space: pre-wrap;
+    background: var(--panel); border: 1px solid var(--border); border-radius: 8px;
+    padding: 14px 16px; margin-bottom: 6px;
+  }
+  .example-caption { font-size: 11px; color: var(--text-dim); margin-bottom: 18px; }
+  .swatch-dot { width: 11px; height: 11px; border-radius: 3px; flex-shrink: 0; display: inline-block; }
+  .lbl { border-radius: 2px; padding: 0 2px; }
+  .lbl-instruction { background: rgba(76,139,245,0.20); box-shadow: 0 2px 0 0 var(--c-instruction); }
+  .lbl-constraint { background: rgba(229,83,75,0.20); box-shadow: 0 2px 0 0 var(--c-constraint); }
+  .lbl-outputformat { background: rgba(163,91,245,0.20); box-shadow: 0 2px 0 0 var(--c-outputformat); }
+  .lbl-content { background: rgba(255,128,0,0.18); box-shadow: 0 2px 0 0 var(--c-content); }
+  .lbl-structureddata { background: rgba(22,163,148,0.20); box-shadow: 0 2px 0 0 var(--c-structureddata); }
+  .lbl-quotedcontent { background: rgba(241,249,2,0.18); box-shadow: 0 2px 0 0 var(--c-quotedcontent); }
+  .lbl-example { background: rgba(76,175,80,0.20); box-shadow: 0 2px 0 0 var(--c-example); }
+  .lbl-role { background: rgba(232,87,160,0.20); box-shadow: 0 2px 0 0 var(--c-role); }
+  .lbl-context { background: rgba(0,255,234,0.16); box-shadow: 0 2px 0 0 var(--c-context); }
+
+  /* Stacked-underline rendering for overlap examples: one bar per class,
+     no background fill, so every applicable class stays visible at once
+     (mirrors how the labeler itself renders overlapping spans). */
+  .ov { padding: 0 2px; }
+  .ov-of { box-shadow: 0 2px 0 0 var(--c-outputformat); }
+  .ov-ex { box-shadow: 0 5px 0 0 var(--c-example); }
+  .ov-of.ov-ex { box-shadow: 0 2px 0 0 var(--c-outputformat), 0 5px 0 0 var(--c-example); }
+
+  .callout {
+    border: 1px solid var(--border); border-radius: 8px; padding: 12px 16px;
+    font-size: 13px; line-height: 1.6; margin: 10px 0 20px;
+  }
+  .callout.good { border-color: #2f7d3d; background: rgba(47,125,61,0.12); }
+  .callout.bad { border-color: #8a3a35; background: rgba(138,58,53,0.12); }
+  .callout-label { font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 4px; }
+  .callout.good .callout-label { color: #6fd17d; }
+  .callout.bad .callout-label { color: #f0958f; }
+
+  code {
+    background: var(--panel-alt); border-radius: 4px; padding: 1px 5px;
+    font-family: "SF Mono", Menlo, Consolas, monospace; font-size: 12px;
+  }
+  ul { font-size: 13px; line-height: 1.6; padding-left: 22px; }
+
+  .more-examples {
+    margin: 4px 0 20px; border: 1px solid var(--border); border-radius: 8px;
+    background: var(--panel); overflow: hidden;
+  }
+  .more-examples summary {
+    cursor: pointer; padding: 8px 14px; font-size: 12px; color: var(--text-dim);
+    list-style: none; user-select: none;
+  }
+  .more-examples summary::-webkit-details-marker { display: none; }
+  .more-examples summary::before { content: "▸ "; }
+  .more-examples[open] summary::before { content: "▾ "; }
+  .more-examples summary:hover { color: var(--text); }
+  .more-list { padding: 4px 14px 12px; display: flex; flex-direction: column; gap: 8px; }
+  .more-item {
+    font-family: "SF Mono", Menlo, Consolas, monospace; font-size: 12px; line-height: 1.6;
+    white-space: pre-wrap;
+  }
+  .more-item .lbl { display: inline; }
+  .more-item .src { color: var(--text-dim); font-family: -apple-system, BlinkMacSystemFont, sans-serif; font-size: 11px; }
+  li { margin-bottom: 4px; }
+</style>
+</head>
+<body>
+
+<h1>Labeling Guidelines</h1>
+<div class="subtitle">Reference for the 9 span classes — what each one means, what it looks like highlighted, and general labeling conventions.</div>
+
+<ul>
+  <li>To label a span, highlight (select) the text with your mouse — a class picker will appear, letting you assign it a label.</li>
+  <li>Label every word in the text — every word should fall under at least one span. This means covering every word, not necessarily every character: trailing punctuation and whitespace between spans are intentionally left unlabeled (see Trailing punctuation below).</li>
+  <li>Once you've finished labeling an entry, mark it as complete so you can keep track of your progress through the file.</li>
+</ul>
+
+<div class="callout bad">
+  <div class="callout-label">No autosave</div>
+  The labeler does not save anything automatically. All your work lives only in the browser tab's memory. The <strong>only</strong> way to keep it is clicking <strong>Export</strong> — closing the tab, refreshing, or navigating away without exporting first will lose all progress.
+</div>
+
+<h2>General rules</h2>
+
+<h3 class="rule-title">Nesting vs. intersecting</h3>
+<div class="rule-desc">
+  Spans can exist <strong>within</strong> other spans (a subset relationship — one span's range fully contains another's). This is common and expected. What you should avoid is two spans that <strong>intersect</strong> — where they partially overlap but neither fully contains the other. The examples below use stacked underlines (one bar per class) instead of solid fills, the same way the labeler itself renders overlapping spans — so you can see every class that applies to a given stretch of text at once, rather than one color hiding another.
+</div>
+<div class="example"><span class="ov ov-of">Your answer must contain a title, wrapped in double angular brackets, </span><span class="ov ov-of ov-ex">such as &lt;&lt;my title&gt;&gt;</span>.</div>
+<div class="example-caption">Good — nesting. <code>such as &lt;&lt;my title&gt;&gt;</code> carries <em>both</em> underlines (<span style="color:var(--c-outputformat)">Output Format</span> + <span style="color:var(--c-example)">Example</span>) because the Example span sits entirely inside the Output Format span, which covers the whole requirement. (Real example, <code>ifeval_2683</code>)</div>
+<div class="callout bad">
+  <div class="callout-label">Avoid — real mislabel, <code>ifeval_2195</code></div>
+  Write a list of instructions for a dog trainer to teach a dog to sit, stay, and fetch. <span class="ov ov-of">Your list should contain exactly 3 bullet points in the markdown format </span><span class="ov ov-of ov-ex">such as:</span><span class="ov ov-ex"><br>* Bullet point 1<br>* Bullet point 2</span>
+  <br><br>
+  Only the word <code>"such as:"</code> carries both underlines — that's the overlap zone. Before it, only <span style="color:var(--c-outputformat)">Output Format</span>'s underline shows; after it, only <span style="color:var(--c-example)">Example</span>'s does. Neither span's range contains the other, which is exactly the problem: the boundary where one ends and the other begins is staggered instead of aligned or nested. Fix: either end Output Format right before "such as:" so Example starts cleanly after it, or extend Output Format to fully contain the Example span.
+</div>
+
+<h3 class="rule-title">Trailing punctuation</h3>
+<div class="rule-desc">
+  Don't include trailing punctuation in a span unless it's a question mark, or the punctuation is important to the span's meaning (e.g. a quotation mark that's part of quoted text, or a colon introducing a list/example that belongs with it).
+</div>
+<div class="example"><span class="lbl lbl-instruction">Can you give me a nickname for Stafford?</span></div>
+<div class="example-caption">Good — the question mark is kept because the span is a question. (Real example, <code>ifeval_2880</code>)</div>
+<div class="example"><span class="lbl lbl-constraint">Aim the blog post at teenagers</span>.</div>
+<div class="example-caption">Good — the trailing period is left out of the span.</div>
+
+<h3 class="rule-title">Branching / conditional instructions</h3>
+<div class="rule-desc">
+  When a prompt branches with "if / otherwise" logic, label the <strong>whole conditional block</strong> (the full "if X, do Y, otherwise do Z" unit) as <strong>Instruction</strong> — it's still telling the model what action to take, just with a condition attached. The condition itself, the "Otherwise" branch, and any specific requirements (word/character counts, required prefixes) nest inside as <strong>Constraint</strong> and <strong>Output Format</strong>.
+</div>
+<div class="example">Evaluate the following sales copy.
+- <span class="lbl lbl-instruction"><span class="lbl lbl-constraint">If the copy is for flower sales, and it is descriptive copy (i.e., straightforward advertising copy)</span>, rewrite it as a story-based copy, <span class="lbl lbl-outputformat">with around 100 characters, beginning with "Flower World"</span>. <span class="lbl lbl-constraint">Otherwise</span>, <span class="lbl lbl-outputformat">shorten it to one sentence</span>.</span>
+- <span class="lbl lbl-instruction"><span class="lbl lbl-constraint">If the copy is not for flower sales, and it is story-based copy (i.e., the advertisement is embedded in an attention-grabbing story)</span>, adapt the storyline to rewrite it as a flower sales copy with <span class="lbl lbl-outputformat">around 150 characters</span>. <span class="lbl lbl-constraint">Otherwise</span>, <span class="lbl lbl-outputformat">shorten it to two sentences</span>.</span></div>
+<div class="example-caption">Real labels from <code>complex_1010</code>. Each full if/otherwise branch is one <span style="color:var(--c-instruction)">Instruction</span> span. The condition and the "Otherwise" marker are <span style="color:var(--c-constraint)">Constraint</span>; the resulting output shape (character count, sentence count, required prefix) is <span style="color:var(--c-outputformat)">Output Format</span>.</div>
+<div class="callout bad">
+  <div class="callout-label">Avoid</div>
+  Labeling the condition and action as two unrelated top-level spans (e.g. a standalone Constraint next to a separate, disconnected Instruction). Keep the whole conditional-plus-action unit as one Instruction span, with the condition/otherwise/shape nested inside it — splitting them apart loses the fact that the condition only matters because of the action it gates.
+</div>
+
+<h2>The 9 classes</h2>
+
+<h3 class="rule-title"><span class="swatch-dot" style="background:var(--c-instruction)"></span>Instruction</h3>
+<div class="rule-desc">Spans that describe an action the model must perform — the core verb-driven task. Includes direct imperatives ("Write...", "Explain...", "Summarize...") and polite/indirect requests ("Can you...", "I want you to...").</div>
+<div class="example"><span class="lbl lbl-instruction">Write a blog post about the history of the internet and how it has impacted our lives</span>. Aim the blog post at teenagers.</div>
+<div class="example-caption">Real example, <code>ifeval_122</code>.</div>
+<details class="more-examples">
+  <summary>More examples</summary>
+  <div class="more-list">
+    <div class="more-item"><span class="lbl lbl-instruction">Determine whether the following two countries share a border</span> <span class="src">— complex_810</span></div>
+    <div class="more-item"><span class="lbl lbl-instruction">Name a new fashion company that young people might like</span> <span class="src">— ifeval_1561</span></div>
+    <div class="more-item"><span class="lbl lbl-instruction">Please write a short essay</span> <span class="src">— complex_51</span></div>
+    <div class="more-item"><span class="lbl lbl-instruction">Create a resume for a 20-year-old college student with no work experience</span> <span class="src">— ifeval_1658</span></div>
+    <div class="more-item"><span class="lbl lbl-instruction">Write a limerick about Hannah, a college student, doing an internship at a coffee company</span> <span class="src">— ifeval_1281</span></div>
+  </div>
+</details>
+
+<h3 class="rule-title"><span class="swatch-dot" style="background:var(--c-constraint)"></span>Constraint</h3>
+<div class="rule-desc">Spans that describe <em>how</em> a task should be carried out — a limitation, requirement, or condition on the instruction (length, tone, required/forbidden words, audience, language). Doesn't describe the shape of the final output (that's Output Format) — describes a rule the process/content must follow.</div>
+<div class="example">Write a limerick about Hannah, a college student, doing an internship at a coffee company. <span class="lbl lbl-constraint">Make sure that her father would love the limerick</span>. <span class="lbl lbl-constraint">Include the words "intern" and "grow"</span>.</div>
+<div class="example-caption">Real example, <code>ifeval_1180</code>-style.</div>
+<details class="more-examples">
+  <summary>More examples</summary>
+  <div class="more-list">
+    <div class="more-item"><span class="lbl lbl-constraint">Write in the first-person perspective, without revealing that you are a robot</span> <span class="src">— complex_646</span></div>
+    <div class="more-item"><span class="lbl lbl-constraint">Please don't include the keywords "died" or "drowned"</span> <span class="src">— ifeval_2432</span></div>
+    <div class="more-item"><span class="lbl lbl-constraint">Include the keywords "friends" and "hanson" in the resume</span> <span class="src">— ifeval_260</span></div>
+    <div class="more-item"><span class="lbl lbl-constraint">Do not include 'can' and 'ride' in your response</span> <span class="src">— ifeval_1580</span></div>
+    <div class="more-item"><span class="lbl lbl-constraint">in a different language</span> <span class="src">— ifeval_2417</span></div>
+  </div>
+</details>
+
+<h3 class="rule-title"><span class="swatch-dot" style="background:var(--c-outputformat)"></span>Output Format</h3>
+<div class="rule-desc">Spans that describe how the output itself should <em>look</em> — structure, wrapping, delimiters, markdown, word/paragraph counts tied to presentation, required titles/headers.</div>
+<div class="example"><span class="lbl lbl-outputformat">There should be exactly 3 paragraphs separated by the markdown divider: ***</span></div>
+<div class="example-caption">Real example, <code>ifeval_1236</code>.</div>
+<details class="more-examples">
+  <summary>More examples</summary>
+  <div class="more-list">
+    <div class="more-item"><span class="lbl lbl-outputformat">Give exactly two different responses, separating them with 6 asterisk symbols (******)</span> <span class="src">— ifeval_2683</span></div>
+    <div class="more-item"><span class="lbl lbl-outputformat">at least 3 legal provisions cited</span> <span class="src">— complex_1043</span></div>
+    <div class="more-item"><span class="lbl lbl-outputformat">Please use JSON format</span> <span class="src">— ifeval_1242</span></div>
+    <div class="more-item"><span class="lbl lbl-outputformat">If it is within 100 characters, output the original text directly</span> <span class="src">— complex_919</span></div>
+    <div class="more-item"><span class="lbl lbl-outputformat">Your answer must contain a title, wrapped in double angular brackets, i.e. <span class="lbl lbl-example">&lt;&lt;title&gt;&gt;</span></span> <span class="src">— ifeval_1180 (nested Example span inside it)</span></div>
+  </div>
+</details>
+
+<h3 class="rule-title"><span class="swatch-dot" style="background:var(--c-content)"></span>Content</h3>
+<div class="rule-desc">General, purely declarative information the model needs to work with — that isn't itself an instruction, constraint, output rule, or framing/context about the prompt. Look for statements of fact or subject matter with no directive, question, or "here's what's coming" framing attached — if a span reads like it could be its own instruction or question in isolation, it's probably not Content. This also covers text in a different language than the surrounding prompt: if it's not directly part of an Instruction, Constraint, or Output Format span (e.g. it's the subject matter to translate, summarize, or otherwise work with), label it Content.</div>
+<div class="example">Write a short response to the following claim, and explain whether you agree.
+
+<span class="lbl lbl-content">Textbooks are regarded as the sole model for subject teaching in the school education of all developed countries.</span></div>
+<div class="example-caption">Real span from <code>complex_689</code>. A flat factual/opinion statement serving as subject matter — not a question, not an instruction, not framing.</div>
+<details class="more-examples">
+  <summary>More examples</summary>
+  <div class="more-list">
+    <div class="more-item"><span class="lbl lbl-content">除却寒松柏,寥寥孰与群。虚心真似我,直节独师君。</span> <span class="src">— complex_1140 (whole poem is Content — no instruction, question, or framing language)</span></div>
+    <div class="more-item"><span class="lbl lbl-content">在寒冷的冬夜
+一只猫对着月亮喵喵
+希望得到一些温暖</span> <span class="src">— complex_61 (a haiku given as raw source material)</span></div>
+    <div class="more-item"><span class="lbl lbl-content">Once upon a time, there was a little boy named Pinpin, who was often bullied for being clumsy, until one day...</span> <span class="src">— complex_54 (an opening line to continue a story from)</span></div>
+  </div>
+</details>
+
+<h3 class="rule-title"><span class="swatch-dot" style="background:var(--c-structureddata)"></span>Structured Data</h3>
+<div class="rule-desc">Multiple-choice options, numbered/lettered lists, tables, or other clearly delimited data — <strong>only</strong> when it isn't better explained by Instruction, Constraint, or Output Format. If a numbered list is itself the required output shape, that's Output Format instead.</div>
+<div class="example">In the World Table Tennis Championships, the men's team championship trophy is called ( )
+<span class="lbl lbl-structureddata">A Iran Cup
+B Pop Cup
+C Corbillon Cup
+D Swaythling Cup</span></div>
+<div class="example-caption">Real example — multiple-choice answer options.</div>
+<details class="more-examples">
+  <summary>More examples</summary>
+  <div class="more-list">
+    <div class="more-item"><span class="lbl lbl-structureddata">A. Option B. Optimal C. Adoption D. Telescope</span> <span class="src">— complex_228</span></div>
+    <div class="more-item"><span class="lbl lbl-structureddata">(A) Li Bai; (B) Meng Haoran; (C) Wang Wei; (D) Su Shi.</span> <span class="src">— complex_758</span></div>
+    <div class="more-item"><span class="lbl lbl-structureddata">1. Feedback Based on Symbols 2. Observing Objects and Deriving Symbols 3. Analogous Reasoning Based on Symbols 4. Deductive Reasoning Based on Symbols 5. Comparing and Associating Based on Symbols</span> <span class="src">— complex_292</span></div>
+    <div class="more-item"><span class="lbl lbl-structureddata">①∀x (L(x) → A(x))
+②∀x (W(x) ∧ M(x) → ¬L(x))
+③∀x (W(x) → ¬F(x))</span> <span class="src">— complex_817</span></div>
+  </div>
+</details>
+
+<h3 class="rule-title"><span class="swatch-dot" style="background:var(--c-quotedcontent)"></span>Quoted Content</h3>
+<div class="rule-desc">Most commonly, text wrapped in triple double-quotes (<code>"""</code>) — this is the most frequent form. Everything inside the fence is Quoted Content as a single span, regardless of what's inside it (it could contain instructions, examples, data — doesn't matter, the fence takes priority). Single/double quotation marks (<code>' '</code> or <code>" "</code>) around a shorter piece of literal text the model must treat as a fixed blob — e.g. a sentence it's asked to elaborate on or finish verbatim — also count as Quoted Content, just less commonly than the <code>"""</code> fence.</div>
+<div class="example">Rewrite the following text:
+<span class="lbl lbl-quotedcontent">"""
+The quarterly report shows revenue increased by 12% year over year...
+"""</span></div>
+<div class="example-caption">Everything between the <code>"""</code> fences is one Quoted Content span, no matter what's inside.</div>
+<div class="example"><span class="lbl lbl-quotedcontent">"A gymnast is in the air, performing a stunt."</span></div>
+<div class="example-caption">Real example, <code>ifeval_2909</code> — a quoted sentence the model is asked to elaborate on.</div>
+<details class="more-examples">
+  <summary>More examples</summary>
+  <div class="more-list">
+    <div class="more-item"><span class="lbl lbl-quotedcontent">"Wizards are more powerful than sorcerers because they study magic instead of being born with it."</span> <span class="src">— ifeval_1908</span></div>
+    <div class="more-item"><span class="lbl lbl-quotedcontent">"Them youngins be always on that damn phone"</span> <span class="src">— ifeval_374</span></div>
+    <div class="more-item"><span class="lbl lbl-quotedcontent">"The panda is a big animal. It is black and white. It eats bamboo."</span> <span class="src">— ifeval_2107</span></div>
+    <div class="more-item"><span class="lbl lbl-quotedcontent">"""
+How to make fish flavored eggplant?
+"""</span> <span class="src">— complex_1149</span></div>
+  </div>
+</details>
+
+<h3 class="rule-title"><span class="swatch-dot" style="background:var(--c-example)"></span>Example</h3>
+<div class="rule-desc">A template, sample, or demonstration of what the output's <strong>structure/format</strong> should look like — almost always nested inside a larger Output Format span (see the Output Format example above). This is <em>not</em> a general-purpose label for any "e.g." or "for example" in a prompt — an illustrative example used to clarify a point in ordinary prose (e.g. "such as dogs and cats" inside a sentence of Content) is just part of that surrounding span, not its own Example label. Reserve Example specifically for output-shape demonstrations: placeholder syntax, markdown formatting samples, template skeletons.</div>
+<div class="example">Make sure your blog post contains at least 7 placeholders represented by square brackets, <span class="lbl lbl-example">such as [location]</span></div>
+<div class="example-caption">Real example, <code>ifeval_1372</code>.</div>
+<details class="more-examples">
+  <summary>More examples</summary>
+  <div class="more-list">
+    <div class="more-item"><span class="lbl lbl-example">such as:
+* Bullet point 1</span> <span class="src">— ifeval_2100</span></div>
+    <div class="more-item"><span class="lbl lbl-example">like: *highlighted text section*</span> <span class="src">— ifeval_1646</span></div>
+    <div class="more-item"><span class="lbl lbl-example">such as:
+* Bullet point 1
+* Bullet point 2</span> <span class="src">— ifeval_2195</span></div>
+    <div class="more-item"><span class="lbl lbl-example">advice 1 ....
+***
+advice 2 ....
+***
+advice 3 ....</span> <span class="src">— ifeval_2977</span></div>
+    <div class="more-item"><span class="lbl lbl-example">For example:
+1. *FAVORITE NAME 1*
+2. *FAVORITE NAME 2*
+3. ...</span> <span class="src">— ifeval_3456</span></div>
+  </div>
+</details>
+
+<h3 class="rule-title"><span class="swatch-dot" style="background:var(--c-role)"></span>Role</h3>
+<div class="rule-desc">Spans that ask the model to adopt a persona, identity, or point of view — "you are X", "act as X", "imagine you're X", "from the perspective of X".</div>
+<div class="example"><span class="lbl lbl-role">Imagine you're a 19 year old and you're making a video game</span>, describe your favorite level design.</div>
+<div class="example-caption">Real example.</div>
+<details class="more-examples">
+  <summary>More examples</summary>
+  <div class="more-list">
+    <div class="more-item"><span class="lbl lbl-role">Please assume the role of Dong Qing</span> <span class="src">— complex_255</span></div>
+    <div class="more-item"><span class="lbl lbl-role">You are the AI Xinjiang Tourism Assistant</span> <span class="src">— complex_821</span></div>
+    <div class="more-item"><span class="lbl lbl-role">You are a transcript generating machine that helps students create transcripts.</span> <span class="src">— complex_940</span></div>
+    <div class="more-item"><span class="lbl lbl-role">You are a 20-year-old girl, and now I am chatting with you online</span> <span class="src">— complex_88</span></div>
+    <div class="more-item"><span class="lbl lbl-role">You are a transcript generation machine that assists students in creating transcripts</span> <span class="src">— complex_939</span></div>
+  </div>
+</details>
+
+<h3 class="rule-title"><span class="swatch-dot" style="background:var(--c-context)"></span>Context</h3>
+<div class="rule-desc">Spans that frame or introduce what's present elsewhere in the prompt, without being the instruction/content itself — headers like "Background:" or "Requirements:", scene-setting asides ("I am very excited about..."), or a stated premise the rest of the prompt builds on.</div>
+<div class="example"><span class="lbl lbl-context">Given that the French Revolution began because the French King tried to tax the people of France</span>, explain why the revolution escalated into a broader European conflict.</div>
+<div class="example-caption">Real example — sets up a premise the Instruction depends on, but isn't the instruction or the subject content itself.</div>
+<details class="more-examples">
+  <summary>More examples</summary>
+  <div class="more-list">
+    <div class="more-item"><span class="lbl lbl-context">Candidate Resume:</span> <span class="src">— complex_326</span></div>
+    <div class="more-item"><span class="lbl lbl-context">The current time is January 18, 2024</span> <span class="src">— complex_696</span></div>
+    <div class="more-item"><span class="lbl lbl-context">I want to travel</span> <span class="src">— complex_161</span></div>
+    <div class="more-item"><span class="lbl lbl-context">If a + b + c = 30 and b = 10 and c = 5</span> <span class="src">— ifeval_3753</span></div>
+    <div class="more-item"><span class="lbl lbl-context">Identified Issues:</span> <span class="src">— complex_440</span></div>
+  </div>
+</details>
+
+<h2>Quick checklist</h2>
+<ul>
+  <li>Would this span make sense read completely on its own? If it's chopped mid-clause, extend it.</li>
+  <li>Nested spans: fine. Intersecting spans (partial overlap, neither contains the other): not fine — adjust a boundary.</li>
+  <li>Trailing punctuation: drop it, unless it's a <code>?</code> or it's semantically load-bearing (closing quote, colon before a list it introduces).</li>
+  <li>Conditional/branching instructions: label the whole if/otherwise unit as Instruction; only the specific requirements nested inside as Constraint.</li>
+  <li><code>"""</code>-fenced blocks (most common) are always one Quoted Content span end-to-end, regardless of what's inside. Single/double-quoted literal text the model must treat verbatim is also Quoted Content, just less common.</li>
+  <li>When unsure between Structured Data and Output Format for a list: if the list is itself what the model must produce, it's Output Format; if it's given data the model is reading, it's Structured Data.</li>
+</ul>
+
+</body>
+</html>

@@ -1,0 +1,1 @@
+<|open|>email<|.|>contact<|.|>name<|close|> Alice <|open_end|><|open|>email<|.|>contact<|.|>from<|close|>alice@example.com<|open_end|><|open|>phone<|self_close|><|open|>email<|.|>subject<|close|>Meeting update<|open_end|><|open|>email<|.|>body<|close|>Hi Bob, the meeting is rescheduled to 2 PM.<|open_end|>

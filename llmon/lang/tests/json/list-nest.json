@@ -1,0 +1,19 @@
+{
+  "emp_details": [
+    {
+      "emp_name": "Shubham",
+      "email": "ksingh.shubh@gmail.com",
+      "languages" : [
+        {
+          "french": 1,
+          "german": 2
+        }
+      ]
+    },
+    {
+      "emp_name": "Gaurav",
+      "email": "gaurav.singh@gmail.com",
+      "job_profile": "developer"    
+    }
+  ]
+}
