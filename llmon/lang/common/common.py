@@ -113,6 +113,8 @@ JSON_END_LIST_TAG = "]"
 JSON_KEY_VALUE_SEPARATOR = ":"
 JSON_LIST_SEPARATOR = ","
 
+JSON_UNTAGGED_KEY_STRING = "\"LLMON-untagged" # a synthetic string to use as a key for LLMON text that has no tag
+
 INDENT_VALUE = 2  # how many spaces to indent when pretty printing LLMON and JSON
 
 def indent(value: int) -> str:

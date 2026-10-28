@@ -1,0 +1,12 @@
+{
+    "LLMON-untagged1": "This",
+    "verb<|:|>1": "is",
+    "LLMON-untagged2": "an",
+    "noun<|:|>1": "example",
+    "LLMON-untagged3": "to illustrate \nthat \n\nnot every",
+    "noun<|:|>2": "piece",
+    "LLMON-untagged4": "of",
+    "noun<|:|>3": "text",
+    "verb<|:|>2": "needs",
+    "LLMON-untagged5": "to be tagged."
+}

@@ -47,6 +47,27 @@ do
 
 done
 
+# run a LLMON to JSON tests for soft types
+echo " "
+echo "Testing LLMON to JSON (soft type tests) ...."
+for test in simple-softtype soft-colon-in-key exec-instr exec-instr2 exec-instr-input multi untagged untagged2
+do
+    #echo "Testing $test ...."
+
+    llmon-to-json $src/$test.llmon $res/$test.json
+
+    diff $res/$test.json $src/$test.json > $res/$test-llmon-to-json.diff
+    if [ $? -ne 0 ]
+    then
+        failures=$((failures + 1))
+        echo "  *** Failure for llmon --> json.  Results are in $res/$test-llmon-to-json.diff"
+    else
+        echo "  Passed llmon --> json ($test)"
+    fi
+done
+
+echo " "
+echo "Testing -got -gct -kai options ...."
 for test in empty-list empty-dict dict1 dict-nest dict-multi-nest list list2 list3 list-nest list-of-dict list-list test1 null-string-dict-value colon-key string+literal mellea-instruction paper-example benchmark_card 
 do
     #echo "Testing $test ...."
@@ -138,27 +159,6 @@ do
         echo "  Passed llmon -nai  --> json ($test)"
     fi
 done
-
-# run a LLMON to JSON tests for soft types
-echo " "
-echo "Testing LLMON to JSON (soft type tests) ...."
-for test in simple-softtype soft-colon-in-key exec-instr exec-instr2 exec-instr-input multi 
-do
-    #echo "Testing $test ...."
-
-    llmon-to-json $src/$test.llmon $res/$test.json
-
-    # TODO
-    diff $res/$test.json $src/$test.json > $res/$test-llmon-to-json.diff
-    if [ $? -ne 0 ]
-    then
-        failures=$((failures + 1))
-        echo "  *** Failure for llmon --> json.  Results are in $res/$test-llmon-to-json.diff"
-    else
-        echo "  Passed llmon --> json ($test)"
-    fi
-done
-
 
 # run JSON to LLMON using -gnt (generate nested tagnames) 
 echo " "
