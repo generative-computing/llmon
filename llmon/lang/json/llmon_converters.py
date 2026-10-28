@@ -45,6 +45,8 @@ class LLMONConverters:
         self._current_nest = "" # will hold the string of the current nesting, a new nest tag will append to this
 
         self._parse_llmon_recurse_level=0 # captures how many recursive levels of parse_llmon we are currently in
+        self._next_index = 1
+
 
     def sanitize(self, data: str) -> str:
         """
@@ -547,9 +549,12 @@ class LLMONConverters:
         if len(output) > 1:   #check if we have a list, if so, put it inside a JSON object, if needed
             new_output = "{"
             for idx, item in enumerate(output):
-                item = item.replace("\n", "")  # remove newlines to get valid JSON
-                if item[0] == "{":  # If item is already a dict (common), remove the redundant braces
-                    item = item[1:-1]
+                item = item.replace("\n", "\\n")  # change newlines to \n to get valid JSON
+                if item.find(":") == -1:  # Check for regular non-LLMON text, which will not have the ":" in the key value pair. if found create a special key
+                    item = C.JSON_UNTAGGED_KEY_STRING + self._new_index() +"\":" + item
+                else:
+                    if item[0] == "{":  # If item is already a dict, which is common, remove the redundant braces
+                        item = item[1:-1]
 
                 new_output += item
                 if idx != len(output) -1:  # add , if not last element
@@ -561,10 +566,19 @@ class LLMONConverters:
         else:
             return "{}"  # empty output, so produce empty JSON object
 
-        python_version = json.loads(new_output)
-        formatted_output = json.dumps(python_version, **json_dump_kwargs)  # ensure_ascii outputs the char rather than unicode
+        try: # exit gracefully if we feail the json conversion
+            python_version = json.loads(new_output)
+            formatted_output = json.dumps(python_version, **json_dump_kwargs)  # ensure_ascii outputs the char rather than unicode
+        except Exception as e:
+            sys.exit(f"Failed conversion to JSON with msg: {str(e)}\nConversion input:\n{new_output}")
+
         return formatted_output
 
+    def _new_index(self) -> str:
+        """ return a new integer, exprssed as a string, each time it is called  """
+        val = self._next_index
+        self._next_index += 1
+        return str(val)
 
     """ Helper functions """
     def _find_closing_tag(self, data: str):
