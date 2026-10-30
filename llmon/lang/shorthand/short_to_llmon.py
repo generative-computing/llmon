@@ -157,7 +157,7 @@ class Shorthand_to_LLMON_Converter:
                         self._processing_reg_text = True  # set flag to prevent future generation for this transition
                         out = self._emit_space_buffer(out)  # found real text, so the spaces are relevant, emit them
 
-                if not self._processing_reg_text and ch.isspace(): # if we see leading white space, we track it in space_buffer for possible future use
+                if not self._processing_reg_text and not self._processing_tagname and ch.isspace(): # if we see leading white space, not in tagname, we track it in space_buffer for possible future use
                     self._space_buffer += ch # save the "space" for possible use later
                     return out
                 else:
@@ -175,7 +175,15 @@ class Shorthand_to_LLMON_Converter:
         else:
             return ""
 
-    
+    def _check_for_valid_tagname(self, tagname: str, line_num: int):
+        """
+            Tagname needs to be a valid identifier, but may also have LLMON connectors in it, <|:|> and <|.|>, so we test by stripping them
+            Raise an error if found, otherwise just return
+        """
+        stripped_tagname = tagname.replace(C.DOT_JOINER_TAG,"").replace(C.COLON_SEPARATOR_TAG,"")
+        if not stripped_tagname.isidentifier():
+            raise LLMONError(f"** Parse Error on line {line_num}: tagname is not a valid identifier -->|{tagname}|")
+
     def process_line(self, line: str, line_num : int) :
         """
         Tags are surrounded by an opening and closing character, which are the same for each style of tag. Open tags use "\" and open end tags use "/" for both
@@ -248,6 +256,7 @@ class Shorthand_to_LLMON_Converter:
                         if self._processing_comment:  # if we are inside a comment, ignore this
                             self._remove_tagname_from_output(output, C.OPEN_TAG)  # remove OPEN tag from output stream since this is a comment and we don't need it
                         else:  # not inside a comment, but the open tag we are processing can be a comment
+                            self._check_for_valid_tagname(tagname, line_num)  # make sure tagname is valid
                             if self._auto_expand:
                                 # if we are auto expanding, we don't need to emit anything yet, but do need to record the tag nesting or set processing flag
                                 if not self._check_for_non_output_special_tag(tagname): # make sure this isn't a special tag that requires any output, like \ref\ or \comment\
@@ -313,6 +322,9 @@ class Shorthand_to_LLMON_Converter:
                                 #  from tagspace to regular text are different, i.e, we don't emit a ref or comment in LLMON
                                 self._processing_reg_text = self._processing_reg_text_before_comment
                         else:
+                            # confirm the closing tagname is valid
+                            self._check_for_valid_tagname(tagname, line_num)
+
                             if self._auto_expand:
                                 if not self._check_for_non_output_special_tag(tagname):  # exit nest if it isn't a special one, like ref or comment
                                     self._exit_tag_nest()
@@ -381,20 +393,18 @@ class Shorthand_to_LLMON_Converter:
                             if self._tag_state == "":
                                 output += out    # not processing a tag, so just regular output
                             else: 
-                                tagname += out   # add char or string to the tagname
+                                raise LLMONError(f"** Logic error, unexpected tag_state: {self._tag_state}")
                 elif ch == "," and self._processing_list:
                     if self._processing_comment:
                         raise LLMONError(f"** Logic error, processing_ref and processing_comment are both true")
                     output += C.LIST_SEPARATOR_TAG
                 else:
                     output += self._check_for_transition_to_reg_text(ch)    # returns ch (if auto_expand false) otherwise, implements auto expand logic
-            else: # Not a special character
+            else: # Not a special character, add it to output or tagname
                 out = self._check_for_transition_to_reg_text(ch) # returns ch (if auto_expand false) otherwise, implements auto expand logic
                 if self._tag_state == "":
                     output += out
                 else: 
-                    if not out.isidentifier() and not out.isdigit():  # we are looking at things a char at a time, so a single digit will fail the first test
-                        raise LLMONError(f"** Parse Error: Non-identifier found in tagname: {out}")
                     tagname += out
             idx += 1
         return output
