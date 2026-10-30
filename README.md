@@ -51,5 +51,6 @@ Start with the [model card](https://huggingface.co/ibm-granite/granite-4.1-3b-ll
   - emacs extensions for viewing LLMON and shorthand files
 - `llmon/examples`: contains example use cases of working with LLMON
 
-## Paper
-The LLMON language and early evaluations are described in this [paper](https://arxiv.org/abs/2603.22519).
+## Papers
+- The LLMON language and early evaluations are described in this [paper](https://arxiv.org/abs/2603.22519).
+- More recent and comprehensive evaluations of LLMON models are described in this [paper](https://arxiv.org/abs/2610.38120).
