@@ -37,8 +37,6 @@ do
         echo "  Passed short --> llmon -net ($test)"
     fi
 
-
-
     # comment related tests won't produce the exact same source bc the comments are not translated to llmon file. 
     # For now we don't use it for round trip testing
     if [ $test != comment-test ] && [ $test != comment-catalog ] && [ $test != t4 ]
@@ -73,6 +71,21 @@ do
     fi
 done
 
+for test in space
+do
+    # run a test that should fail in parse error
+    short-to-llmon $src/$test.short $res/$test.llmon 2> $res/$test.err
+
+    ./mydiff.sh $res/$test.err $src/$test.err > $res/$test-short-to-llmon.diff
+
+    if [ $? -ne 0 ]
+    then
+        failures=$((failures + 1))
+        echo "  *** Failure for short -> llmon ($test).  Results are in $res/$test-short-to-llmon.diff"
+    else
+        echo "  Passed short --> llmon ($test)"
+    fi
+done
 
 for test in escape3
 do
