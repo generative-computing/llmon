@@ -156,17 +156,17 @@ The `<|self_close|>` tag in the third row that rather than surrounding some text
 
 The example above would be expressed in shorthand as follows:
 ```
-\Travel Information\
+\Travel_Information\
     \Purpose\Business/Purpose/
     \Cities\ \list\ New York, Tokyo, Cairo /list/ /Cities/
-/Travel Information/
+/Travel_Information/
 ```
 
 We have created converters between shorthand and LLMON (both ways), called `short-to-llmon` and `llmon-to-short`.
 The `short-to-llmon` converter would generate this LLMON
 ```
-<|open|>TravelInformation<|.|>Purpose<|close|>Business<|open_end|>
-<|open|>TravelInformation<|.|>Cities<|.|>list<|close|> New York<|,|> Tokyo<|,|> Cairo <|open_end|>
+<|open|>Travel_Information<|.|>Purpose<|close|>Business<|open_end|>
+<|open|>Travel_Information<|.|>Cities<|.|>list<|close|> New York<|,|> Tokyo<|,|> Cairo <|open_end|>
 ```
 
 Note: The `<|,|>` character sequence is not a special token. It is just a character sequence created by this `short-to-llmon` converter when processing the `list` tag to helps the `llmon-to-short` converter generate the correct shorthand.
