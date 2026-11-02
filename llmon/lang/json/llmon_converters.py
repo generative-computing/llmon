@@ -21,7 +21,8 @@ class LLMONConverters:
                  converting_to_json: bool=False, # Default: not being used to convert to JSON
                  no_type_tags_for_literals: bool=False, # Default: Generate LLMON type tags for JSON literals, when converting from JSON to LLMON
                  with_mellea: bool=False,       # Default: Not being used as part of mellea installation
-                 keys_as_item: bool=False,      # Default: Don't generated JSON dictionary keys as separate LLMON item tags, when converting from JSON to LLMON
+                 keys_as_item: bool=False,      # JSON-to-LLMON: Default: Don't generate JSON dictionary keys as separate LLMON item tags, when converting from JSON to LLMON
+                                                # LLMON-to-JSON: Default: Don't expect object item to have \\item\\ key : value /item/ format
                  no_expand_tags: bool=False,    # Default: Expand tags to include outer nest names when converting from JSON to LLMON
                  name_array_instances: bool=False, # Default: Don't generate instance ids for all JSON lists, when converting from JSON to LLMON
                  compact: bool=True,            # Default: Make JSON to LLMON generation compact, i.e., no extra white space for human readability
@@ -725,17 +726,20 @@ class LLMONConverters:
         Thus code for converting from JSON to LLMON or vice versa will use this feature to determine how to handle
 
     Grammar (for LLMON data that is equivalent to JSON, i.e., can be translated into JSON)
-        LLMON ==> LIST | OBJECT | USER_TYPE | integer | float | true | false | null | string
-        OBJECT ==> START_OBJECT_TAG  OBJECT_ITEMS  END_OBJECT_TAG   |  START_OBJECT_TAG epsilon END_OBJECT_TAG
+        LLMON: LLMON_ITEM LLMON_LIST
+        LLMON_LIST: LLMON_ITEM LLMON_LIST | epsilon 
+        LLMON ==> USER_TYPE | OBJECT | LIST | integer | float | string | true | false | null 
+        USER_TYPE ==> START_USER_TAG LLMON END_USER_TAG  | SELF_CLOSE_USER_TAG
+        OBJECT ==> START_OBJECT_TAG  OBJECT_ITEMS  END_OBJECT_TAG   |  START_OBJECT_TAG  END_OBJECT_TAG
         OBJECT_ITEMS ==> OBJECT_ITEM   OBJECT_ITEMS_REST
-        #  OBJECT_ITEM: start_object_item_tag     string colon_separator_tag LLMON end_tag
+        #  This is KAI option: OBJECT_ITEM: start_object_item_tag string colon_separator_tag LLMON end_tag
         OBJECT_ITEM: open_tag string close_tag  LLMON  open_end_tag string close_tag
                 | open_tag string self_close_tag  
         OBJECT_ITEMS_REST ==>    OBJECT_ITEMS | epsilon   # NOTE: no comma separator needed for LLMON object items
-        LIST ==> START_LIST_TAG  LIST_ITEMS  END_TAG |  START_LIST_TAG epsilon END_TAG
+        LIST ==> START_LIST_TAG  LIST_ITEMS  END_LIST_TAG |  START_LIST_TAG  END_LIST_TAG
         LIST_ITEMS ==> LLMON LIST_ITEMS_REST
-        LIST_ITEMS_REST ==>   ,  LIST_ITEMS | epsilon
-  	    USER_TYPE ==> START_USER_TAG LLMON END_USER_TAG  | SELF_CLOSE_USER_TAG
+        LIST_ITEMS_REST ==>   list_separator_tag  LIST_ITEMS | epsilon
+
     """
     def _parse_llmon(self, llmon_data: str):
         """ This is the root of a recursive-descent parser for the LLMON grammar

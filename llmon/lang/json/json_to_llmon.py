@@ -37,7 +37,7 @@ def main():
     # optional boolean flag to specify how keys in key/value pairs should be represented
     parser.add_argument("-kai", 
                         "--keys_as_item", 
-                        help="Expect object item to have \\item\\ key : value /item/ format. if this option is chosen, --no_expand_tags must also be chosen.)", 
+                        help="Generate JSON dictionary keys as separate LLMON item tags",
                         action="store_true")  # when flag is on set arg to true, Default is false
     
     # optional boolean flag to specify if nested tags are explicitly expanded
