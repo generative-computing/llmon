@@ -278,7 +278,6 @@ The LLMON_ITEM non-terminal can be a USER_TYPE (aka, a user-defined or system ta
     OBJECT_ITEMS:  OBJECT_ITEM  OBJECT_ITEMS_REST
 
     OBJECT_ITEM: start_user_tag LLMOM end_user_tag
-        | self_close_user_tag
 
     OBJECT_ITEMS_REST: OBJECT_ITEMS 
         | epsilon

@@ -278,6 +278,7 @@ class LLMONConverters:
                         out.append(C.COLON_SEPARATOR_TAG)
                         out = self._translate_python_to_llmon(val, out)
                         out.append(C.END_OBJECT_ITEM_TAG)
+
                 else:  # We will use the key name as the tag in the soft type
 
                     if not self._no_expand_tags:  # expand tags!
@@ -318,9 +319,9 @@ class LLMONConverters:
 
             if self._composite_tags:  # Emit the END_OBJECT_TAG as needed
                 if self._no_openend_tagname:
-                    out.append(C.OPEN_END_TAG)
+                    out.append(C.OPEN_END_TAG)  # only emit the open_end
                 else:
-                    out.append(C.END_OBJECT_TAG)
+                    out.append(C.END_OBJECT_TAG) # emit the full END_OBJECT_TAG, which includes the tagname and close
 
         elif isinstance(data, list):
             if self._composite_tags:  # Emit the START_LIST_TAG 
@@ -734,15 +735,33 @@ class LLMONConverters:
 
         OBJECT ==> START_OBJECT_TAG  OBJECT_ITEMS  END_OBJECT_TAG   |  START_OBJECT_TAG  END_OBJECT_TAG
         OBJECT_ITEMS ==> OBJECT_ITEM   OBJECT_ITEMS_REST
-        OBJECT_ITEM ==> START_USER_TAG LLMON END_USER_TAG  | SELF_CLOSE_USER_TAG
+        OBJECT_ITEM ==> START_USER_TAG LLMON END_USER_TAG  
         OBJECT_ITEMS_REST ==>    OBJECT_ITEMS | epsilon   # NOTE: no comma separator needed for LLMON object items
 
         LIST ==> START_LIST_TAG  LIST_ITEMS  END_LIST_TAG |  START_LIST_TAG  END_LIST_TAG
         LIST_ITEMS ==> LLMON LIST_ITEMS_REST
         LIST_ITEMS_REST ==>   list_separator_tag  LIST_ITEMS | epsilon
 
-        if keys_as_items is true, the following rule is updated
+        If keys_as_items is true, the following rule is updated
         OBJECT_ITEM ==> START_OBJECT_ITEM_TAG string colon_separator_tag LLMON END_OBJECT_ITEM_TAG
+
+        Here are the current values for the non-quoted terminals above (expressed in LLMON)
+            start_user_tag = <|open|>user_tag_text<|close|>
+            end_user_tag = <|open_end|>
+            self_close_user_tag = <|open|>user_tag_text<|self_close|>
+
+            start_object_tag = <|open|>object<|close|>
+            end_object_tag = <|open_end|>
+            start_object_item_tag = <|open|>item<|close|>
+            end_object_item_tag = <|open_end|>item<|close|>
+            start_list_tag = <|open|>list<|close|>
+            end_list_tag = <|open_end|>
+            list_separator_tag = <|,|>
+            colon_separator_tag = <|:|>
+
+        When  no_openend_tags is false, these rules are used instead of above
+            end_object_tag = <|open_end|>object<|close|>
+            end_list_tag = <|open_end|>list<|close|>
 
     """
     def _parse_llmon(self, llmon_data: str):
@@ -823,9 +842,8 @@ class LLMONConverters:
 
     def _parse_Object_Item(self, llmon_data: str):
         """
-        Grammar Rule:  OBJECT_ITEM: open_tag string close_tag  LLMON  open_end_tag string close_tag
-                                  | open_tag string self_close_tag
-
+        Grammar Rule: OBJECT_ITEM ==> START_USER_TAG LLMON END_USER_TAG  
+        
         NOTE: if keys_as_items is true, the following rule is updated
                     OBJECT_ITEM ==> START_OBJECT_ITEM_TAG string colon_separator_tag LLMON END_OBJECT_ITEM_TAG
         """
