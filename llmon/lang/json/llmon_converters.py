@@ -726,24 +726,28 @@ class LLMONConverters:
         Thus code for converting from JSON to LLMON or vice versa will use this feature to determine how to handle
 
     Grammar (for LLMON data that is equivalent to JSON, i.e., can be translated into JSON)
-        LLMON: LLMON_ITEM LLMON_LIST
-        LLMON_LIST: LLMON_ITEM LLMON_LIST | epsilon 
+        LLMON_LIST: LLMON LLMON_REST
+        LLMON_REST: LLMON LLMON_REST | epsilon 
         LLMON ==> USER_TYPE | OBJECT | LIST | integer | float | string | true | false | null 
+
         USER_TYPE ==> START_USER_TAG LLMON END_USER_TAG  | SELF_CLOSE_USER_TAG
+
         OBJECT ==> START_OBJECT_TAG  OBJECT_ITEMS  END_OBJECT_TAG   |  START_OBJECT_TAG  END_OBJECT_TAG
         OBJECT_ITEMS ==> OBJECT_ITEM   OBJECT_ITEMS_REST
-        #  This is KAI option: OBJECT_ITEM: start_object_item_tag string colon_separator_tag LLMON end_tag
-        OBJECT_ITEM: open_tag string close_tag  LLMON  open_end_tag string close_tag
-                | open_tag string self_close_tag  
+        OBJECT_ITEM ==> START_USER_TAG LLMON END_USER_TAG  | SELF_CLOSE_USER_TAG
         OBJECT_ITEMS_REST ==>    OBJECT_ITEMS | epsilon   # NOTE: no comma separator needed for LLMON object items
+
         LIST ==> START_LIST_TAG  LIST_ITEMS  END_LIST_TAG |  START_LIST_TAG  END_LIST_TAG
         LIST_ITEMS ==> LLMON LIST_ITEMS_REST
         LIST_ITEMS_REST ==>   list_separator_tag  LIST_ITEMS | epsilon
 
+        if keys_as_items is true, the following rule is updated
+        OBJECT_ITEM ==> START_OBJECT_ITEM_TAG string colon_separator_tag LLMON END_OBJECT_ITEM_TAG
+
     """
     def _parse_llmon(self, llmon_data: str):
         """ This is the root of a recursive-descent parser for the LLMON grammar
-        Grammar Rule: LLMON ==> LIST | OBJECT | integer | float | true | false | null | string
+        Grammar Rule: LLMON ==> USER_TYPE | OBJECT | LIST | integer | float | string | true | false | null 
         """
 
         self._parse_llmon_recurse_level+=1
@@ -782,7 +786,7 @@ class LLMONConverters:
 
     def _parse_Object(self, llmon_data: str):
         """
-        Grammar Rule: OBJECT ==> START_OBJECT_TAG  OBJECT_ITEMS  END_OBJECT_TAG   |  START_OBJECT_TAG epsilon END_OBJECT_TAG
+        Grammar Rule: OBJECT ==> START_OBJECT_TAG  OBJECT_ITEMS  END_OBJECT_TAG   |  START_OBJECT_TAG END_OBJECT_TAG
         """
         token, rest = self._get_token(llmon_data)
         if token != C.START_OBJECT_TAG:
@@ -821,6 +825,9 @@ class LLMONConverters:
         """
         Grammar Rule:  OBJECT_ITEM: open_tag string close_tag  LLMON  open_end_tag string close_tag
                                   | open_tag string self_close_tag
+
+        NOTE: if keys_as_items is true, the following rule is updated
+                    OBJECT_ITEM ==> START_OBJECT_ITEM_TAG string colon_separator_tag LLMON END_OBJECT_ITEM_TAG
         """
         token, rest = self._get_token(llmon_data)
         if self._keys_as_item:
@@ -859,7 +866,7 @@ class LLMONConverters:
                     raise LLMONError(f"** Logic Error, expecting {C.END_OBJECT_ITEM_TAG}, found {token}")
 
                 return output1 + output2, rest
-        else:
+        else:  #  NOT keys_as_item, i.e., no need to create item tags
             # This should be C.OPEN_TAG tag C.CLOSE_TAG or C.OPEN_TAG tag C.SELF_CLOSE_TAG
             if not token.startswith(C.OPEN_TAG):
                 raise LLMONError(f"** Logic Error, expecting {C.OPEN_TAG}, but found: {token}")

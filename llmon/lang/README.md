@@ -277,7 +277,8 @@ The LLMON_ITEM non-terminal can be a USER_TYPE (aka, a user-defined or system ta
 
     OBJECT_ITEMS:  OBJECT_ITEM  OBJECT_ITEMS_REST
 
-    OBJECT_ITEM: start_object_item_tag string colon_separator_tag LLMON end_object_item_tag 
+    OBJECT_ITEM: start_user_tag LLMOM end_user_tag
+        | self_close_user_tag
 
     OBJECT_ITEMS_REST: OBJECT_ITEMS 
         | epsilon
@@ -311,6 +312,8 @@ Here are the current values for the non-quoted terminals above (expressed in LLM
 ```
 
 Note: 
-- `user_tag_text` can be any identifier and can include `<|:|>` and `<|.|>` as illustrated in examples below
+- `user_tag_text` can be any identifie ([_a-zA-Z][_a-zA-Z0-9]*) and can include `<|:|>` and `<|.|>` as illustrated in examples below
 - `object`, `item`, `list` are exactly those strings
-- user_tag_text is represented by the regular expression: [_a-zA-Z][_a-zA-Z0-9.:]*
+- If the `-kai` (`--keys_as_items`) option is used the following rule is updated:
+
+    OBJECT_ITEM: start_object_item_tag string colon_separator_tag LLMON end_object_item_tag 
