@@ -251,7 +251,7 @@ Here is the example from above expressed in LLMON. Note that the `\ref\ ... /ref
 ## LLMON Grammar
 Below is the grammar that specifies valid LLMON. Unlike JSON, a LLMON document can also contain regular text that is not tagged in any way. The grammar applies to both LLMON and shorthand. 
 
-The LLMON_ITEM non-terminal can be a USER_TYPE (aka, a user-defined or system tag block) or literal types (integer, float, string, true, false, or null). The OBJECT and LIST types are used to represent objects and lists that may be present in shorthand.
+The LLMON_ITEM non-terminal can be a USER_TYPE (aka, a user-defined or system tag block) or literal types (integer, float, string, true, false, or null). The OBJECT and LIST types are used to represent objects and lists that may be present in JSON.
 
 ###
     LLMON: LLMON_ITEM LLMON_LIST
@@ -301,18 +301,29 @@ Here are the current values for the non-quoted terminals above (expressed in LLM
     self_close_user_tag = <|open|>user_tag_text<|self_close|>
 
     start_object_tag = <|open|>object<|close|>
-    end_object_tag = <|open_end|>object<|close|>
+    end_object_tag = <|open_end|>
     start_object_item_tag = <|open|>item<|close|>
-    end_object_item_tag = <|open_end|>item<|close|>
+    end_object_item_tag = <|open_end|>
+
     start_list_tag = <|open|>list<|close|>
-    end_list_tag = <|open_end|>list<|close|>
+    end_list_tag = <|open_end|>
     list_separator_tag = <|,|>
     colon_separator_tag = <|:|>
+
+    end_object_tag = <|open_end|>object<|close|>
 ```
 
 Note: 
 - `user_tag_text` can be any identifie ([_a-zA-Z][_a-zA-Z0-9]*) and can include `<|:|>` and `<|.|>` as illustrated in examples below
 - `object`, `item`, `list` are exactly those strings
-- If the `-kai` (`--keys_as_items`) option is used the following rule is updated:
-
+- If the `-kai` (`--keys_as_items`) option is used to `llmon-to-json` the following rule is updated:
+```
     OBJECT_ITEM: start_object_item_tag string colon_separator_tag LLMON end_object_item_tag 
+```
+- If the `-eot` (`--expect_openend_tagnames`) option is used to `llmon-to-json` the following rules are updated
+```
+    end_user_tag = <|open_end|>user_tag_text<|close|>
+    end_object_tag = <|open_end|>object<|close|>
+    end_object_item_tag = <|open_end|>item<|close|>
+    end_list_tag = <|open_end|>list<|close|>
+```
