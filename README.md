@@ -53,4 +53,4 @@ Start with the [model card](https://huggingface.co/ibm-granite/granite-4.1-3b-ll
 
 ## Papers
 - The LLMON language and early evaluations are described in this [paper](https://arxiv.org/abs/2603.22519).
-- More recent and comprehensive evaluations of LLMON models are described in this [paper](https://arxiv.org/abs/2610.38120).
+- The post-training methodology used to build the LLMON models, and its evaluations, are described in this [paper](https://arxiv.org/abs/2610.38120).
