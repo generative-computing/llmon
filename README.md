@@ -33,6 +33,8 @@ We have a [demo](https://huggingface.co/spaces/ibm-research/qa-llmon-attention-v
 
 For the general case the model's bundled `chat_template.jinja` is sufficient — it renders ordinary messages (instructions, data, documents, tool definitions) into LLMON for you, and needs nothing from this repo.
 
+If you build prompts or training data in Python, `render_chat` from this package produces the same string without a chat template, plus reproducible, unique, and pinnable block ids. See [Rendering chat messages](llmon/lang/README.md#rendering-chat-messages).
+
 The converters here cover what it does not: turning structured input into LLMON with explicit types and flattened nested tags, so that a JSON document arrives as typed, individually addressable blocks rather than as one opaque string of data. This is the better path whenever the content has structure worth preserving.
 
 To install them, run the following in a virtual environment:
