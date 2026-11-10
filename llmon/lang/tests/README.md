@@ -7,7 +7,7 @@ has a corresponding script to run the tests
 | `run_json_tests.sh`| runs regression tests for JSON <--> LLMON converters
 | `run_shorthand_tests.sh`| runs regression tests related to the Shorthand <--> LLMON converters
 | `run_process_llmon_tests.sh` | runs regression tests related to general LLMON parsing
-| `pytest` (from the repo root) | runs `test_converter_errors.py`, which checks that malformed input raises `LLMONError`
+| `pytest` (from the repo root) | runs `test_converter_errors.py`, which checks that malformed input raises `LLMONError`, and `test_chat_render.py`, which checks `render_chat` against renders from the LLMON chat template (`chat/render_golden.json`)
 
 | Directory | Contents |
 |---|---|

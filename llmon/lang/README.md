@@ -23,12 +23,40 @@ This will make the following commands accessible in the command line:
 
 | Directory | What it covers |
 |---|---|
+| [`chat/`](chat/) | `render_chat`: renders a chat conversation (messages, documents, tools) to LLMON — a Python port of the LLMON models' `chat_template.jinja`, byte-identical for the same random draws, with unique and pinnable ids |
 | [`json/`](json/) | converters between LLMON and JSON |
 | [`unstructured_text/`](unstructured_text/) | converters from free text to LLMON or shorthand, tests for these converters |
 | [`shorthand/`](shorthand/) | converters between Shorthand and LLMON |
 | [`llmon_parsing/`](llmon_parsing/) | simple main routine that can be used for parsing LLMON (leverages code in JSON folder) |
 | [`common/`](common/) | common code among various converters |
 | [`tests/`](tests/) | numerous tests for JSON and shorthand converters |
+
+# Rendering chat messages
+
+`render_chat` renders chat messages to LLMON in Python. It is a port of the LLMON models' `chat_template.jinja`, and for the same random draws it returns the same string as `apply_chat_template`. It takes the same messages, `documents`, and `tools`, so you can replace
+
+```python
+prompt = tokenizer.apply_chat_template(messages, documents=None, tools=None, tokenize=False, add_generation_prompt=True, enable_thinking=False)
+```
+
+with
+
+```python
+import random
+from llmon.lang.chat import render_chat
+
+prompt = render_chat(messages, documents=None, tools=None, add_generation_prompt=True, rng=random.Random(seed), eos_token=tokenizer.eos_token)
+ids = tokenizer(prompt, add_special_tokens=False)["input_ids"]
+```
+
+Compared with the chat template:
+
+- **Pass your model's eos.** `eos_token` follows every assistant turn, and its default is Granite-4.1's `<|end_of_text|>`. For other models pass `eos_token=tokenizer.eos_token`.
+- **No template is needed.** The output does not depend on which `chat_template.jinja` a checkpoint ships with.
+- **Ids are reproducible.** Pass `rng=random.Random(seed)`. Without it, ids come from the global `random` module, as in the template.
+- **Ids are unique.** A drawn id that is already in use is drawn again. The template can give two blocks the same id.
+- **Ids can be pinned.** Set `llmon_id` on an item, document, tool, or message to fix its block id. Set `llmon_exec_id` or `llmon_output_id` on a user message, or on the last tool message of a run, to fix the ids of its exec block and its answer. An id is 2 characters from `ID_CHARS`. Text can then refer to the block, for example `f"Use data<|:|>{rec}."`.
+- **Mistakes raise `ValueError`.** This covers a malformed or repeated pin, and an assistant turn with no user or tool turn before it.
 
 # Developers
 Please run the regression test scripts in tests folder before submitting a PR for the converters.
