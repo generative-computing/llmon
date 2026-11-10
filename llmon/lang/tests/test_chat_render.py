@@ -148,10 +148,11 @@ def test_any_eos():
 
 
 def test_stop_token_ids():
-    class Tok:
+    """Checks which tokens are stopped on, not their ids: ids differ from model to model."""
+    class Tok:                                  # maps each token to itself
         def __init__(self, eos):
             self.eos_token = eos
         def convert_tokens_to_ids(self, t):
-            return {EOS: 100257, "<|im_end|>": 7, "<|open_end|>": 100285}[t]
-    assert stop_token_ids(Tok(EOS)) == [100257, 100285]
-    assert stop_token_ids(Tok("<|im_end|>")) == [7, 100285]
+            return t
+    for eos in (EOS, "<|im_end|>"):
+        assert stop_token_ids(Tok(eos)) == [eos, "<|open_end|>"]
