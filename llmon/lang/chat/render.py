@@ -38,10 +38,8 @@ ID_KEY = "llmon_id"
 EXEC_ID_KEY = "llmon_exec_id"
 OUTPUT_ID_KEY = "llmon_output_id"
 
-# The Granite eos `apply_chat_template` passes the template. It follows every assistant turn.
+# Default eos (Granite-4.1). Other models differ , so pass `eos_token=tokenizer.eos_token`.
 EOS_TOKEN = "<|end_of_text|>"
-# Generation stops on either: `<|open_end|>` closes the assistant block, eos follows it.
-STOP_TOKENS = (EOS_TOKEN, C.OPEN_END_TAG)
 
 TOOL_CALL_OPEN, TOOL_CALL_CLOSE = "<tool_call>", "</tool_call>"
 TOOL_RESPONSE_OPEN, TOOL_RESPONSE_CLOSE = "<tool_response>", "</tool_response>"
@@ -243,8 +241,8 @@ def render_chat(messages: list[Mapping], documents: list[Mapping] | None = None,
     """Render `messages` (plus optional top-level `documents` / `tools`) to LLMON text.
 
     add_generation_prompt: end on the open assistant block of the final exec, to generate.
-    eos_token:   emitted after every assistant turn; defaults to the tokenizer's eos, as
-                 `apply_chat_template` does. `<|open_end|>` closes a block but is not an eos.
+    eos_token:   emitted after every assistant turn. Pass `tokenizer.eos_token`; the default
+                 is Granite-4.1's. `<|open_end|>` closes a block but is not an eos.
     rng:         anything with `.choice` -- pass random.Random(seed) for a reproducible
                  render. Defaults to the global `random` module, as the template does.
     unique_ids:  redraw an id that is already used. False reproduces the template exactly,
@@ -359,10 +357,11 @@ def render_chat(messages: list[Mapping], documents: list[Mapping] | None = None,
     return "".join(out)
 
 
-def split_prompt_target(text: str, eos_token: str | None = EOS_TOKEN) -> tuple[str, str]:
+def split_prompt_target(text: str) -> tuple[str, str]:
     """Split a rendered conversation at the LAST assistant opener: (everything up to and
-    including it, the final assistant body + closer). Returns (text, "") when the text
-    does not end on an assistant turn (no assistant block, or a later exec still points at an unfilled one)."""
+    including it, the final assistant body + closer). Whatever follows the closer -- the eos,
+    for any model -- is dropped. Returns (text, "") when the text does not end on an
+    assistant turn (no assistant block, or a later exec still points at an unfilled one)."""
     matches = list(ASSISTANT_OPEN_RE.finditer(text))
     if not matches:
         return text, ""
@@ -370,13 +369,12 @@ def split_prompt_target(text: str, eos_token: str | None = EOS_TOKEN) -> tuple[s
     prompt, target = text[:end], text[end:]
     if _OUTPUT_PTR in target:
         return text, ""
-    if eos_token and target.endswith(eos_token):
-        target = target[:-len(eos_token)]
-    return prompt, target
+    close = target.rfind(_END)
+    return prompt, target[:close + len(_END)] if close >= 0 else target
 
 
 def stop_token_ids(tokenizer) -> list[int]:
-    """Token ids generation should stop on: eos and `<|open_end|>` (`STOP_TOKENS`). Stopping on
+    """Token ids generation should stop on: the tokenizer's eos and `<|open_end|>`. Stopping on
     `<|open_end|>` is right only while assistant bodies hold no nested LLMON blocks, which is
     true of everything `render_chat` emits."""
-    return [tokenizer.convert_tokens_to_ids(t) for t in STOP_TOKENS]
+    return [tokenizer.convert_tokens_to_ids(t) for t in (tokenizer.eos_token, C.OPEN_END_TAG) if t]

@@ -14,7 +14,7 @@ from pathlib import Path
 
 import pytest
 
-from llmon.lang.chat import (EOS_TOKEN, ID_CHARS, STOP_TOKENS, render_assistant_body,
+from llmon.lang.chat import (EOS_TOKEN, ID_CHARS, render_assistant_body,
                              render_chat, split_prompt_target, stop_token_ids)
 
 GOLDEN = json.loads((Path(__file__).parent / "chat" / "render_golden.json").read_text())
@@ -67,7 +67,7 @@ def test_bad_pins_raise(msgs):
 def test_split_prompt_target():
     full = render_chat([{"role": "user", "content": "q"}, {"role": "assistant", "content": "a"}],
                        eos_token=EOS, rng=random.Random(0))
-    prompt, target = split_prompt_target(full, EOS)
+    prompt, target = split_prompt_target(full)
     assert prompt + target + EOS == full
     assert target == "a<|open_end|>"
     assert prompt == render_chat([{"role": "user", "content": "q"}], add_generation_prompt=True,
@@ -105,7 +105,7 @@ def test_non_json_string_arguments_are_encoded():
 def test_split_needs_final_assistant_turn():
     text = render_chat([{"role": "user", "content": "q"}, {"role": "assistant", "content": "a"},
                         {"role": "user", "content": "q2"}], eos_token=EOS)
-    assert split_prompt_target(text, EOS) == (text, "")
+    assert split_prompt_target(text) == (text, "")
 
 
 @pytest.mark.parametrize("msgs", [
@@ -137,9 +137,21 @@ def test_eos_defaults_to_end_of_text():
     assert split_prompt_target(render_chat(msgs))[1] == "a<|open_end|>"
 
 
+def test_any_eos():
+    """Granite-5.1 uses <|im_end|>: render_chat emits it, split drops it, stop ids follow it."""
+    msgs = [{"role": "user", "content": "q"}, {"role": "assistant", "content": "a"},
+            {"role": "user", "content": "q2"}, {"role": "assistant", "content": "b"}]
+    text = render_chat(msgs, eos_token="<|im_end|>", rng=random.Random(0))
+    assert EOS not in text and text.count("<|open_end|><|im_end|>") == 2
+    prompt, target = split_prompt_target(text)
+    assert target == "b<|open_end|>" and prompt.count("<|im_end|>") == 1
+
+
 def test_stop_token_ids():
     class Tok:
+        def __init__(self, eos):
+            self.eos_token = eos
         def convert_tokens_to_ids(self, t):
-            return {EOS: 100257, "<|open_end|>": 100285}[t]
-    assert STOP_TOKENS == (EOS, "<|open_end|>")
-    assert stop_token_ids(Tok()) == [100257, 100285]
+            return {EOS: 100257, "<|im_end|>": 7, "<|open_end|>": 100285}[t]
+    assert stop_token_ids(Tok(EOS)) == [100257, 100285]
+    assert stop_token_ids(Tok("<|im_end|>")) == [7, 100285]

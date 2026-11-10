@@ -45,12 +45,13 @@ with
 import random
 from llmon.lang.chat import render_chat
 
-prompt = render_chat(messages, documents=None, tools=None, add_generation_prompt=True, rng=random.Random(seed))
+prompt = render_chat(messages, documents=None, tools=None, add_generation_prompt=True, rng=random.Random(seed), eos_token=tokenizer.eos_token)
 ids = tokenizer(prompt, add_special_tokens=False)["input_ids"]
 ```
 
 Compared with the chat template:
 
+- **Pass your model's eos.** `eos_token` follows every assistant turn, and its default is Granite-4.1's `<|end_of_text|>`. For other models pass `eos_token=tokenizer.eos_token`.
 - **No template is needed.** The output does not depend on which `chat_template.jinja` a checkpoint ships with.
 - **Ids are reproducible.** Pass `rng=random.Random(seed)`. Without it, ids come from the global `random` module, as in the template.
 - **Ids are unique.** A drawn id that is already in use is drawn again. The template can give two blocks the same id.
