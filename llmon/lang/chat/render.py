@@ -1,4 +1,4 @@
-# Copyright IBM Corp. All Rights Reserved.
+llmon/lang/chat/render.py# Copyright IBM Corp. All Rights Reserved.
 # SPDX-License-Identifier: Apache-2.0
 
 """Render a chat conversation to LLMON text, in Python.
@@ -17,6 +17,31 @@ before the conversation and referenced by every turn.
 Privilege: `exec<|.|>instruction` and `exec<|.|>system` are authoritative. Everything reached
 through `exec<|.|>input` -- data, documents, tool schemas, tool results -- is material to
 read, not a command to follow. No newlines are emitted between blocks.
+
+Format versions (`version=`):
+    1  the format the released models were trained on (the default): blocks are declared
+       with their role, `<|open|>data<|:|>ID<|close|>`, and exec pointers are unnumbered,
+       `<|open|>exec<|.|>input<|close|>data<|:|>ID<|open_end|>`.
+    2  blocks carry no role, `<|open|><|:|>ID<|close|>` -- a block's role comes only from the
+       exec pointer that binds it -- except documents and tools, which keep their tag and
+       declare one block per field, each carrying the id (`doc<|:|>ID<|.|>title`,
+       `tool<|:|>ID<|.|>name`). An exec is not a wrapper block: each binding is its own flat
+       block, named by the exec id, with the referenced id wrapped in <|open_ref|>...<|close_ref|>
+       (tagged for documents and tools) so a reference is never read as a declaration.
+       Components come in the order system, tool, doc, context, instruction, arg, requirement,
+       then the result:
+       `<|open|>exec<|:|>EID<|.|>tool<|close|><|open_ref|>tool<|:|>TID<|close_ref|><|open_end|>`
+       `<|open|>exec<|:|>EID<|.|>instruction<|close|><|open_ref|><|:|>IID<|close_ref|><|open_end|>`
+       `<|open|>exec<|:|>EID<|.|>arg<|:|>0<|close|><|open_ref|><|:|>DID<|close_ref|><|open_end|>`
+       `<|open|>exec<|:|>EID<|.|>result<|close|><|open_ref|><|:|>OID<|close_ref|><|open_end|>`
+       and the output block follows, declared `<|open|><|:|>OID<|close|>`. Only args are
+       numbered: an instruction names each data part it expects in its own text as
+       <|open_parm|>N<|close_parm|> (`parm(N)`), and data part N is then bound as arg<|:|>N. Every
+       other input -- data no placeholder names, the tool call, tool responses -- is `context`.
+       The renderer emits instruction text as given, and checks that a bound instruction's
+       placeholders name bound data parts. At most one instruction is bound per exec.
+    Both draw the same ids in the same order, so for the same rng the two renders hold the
+    same ids, blocks and contents.
 """
 
 from __future__ import annotations
@@ -54,6 +79,21 @@ _END = C.OPEN_END_TAG
 _OUTPUT_PTR = (C.OPEN_TAG + "exec" + C.DOT_JOINER_TAG + "output" + C.CLOSE_TAG
                + "assistant" + C.COLON_SEPARATOR_TAG)
 _USER_LIST_FIELDS = ("instruction", "data", "requirement", "documents", "tools")
+
+VERSIONS = (1, 2)
+# v2: the order of an exec's components. Only `arg` is numbered: arg<|:|>N is the data part an
+# instruction's <|open_parm|>N<|close_parm|> names. Any other input -- data no placeholder names,
+# the tool call, tool responses -- is `context`. The `result` pointer comes last.
+_V2_ORDER = ("system", "tool", "doc", "context", "instruction", "arg", "requirement")
+# v1 binds every input (documents, tools, data, tool results) as exec<|.|>input.
+_V1_INPUT_ROLES = ("doc", "tool", "context", "arg")
+# v2: a parameter placeholder, <|open_parm|>N<|close_parm|>, naming the exec's arg<|:|>N.
+_PARM_RE = re.compile(re.escape(C.OPEN_PARM_TAG) + r"(\d+)" + re.escape(C.CLOSE_PARM_TAG))
+# v2: the output pointer, ...<|.|>result<|close|><|open_ref|><|:|>ID<|close_ref|><|open_end|>.
+_OUTPUT_PTR_V2_RE = re.compile(
+    re.escape(C.DOT_JOINER_TAG + "result" + C.CLOSE_TAG + C.OPEN_REF_TAG + C.COLON_SEPARATOR_TAG)
+    + "([" + re.escape(ID_CHARS) + "]{" + str(ID_LEN) + "})"
+    + re.escape(C.CLOSE_REF_TAG + C.OPEN_END_TAG))
 
 
 def _open(tag: str) -> str:
@@ -108,7 +148,35 @@ def _flatten_tool(prefix: str, value: Any, pkey: str = "") -> str:
     return _open(prefix) + str(value) + _END
 
 
-def _doc_block(item: Mapping, doc_id: str) -> str:
+def _exec_block(exec_id: str, pointers: list[tuple[str, str, int | None]], output_ref: str,
+                v2: bool) -> str:
+    """An exec from its (role, ref, index) pointers, then the output pointer.
+    v1: one exec block holding the pointers, in pointer order, every input as `input`.
+    v2: no wrapper -- one flat block per pointer,
+    <|open|>exec<|:|>EID<|.|>role[<|:|>index]<|close|><|open_ref|>ref<|close_ref|><|open_end|>,
+    in _V2_ORDER (pointer order within a role), then the `result` pointer."""
+    if not v2:
+        return (_open(_ref("exec", exec_id))
+                + "".join(_ptr("input" if r in _V1_INPUT_ROLES else r, ref) for r, ref, _ in pointers)
+                + _ptr("output", output_ref) + _END)
+    assert {p[0] for p in pointers} <= set(_V2_ORDER), pointers
+    parts = []
+    for role, ref, n in [p for role in _V2_ORDER for p in pointers if p[0] == role] \
+            + [("result", output_ref, None)]:
+        name = role if n is None else role + C.COLON_SEPARATOR_TAG + str(n)
+        parts.append(_open(_ref("exec", exec_id) + C.DOT_JOINER_TAG + name)
+                     + C.OPEN_REF_TAG + ref + C.CLOSE_REF_TAG + _END)
+    return "".join(parts)
+
+
+def _doc_block(item: Mapping, doc_id: str, v2: bool = False) -> str:
+    """v1: one doc<|:|>ID block holding doc<|.|>title / doc<|.|>text sub-blocks. v2: no
+    wrapper -- each field is its own block, doc<|:|>ID<|.|>title and doc<|:|>ID<|.|>text."""
+    if v2:
+        head = "doc" + C.COLON_SEPARATOR_TAG + doc_id + C.DOT_JOINER_TAG
+        s = (_open(head + "title") + str(item["title"]) + _END if item.get("title")
+             else C.OPEN_TAG + head + "title" + C.SELF_CLOSE_TAG)
+        return s + _open(head + "text") + _out(item, "text") + _END
     s = _open(_ref("doc", doc_id))
     if item.get("title"):
         s += _open("doc" + C.DOT_JOINER_TAG + "title") + str(item["title"]) + _END
@@ -120,6 +188,12 @@ def _doc_block(item: Mapping, doc_id: str) -> str:
 
 def _without_id(d: Mapping) -> dict:
     return {k: v for k, v in d.items() if k != ID_KEY}
+
+
+def parm(index: int) -> str:
+    """v2: the placeholder an instruction's text uses for its exec's `arg<|:|>index` binding,
+    e.g. parm(0) == "<|open_parm|>0<|close_parm|>"."""
+    return C.OPEN_PARM_TAG + str(index) + C.CLOSE_PARM_TAG
 
 
 def render_assistant_body(message: Mapping) -> str:
@@ -237,7 +311,8 @@ def _validate(messages, documents, tools) -> set[str]:
 
 def render_chat(messages: list[Mapping], documents: list[Mapping] | None = None,
                 tools: list[Mapping] | None = None, *, add_generation_prompt: bool = False,
-                eos_token: str | None = EOS_TOKEN, rng=None, unique_ids: bool = True) -> str:
+                eos_token: str | None = EOS_TOKEN, rng=None, unique_ids: bool = True,
+                version: int = 1) -> str:
     """Render `messages` (plus optional top-level `documents` / `tools`) to LLMON text.
 
     add_generation_prompt: end on the open assistant block of the final exec, to generate.
@@ -246,15 +321,36 @@ def render_chat(messages: list[Mapping], documents: list[Mapping] | None = None,
     rng:         anything with `.choice` -- pass random.Random(seed) for a reproducible
                  render. Defaults to the global `random` module, as the template does.
     unique_ids:  redraw an id that is already used. False reproduces the template exactly,
-                 collisions included.
+                 collisions included; v1 only.
+    version:     the LLMON format, 1 (default) or 2 -- see the module docstring.
     """
+    if version not in VERSIONS:
+        raise ValueError(f"version={version!r}: supported LLMON formats are {VERSIONS}")
+    v2 = version == 2
+    if v2 and not unique_ids:
+        raise ValueError("unique_ids=False exists only to reproduce the v1 template; v2 ids are "
+                         "always unique (a v2 block is found by its id alone)")
+
+    def ref(kind: str, id_: str) -> str:
+        """A non-exec block's tag + id, as declared and as pointed at: kind<|:|>ID in v1;
+        in v2 <|:|>ID (no role), except documents and tools, which keep doc / tool."""
+        return _ref("" if v2 and kind not in ("doc", "tool") else kind, id_)
+
+    def tool_fields(prefix: str, tool: Mapping) -> str:
+        """v2: a tool's leaf blocks, tool<|:|>ID<|.|>path; there is no wrapper block."""
+        s = _flatten_tool(prefix, tool)
+        if not s:
+            raise ValueError("a v2 tool needs at least one field: its fields are its declaration")
+        return s
+
     ids = _Ids(rng if rng is not None else _random, unique_ids,
                _validate(messages, documents, tools))
     eos = eos_token or ""
     out: list[str] = []
     w = out.append
 
-    output_id = system_id = exec_body = ""
+    output_id = system_id = ""
+    exec_ptrs: list[tuple[str, str, int | None]] = []
     kwarg_doc_ids: list[str] = []
     kwarg_tool_ids: list[str] = []
     conv_inputs: list[str] = []
@@ -262,12 +358,15 @@ def render_chat(messages: list[Mapping], documents: list[Mapping] | None = None,
     if documents is not None:
         for item in documents:
             doc_id = ids.take(item.get(ID_KEY))
-            w(_doc_block(item, doc_id))
+            w(_doc_block(item, doc_id, v2))
             kwarg_doc_ids.append(doc_id)
     if tools is not None:
         for tool in tools:
             tool_id = ids.take(tool.get(ID_KEY))
-            w(_open(_ref("tool", tool_id)) + _flatten_tool("tool", _without_id(tool)) + _END)
+            if v2:
+                w(tool_fields(ref("tool", tool_id), _without_id(tool)))
+            else:
+                w(_open(ref("tool", tool_id)) + _flatten_tool("tool", _without_id(tool)) + _END)
             kwarg_tool_ids.append(tool_id)
 
     last = len(messages) - 1
@@ -276,7 +375,7 @@ def render_chat(messages: list[Mapping], documents: list[Mapping] | None = None,
         if role == "system":
             # Sticky: referenced by every later turn until another system message replaces it.
             system_id = ids.take(msg.get(ID_KEY))
-            w(_open(_ref("system", system_id)) + _out(msg, "content") + _END)
+            w(_open(ref("system", system_id)) + _out(msg, "content") + _END)
 
         elif role == "user":
             content_id = ids.take(msg.get(ID_KEY))
@@ -286,52 +385,75 @@ def render_chat(messages: list[Mapping], documents: list[Mapping] | None = None,
             bound: dict[str, list[str]] = {f: [] for f in _USER_LIST_FIELDS}
 
             if "content" in msg:
-                w(_open(_ref("instr", content_id)) + _out(msg, "content") + _END)
+                w(_open(ref("instr", content_id)) + _out(msg, "content") + _END)
             for field, tag in (("instruction", "instr"), ("data", "data"), ("requirement", "req")):
                 for item in msg.get(field) or []:
                     block_id = ids.take(item.get(ID_KEY))
-                    w(_open(_ref(tag, block_id)) + _out(item, "value") + _END)
+                    w(_open(ref(tag, block_id)) + _out(item, "value") + _END)
                     if item.get("exec"):
                         bound[field].append(block_id)
             for item in msg.get("documents") or []:
                 doc_id = ids.take(item.get(ID_KEY))
-                w(_doc_block(item, doc_id))
+                w(_doc_block(item, doc_id, v2))
                 if item.get("exec"):
                     bound["documents"].append(doc_id)
             for item in msg.get("tools") or []:
                 tool_id = ids.take(item.get(ID_KEY))
-                w(_open(_ref("tool", tool_id)))
-                for k, v in item.items():
-                    if k not in ("exec", ID_KEY):
-                        w(_flatten_tool("tool" + C.DOT_JOINER_TAG + k, v))
-                w(_END)
+                if v2:
+                    w(tool_fields(ref("tool", tool_id), {k: v for k, v in item.items()
+                                                           if k not in ("exec", ID_KEY)}))
+                else:
+                    w(_open(ref("tool", tool_id)))
+                    for k, v in item.items():
+                        if k not in ("exec", ID_KEY):
+                            w(_flatten_tool("tool" + C.DOT_JOINER_TAG + k, v))
+                    w(_END)
                 if item.get("exec"):
                     bound["tools"].append(tool_id)
 
             # Saved, not just emitted: a following tool turn reissues the same bindings with its own tool results appended.
-            body = []
+            # v2: data part j is arg<|:|>j if the bound instruction names it with
+            # <|open_parm|>j<|close_parm|>, and context otherwise.
+            named: set[int] = set()
+            if v2:
+                instr_texts = ([_out(msg, "content")] if "content" in msg else []) + \
+                    [_out(it, "value") for it in msg.get("instruction") or [] if it.get("exec")]
+                if len(instr_texts) > 1:
+                    raise ValueError(f"messages[{i}]: v2 binds at most one instruction per exec "
+                                     f"(the instruction pointer is unnumbered)")
+                for text in instr_texts:
+                    found = _PARM_RE.findall(text)
+                    if len(found) != text.count(C.OPEN_PARM_TAG):
+                        raise ValueError(f"messages[{i}]: malformed parameter placeholder in "
+                                         f"{text!r}; write parm(N)")
+                    for n in map(int, found):
+                        if n >= len(bound["data"]):
+                            raise ValueError(f"messages[{i}]: placeholder {parm(n)!r} names no "
+                                             f"bound data part ({len(bound['data'])} bound)")
+                        named.add(n)
+            ptrs: list[tuple[str, str, int | None]] = []
             if "content" in msg:
-                body.append(_ptr("instruction", _ref("instr", content_id)))
-            body += [_ptr("instruction", _ref("instr", x)) for x in bound["instruction"]]
+                ptrs.append(("instruction", ref("instr", content_id), None))
+            ptrs += [("instruction", ref("instr", x), None) for x in bound["instruction"]]
             if system_id:
-                body.append(_ptr("system", _ref("system", system_id)))
-            body += [_ptr("input", _ref("doc", x)) for x in kwarg_doc_ids]
-            body += [_ptr("input", _ref("data", x)) for x in bound["data"]]
-            body += [_ptr("requirement", _ref("req", x)) for x in bound["requirement"]]
-            body += [_ptr("input", _ref("doc", x)) for x in bound["documents"]]
-            body += [_ptr("input", _ref("tool", x)) for x in kwarg_tool_ids]
-            body += [_ptr("input", _ref("tool", x)) for x in bound["tools"]]
-            exec_body = "".join(body)
+                ptrs.append(("system", ref("system", system_id), None))
+            ptrs += [("doc", ref("doc", x), None) for x in kwarg_doc_ids]
+            ptrs += [("arg", ref("data", x), j) if j in named else ("context", ref("data", x), None)
+                     for j, x in enumerate(bound["data"])]
+            ptrs += [("requirement", ref("req", x), None) for x in bound["requirement"]]
+            ptrs += [("doc", ref("doc", x), None) for x in bound["documents"]]
+            ptrs += [("tool", ref("tool", x), None) for x in kwarg_tool_ids]
+            ptrs += [("tool", ref("tool", x), None) for x in bound["tools"]]
+            exec_ptrs = ptrs
 
-            w(_open(_ref("exec", exec_id)) + exec_body
-              + _ptr("output", _ref("assistant", output_id)) + _END)
+            w(_exec_block(exec_id, exec_ptrs, ref("assistant", output_id), v2))
             if i == last and add_generation_prompt:
-                w(_open(_ref("assistant", output_id)))
+                w(_open(ref("assistant", output_id)))
 
         elif role == "assistant":
-            w(_open(_ref("assistant", output_id)) + render_assistant_body(msg) + _END)
+            w(_open(ref("assistant", output_id)) + render_assistant_body(msg) + _END)
             if msg.get("tool_calls"):
-                conv_inputs.append(_ref("assistant", output_id))
+                conv_inputs.append(ref("assistant", output_id))
             w(eos)
 
         elif role == "tool":
@@ -342,26 +464,42 @@ def render_chat(messages: list[Mapping], documents: list[Mapping] | None = None,
                 content = ""
             elif not isinstance(content, str):
                 content = json.dumps(content, ensure_ascii=False)
-            w(_open(_ref("data", resp_id))
+            w(_open(ref("data", resp_id))
               + TOOL_RESPONSE_OPEN + content + TOOL_RESPONSE_CLOSE + _END)
-            conv_inputs.append(_ref("data", resp_id))
+            conv_inputs.append(ref("data", resp_id))
             if i == last or messages[i + 1].get("role") != "tool":
                 exec_id = ids.take(msg.get(EXEC_ID_KEY))
                 output_id = ids.take(msg.get(OUTPUT_ID_KEY))
-                w(_open(_ref("exec", exec_id)) + exec_body
-                  + "".join(_ptr("input", ref) for ref in conv_inputs)
-                  + _ptr("output", _ref("assistant", output_id)) + _END)
+                # The turn's pointers keep their indices; the call and its results come after.
+                w(_exec_block(exec_id, exec_ptrs + [("context", r, None) for r in conv_inputs],
+                              ref("assistant", output_id), v2))
                 if i == last and add_generation_prompt:
-                    w(_open(_ref("assistant", output_id)))
+                    w(_open(ref("assistant", output_id)))
 
     return "".join(out)
 
 
-def split_prompt_target(text: str) -> tuple[str, str]:
+def split_prompt_target(text: str, version: int = 1) -> tuple[str, str]:
     """Split a rendered conversation at the LAST assistant opener: (everything up to and
     including it, the final assistant body + closer). Whatever follows the closer -- the eos,
     for any model -- is dropped. Returns (text, "") when the text does not end on an
-    assistant turn (no assistant block, or a later exec still points at an unfilled one)."""
+    assistant turn (no assistant block, or a later exec still points at an unfilled one).
+
+    `version` must match the render's. v2 blocks carry no role, so the assistant opener is
+    found by id: the block the last output pointer (v2: `exec<|:|>EID<|.|>result`) names."""
+    if version not in VERSIONS:
+        raise ValueError(f"version={version!r}: supported LLMON formats are {VERSIONS}")
+    if version == 2:
+        pointers = list(_OUTPUT_PTR_V2_RE.finditer(text))
+        if not pointers:
+            return text, ""
+        opener = _open(_ref("", pointers[-1].group(1)))
+        at = text.find(opener, pointers[-1].end())
+        if at < 0:                      # the last exec's output was never opened
+            return text, ""
+        prompt, target = text[:at + len(opener)], text[at + len(opener):]
+        close = target.rfind(_END)
+        return prompt, target[:close + len(_END)] if close >= 0 else target
     matches = list(ASSISTANT_OPEN_RE.finditer(text))
     if not matches:
         return text, ""

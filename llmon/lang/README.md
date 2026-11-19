@@ -33,7 +33,7 @@ This will make the following commands accessible in the command line:
 
 # Rendering chat messages
 
-`render_chat` renders chat messages to LLMON in Python. It is a port of the LLMON models' `chat_template.jinja`, and for the same random draws it returns the same string as `apply_chat_template`. It takes the same messages, `documents`, and `tools`, so you can replace
+`render_chat` renders chat messages to LLMON in Python. With the default `version=1`, it is a port of the LLMON models' `chat_template.jinja`, and for the same random draws it returns the same string as `apply_chat_template`. It takes the same messages, `documents`, and `tools`, so you can replace
 
 ```python
 prompt = tokenizer.apply_chat_template(messages, documents=None, tools=None, tokenize=False, add_generation_prompt=True, enable_thinking=False)
@@ -57,6 +57,213 @@ Compared with the chat template:
 - **Ids are unique.** A drawn id that is already in use is drawn again. The template can give two blocks the same id.
 - **Ids can be pinned.** Set `llmon_id` on an item, document, tool, or message to fix its block id. Set `llmon_exec_id` or `llmon_output_id` on a user message, or on the last tool message of a run, to fix the ids of its exec block and its answer. An id is 2 characters from `ID_CHARS`. Text can then refer to the block, for example `f"Use data<|:|>{rec}."`.
 - **Mistakes raise `ValueError`.** This covers a malformed or repeated pin, and an assistant turn with no user or tool turn before it.
+
+## Format version 2
+
+`render_chat(..., version=2)` renders LLMON v2, a revised format. The default, `version=1`, is the format the released LLMON models were trained on, so render v1 for those models. v2 adds four special tokens (`<|open_ref|>`, `<|close_ref|>`, `<|open_parm|>`, `<|close_parm|>`), which the released models' tokenizers don't have: add them to the tokenizer as special tokens before training on v2, or each is split into ordinary tokens. In v2:
+
+- **Blocks carry no role tag.** A block is declared `<|open|><|:|>ID<|close|>…<|open_end|>`, and its role comes only from the exec that binds it. Documents and tools are the exception: they keep their `doc` or `tool` tag, and each of their fields is its own block carrying the id.
+- **An exec is a set of flat pointer blocks** that share an exec id, one per binding, with the target wrapped in `<|open_ref|>…<|close_ref|>`: `<|open|>exec<|:|>EID<|.|>COMPONENT<|close|><|open_ref|><|:|>ID<|close_ref|><|open_end|>`. A reference to a document or a tool keeps its tag, as in `<|open_ref|>doc<|:|>ID<|close_ref|>`.
+- **Components come in a fixed order:** `system`, `tool`, `doc`, `context`, `instruction`, `arg`, `requirement`, then `result`. Only `arg` is numbered: `arg<|:|>N` is the data part that the instruction names with the placeholder `<|open_parm|>N<|close_parm|>` (`parm(N)`). Everything else the exec reads, other than documents and tools, is `context`: data no placeholder names, the tool call, and tool responses.
+- **`split_prompt_target(text, version=2)`** splits a v2 render at its last result block.
+
+Every output below was produced by the exact call shown above it:
+
+```python
+import random
+from llmon.lang.chat import render_chat, parm
+```
+
+- `rng=random.Random(0)` makes the ids reproducible.
+- **Line breaks are added after each `<|open_end|>` for readability.** `render_chat` emits none.
+
+### Single turn
+
+A plain `content` string is one bound instruction. `add_generation_prompt=True` ends on the open result block.
+
+```python
+messages = [{"role": "user", "content": "Suggest an idea for a fun activity"}]
+out = render_chat(messages, add_generation_prompt=True, rng=random.Random(0), version=2)
+```
+
+```
+<|open|><|:|>ãç<|close|>Suggest an idea for a fun activity<|open_end|>
+<|open|>exec<|:|>¦Ä<|.|>instruction<|close|><|open_ref|><|:|>ãç<|close_ref|><|open_end|>
+<|open|>exec<|:|>¦Ä<|.|>result<|close|><|open_ref|><|:|>óð<|close_ref|><|open_end|>
+<|open|><|:|>óð<|close|>
+```
+
+### Instruction, data and requirements
+
+Named parts with `exec: True` are bound. The instruction names its data with `parm(0)`, so that data part is bound as `arg<|:|>0`; only args are numbered, so the requirements are not.
+
+```python
+messages = [{"role": "user",
+    "instruction": [{"value": "Write a short paragraph about " + parm(0), "exec": True}],
+    "data": [{"value": "IBM Company", "exec": True}],
+    "requirement": [{"value": "Use less than 10 words", "exec": True},
+                    {"value": "Do not use commas", "exec": True}]}]
+out = render_chat(messages, add_generation_prompt=True, rng=random.Random(0), version=2)
+```
+
+```
+<|open|><|:|>åÐ<|close|>Write a short paragraph about <|open_parm|>0<|close_parm|><|open_end|>
+<|open|><|:|>ïß<|close|>IBM Company<|open_end|>
+<|open|><|:|>ý¾<|close|>Use less than 10 words<|open_end|>
+<|open|><|:|>ò³<|close|>Do not use commas<|open_end|>
+<|open|>exec<|:|>¦Ä<|.|>instruction<|close|><|open_ref|><|:|>åÐ<|close_ref|><|open_end|>
+<|open|>exec<|:|>¦Ä<|.|>arg<|:|>0<|close|><|open_ref|><|:|>ïß<|close_ref|><|open_end|>
+<|open|>exec<|:|>¦Ä<|.|>requirement<|close|><|open_ref|><|:|>ý¾<|close_ref|><|open_end|>
+<|open|>exec<|:|>¦Ä<|.|>requirement<|close|><|open_ref|><|:|>ò³<|close_ref|><|open_end|>
+<|open|>exec<|:|>¦Ä<|.|>result<|close|><|open_ref|><|:|>óð<|close_ref|><|open_end|>
+<|open|><|:|>óð<|close|>
+```
+
+### Distractors
+
+Parts with `exec: False` are rendered but no exec references them, so they're inert. A distractor instruction that takes data carries `parm(0)` just like the bound one, so the placeholder never marks which instruction is bound; only the exec does.
+
+```python
+messages = [{"role": "user",
+    "instruction": [{"value": "Translate the text into French " + parm(0), "exec": False},
+                    {"value": "Count the words in " + parm(0), "exec": True}],
+    "data": [{"value": "The quick brown fox", "exec": True},
+             {"value": "The smart rabbit escaped", "exec": False}]}]
+out = render_chat(messages, add_generation_prompt=True, rng=random.Random(0), version=2)
+```
+
+```
+<|open|><|:|>åÐ<|close|>Translate the text into French <|open_parm|>0<|close_parm|><|open_end|>
+<|open|><|:|>ïß<|close|>Count the words in <|open_parm|>0<|close_parm|><|open_end|>
+<|open|><|:|>ý¾<|close|>The quick brown fox<|open_end|>
+<|open|><|:|>ò³<|close|>The smart rabbit escaped<|open_end|>
+<|open|>exec<|:|>¦Ä<|.|>instruction<|close|><|open_ref|><|:|>ïß<|close_ref|><|open_end|>
+<|open|>exec<|:|>¦Ä<|.|>arg<|:|>0<|close|><|open_ref|><|:|>ý¾<|close_ref|><|open_end|>
+<|open|>exec<|:|>¦Ä<|.|>result<|close|><|open_ref|><|:|>óð<|close_ref|><|open_end|>
+<|open|><|:|>óð<|close|>
+```
+
+### System prompt and multi-turn
+
+The system block is bound by every later exec until it's replaced, and comes first in each exec. Each turn has its own exec id, and a finished result is followed by the eos.
+
+```python
+messages = [{"role": "system", "content": "Be brief."},
+            {"role": "user", "content": "What is 2 + 2?"},
+            {"role": "assistant", "content": "4."},
+            {"role": "user", "content": "And 4 + 4?"}]
+out = render_chat(messages, add_generation_prompt=True, rng=random.Random(0), version=2)
+```
+
+```
+<|open|><|:|>ãç<|close|>Be brief.<|open_end|>
+<|open|><|:|>¦Ä<|close|>What is 2 + 2?<|open_end|>
+<|open|>exec<|:|>óð<|.|>system<|close|><|open_ref|><|:|>ãç<|close_ref|><|open_end|>
+<|open|>exec<|:|>óð<|.|>instruction<|close|><|open_ref|><|:|>¦Ä<|close_ref|><|open_end|>
+<|open|>exec<|:|>óð<|.|>result<|close|><|open_ref|><|:|>åÐ<|close_ref|><|open_end|>
+<|open|><|:|>åÐ<|close|>4.<|open_end|>
+<|end_of_text|><|open|><|:|>ïß<|close|>And 4 + 4?<|open_end|>
+<|open|>exec<|:|>ý¾<|.|>system<|close|><|open_ref|><|:|>ãç<|close_ref|><|open_end|>
+<|open|>exec<|:|>ý¾<|.|>instruction<|close|><|open_ref|><|:|>ïß<|close_ref|><|open_end|>
+<|open|>exec<|:|>ý¾<|.|>result<|close|><|open_ref|><|:|>ò³<|close_ref|><|open_end|>
+<|open|><|:|>ò³<|close|>
+```
+
+### Documents (RAG)
+
+Request-level `documents=` are declared once, before the conversation. Each field is its own block carrying the id (`doc<|:|>ID<|.|>title`, `doc<|:|>ID<|.|>text`; a missing title is `<|self_close|>`), and every turn binds each one as an unnumbered `doc` with a tagged reference.
+
+```python
+documents = [{"title": "Pedestrian Safety", "text": "Be cautious when backing up near pedestrians."},
+             {"text": "Untitled safety note."}]
+messages = [{"role": "user", "content": "What are some resources for pedestrian safety?"}]
+out = render_chat(messages, documents=documents, add_generation_prompt=True, rng=random.Random(0), version=2)
+```
+
+```
+<|open|>doc<|:|>ãç<|.|>title<|close|>Pedestrian Safety<|open_end|>
+<|open|>doc<|:|>ãç<|.|>text<|close|>Be cautious when backing up near pedestrians.<|open_end|>
+<|open|>doc<|:|>¦Ä<|.|>title<|self_close|><|open|>doc<|:|>¦Ä<|.|>text<|close|>Untitled safety note.<|open_end|>
+<|open|><|:|>óð<|close|>What are some resources for pedestrian safety?<|open_end|>
+<|open|>exec<|:|>åÐ<|.|>doc<|close|><|open_ref|>doc<|:|>ãç<|close_ref|><|open_end|>
+<|open|>exec<|:|>åÐ<|.|>doc<|close|><|open_ref|>doc<|:|>¦Ä<|close_ref|><|open_end|>
+<|open|>exec<|:|>åÐ<|.|>instruction<|close|><|open_ref|><|:|>óð<|close_ref|><|open_end|>
+<|open|>exec<|:|>åÐ<|.|>result<|close|><|open_ref|><|:|>ïß<|close_ref|><|open_end|>
+<|open|><|:|>ïß<|close|>
+```
+
+### Tools: definition, call and result
+
+Tools are flattened to one leaf block per path, each carrying the id (`tool<|:|>ID<|.|>name`, ...), and bound as an unnumbered `tool`. After the tool turn, a continuation exec (with a new id) keeps the turn's bindings and binds the call and the response as `context`.
+
+```python
+tools = [{"type": "function", "function": {
+    "name": "reverse_words", "description": "Reverses the order of words in a sentence",
+    "parameters": {"type": "object", "required": ["sentence"],
+                   "properties": {"sentence": {"type": "string", "description": "The input sentence"}}}}}]
+messages = [{"role": "user", "content": "Reverse the words: Hello world"},
+            {"role": "assistant", "tool_calls": [{"name": "reverse_words", "arguments": {"sentence": "Hello world"}}]},
+            {"role": "tool", "content": "world Hello"}]
+out = render_chat(messages, tools=tools, add_generation_prompt=True, rng=random.Random(0), version=2)
+```
+
+```
+<|open|>tool<|:|>ãç<|.|>name<|close|>reverse_words<|open_end|>
+<|open|>tool<|:|>ãç<|.|>description<|close|>Reverses the order of words in a sentence<|open_end|>
+<|open|>tool<|:|>ãç<|.|>parameters<|.|>required<|close|>sentence<|open_end|>
+<|open|>tool<|:|>ãç<|.|>parameters<|.|>sentence<|.|>type<|close|>string<|open_end|>
+<|open|>tool<|:|>ãç<|.|>parameters<|.|>sentence<|.|>description<|close|>The input sentence<|open_end|>
+<|open|><|:|>¦Ä<|close|>Reverse the words: Hello world<|open_end|>
+<|open|>exec<|:|>óð<|.|>tool<|close|><|open_ref|>tool<|:|>ãç<|close_ref|><|open_end|>
+<|open|>exec<|:|>óð<|.|>instruction<|close|><|open_ref|><|:|>¦Ä<|close_ref|><|open_end|>
+<|open|>exec<|:|>óð<|.|>result<|close|><|open_ref|><|:|>åÐ<|close_ref|><|open_end|>
+<|open|><|:|>åÐ<|close|><tool_call>{"name": "reverse_words", "arguments": {"sentence": "Hello world"}}</tool_call><|open_end|>
+<|end_of_text|><|open|><|:|>ïß<|close|><tool_response>world Hello</tool_response><|open_end|>
+<|open|>exec<|:|>ý¾<|.|>tool<|close|><|open_ref|>tool<|:|>ãç<|close_ref|><|open_end|>
+<|open|>exec<|:|>ý¾<|.|>context<|close|><|open_ref|><|:|>åÐ<|close_ref|><|open_end|>
+<|open|>exec<|:|>ý¾<|.|>context<|close|><|open_ref|><|:|>ïß<|close_ref|><|open_end|>
+<|open|>exec<|:|>ý¾<|.|>instruction<|close|><|open_ref|><|:|>¦Ä<|close_ref|><|open_end|>
+<|open|>exec<|:|>ý¾<|.|>result<|close|><|open_ref|><|:|>ò³<|close_ref|><|open_end|>
+<|open|><|:|>ò³<|close|>
+```
+
+### Unnamed data is context
+
+A bound data part that no placeholder names is `context`, not an arg.
+
+```python
+messages = [{"role": "user", "content": "Summarize this.", "data": [{"value": "Q3 revenue rose 4%.", "exec": True}]}]
+out = render_chat(messages, add_generation_prompt=True, rng=random.Random(0), version=2)
+```
+
+```
+<|open|><|:|>ãç<|close|>Summarize this.<|open_end|>
+<|open|><|:|>åÐ<|close|>Q3 revenue rose 4%.<|open_end|>
+<|open|>exec<|:|>¦Ä<|.|>context<|close|><|open_ref|><|:|>åÐ<|close_ref|><|open_end|>
+<|open|>exec<|:|>¦Ä<|.|>instruction<|close|><|open_ref|><|:|>ãç<|close_ref|><|open_end|>
+<|open|>exec<|:|>¦Ä<|.|>result<|close|><|open_ref|><|:|>óð<|close_ref|><|open_end|>
+<|open|><|:|>óð<|close|>
+```
+
+### Pinned ids
+
+`llmon_id` fixes a block's id. `llmon_exec_id` and `llmon_output_id` on a user message fix its exec and result ids. Pins are validated and reserved, and they don't shift the other random ids.
+
+```python
+messages = [{"role": "user", "llmon_id": "¡¡", "llmon_exec_id": "¢¢", "llmon_output_id": "££",
+             "content": "Summarize " + parm(0), "data": [{"value": "Q3 revenue rose 4%.", "exec": True, "llmon_id": "¤¤"}]}]
+out = render_chat(messages, add_generation_prompt=True, version=2)
+```
+
+```
+<|open|><|:|>¡¡<|close|>Summarize <|open_parm|>0<|close_parm|><|open_end|>
+<|open|><|:|>¤¤<|close|>Q3 revenue rose 4%.<|open_end|>
+<|open|>exec<|:|>¢¢<|.|>instruction<|close|><|open_ref|><|:|>¡¡<|close_ref|><|open_end|>
+<|open|>exec<|:|>¢¢<|.|>arg<|:|>0<|close|><|open_ref|><|:|>¤¤<|close_ref|><|open_end|>
+<|open|>exec<|:|>¢¢<|.|>result<|close|><|open_ref|><|:|>££<|close_ref|><|open_end|>
+<|open|><|:|>££<|close|>
+```
+
 
 # Developers
 Please run the regression test scripts in tests folder before submitting a PR for the converters.
@@ -106,7 +313,7 @@ These segments can vary from a single character to multiple words based on patte
 In addition to regular tokens, one can instruct the tokenizer to treat certain character sequences as "special tokens" that the tokenizer will not decompose or combine with any adjacent characters.
 This is typically done to ensure clarity in what is trying to be expressed with the goal of helping LLM learning. 
 
-LLMON defines six special tokens:
+LLMON defines six special tokens, and version 2 of the chat format adds four more:
 |Special Token | Meaning |
 |---|---|
 |`<\|open\|>` | opens a highlighted segment |
@@ -115,6 +322,10 @@ LLMON defines six special tokens:
 |`<\|self_close\|>` | ends a tagname and highlight segment |
 |`<\|.\|>` | joins a nested tag path, e.g., `exec<\|.\|>input` |
 |`<\|:\|>` | separates a tag from its instance ID for a highlighted segment, e.g., `instr<\|:\|>2`
+|`<\|open_ref\|>` | (v2) opens a reference to a block inside an exec binding |
+|`<\|close_ref\|>` | (v2) closes a reference |
+|`<\|open_parm\|>` | (v2) opens a parameter placeholder in an instruction, e.g., `<\|open_parm\|>0<\|close_parm\|>` |
+|`<\|close_parm\|>` | (v2) closes a parameter placeholder |
 
 This means that a LLMON tag such as
 `<|open|> email <|close|>`

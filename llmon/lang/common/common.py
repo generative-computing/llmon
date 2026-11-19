@@ -8,6 +8,13 @@ CLOSE_TAG = "<|close|>"
 SELF_CLOSE_TAG = "<|self_close|>"
 DOT_JOINER_TAG = "<|.|>"
 COLON_SEPARATOR_TAG = "<|:|>"
+# v2 chat format: wrap the id an exec pointer refers to, so a reference can't be read as a declaration
+OPEN_REF_TAG = "<|open_ref|>"
+CLOSE_REF_TAG = "<|close_ref|>"
+# v2: a parameter placeholder in an instruction's text, <|open_parm|>N<|close_parm|>, names the
+# exec's arg<|:|>N -- the binding is explicit, not by pointer order
+OPEN_PARM_TAG = "<|open_parm|>"
+CLOSE_PARM_TAG = "<|close_parm|>"
 
 # Sanitized version of the LLMON special tokens
 SANITIZED_OPEN_TAG = "<!open!>"
@@ -16,6 +23,10 @@ SANITIZED_CLOSE_TAG = "<!close!>"
 SANITIZED_SELF_CLOSE_TAG = "<!self_close!>"
 SANITIZED_DOT_JOINER_TAG = "<!.!>"
 SANITIZED_COLON_SEPARATOR_TAG = "<!:!>"
+SANITIZED_OPEN_REF_TAG = "<!open_ref!>"
+SANITIZED_CLOSE_REF_TAG = "<!close_ref!>"
+SANITIZED_OPEN_PARM_TAG = "<!open_parm!>"
+SANITIZED_CLOSE_PARM_TAG = "<!close_parm!>"
 
 # Common LLMON strings used during parsing and generation (OBJECT and DICT are synonymous)
 
@@ -62,7 +73,11 @@ LLMON_SPECIAL_TOKEN_TAGS = {
     CLOSE_TAG,
     SELF_CLOSE_TAG,
     DOT_JOINER_TAG,
-    COLON_SEPARATOR_TAG
+    COLON_SEPARATOR_TAG,
+    OPEN_REF_TAG,
+    CLOSE_REF_TAG,
+    OPEN_PARM_TAG,
+    CLOSE_PARM_TAG
 }
 
 
@@ -79,6 +94,14 @@ def get_sanitized_version(llmon_token) -> str:
         return SANITIZED_DOT_JOINER_TAG
     elif llmon_token == COLON_SEPARATOR_TAG:
         return SANITIZED_COLON_SEPARATOR_TAG
+    elif llmon_token == OPEN_REF_TAG:
+        return SANITIZED_OPEN_REF_TAG
+    elif llmon_token == CLOSE_REF_TAG:
+        return SANITIZED_CLOSE_REF_TAG
+    elif llmon_token == OPEN_PARM_TAG:
+        return SANITIZED_OPEN_PARM_TAG
+    elif llmon_token == CLOSE_PARM_TAG:
+        return SANITIZED_CLOSE_PARM_TAG
     else:
         return llmon_token
 
