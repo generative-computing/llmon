@@ -1,4 +1,4 @@
-llmon/lang/chat/render.py# Copyright IBM Corp. All Rights Reserved.
+# Copyright IBM Corp. All Rights Reserved.
 # SPDX-License-Identifier: Apache-2.0
 
 """Render a chat conversation to LLMON text, in Python.

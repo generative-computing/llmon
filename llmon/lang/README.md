@@ -60,7 +60,7 @@ Compared with the chat template:
 
 ## Format version 2
 
-`render_chat(..., version=2)` renders LLMON v2, a revised format. The default, `version=1`, is the format the released LLMON models were trained on, so render v1 for those models. v2 adds four special tokens (`<|open_ref|>`, `<|close_ref|>`, `<|open_parm|>`, `<|close_parm|>`), which the released models' tokenizers don't have: add them to the tokenizer as special tokens before training on v2, or each is split into ordinary tokens. In v2:
+`render_chat(..., version=2)` renders LLMON v2, a revised format. The default, `version=1`, is the format the released LLMON models were trained on, so render v1 for those models. v2 adds four special tokens (`<|open_ref|>`, `<|close_ref|>`, `<|open_parm|>`, `<|close_parm|>`), which the released models' tokenizers don't have. In v2:
 
 - **Blocks carry no role tag.** A block is declared `<|open|><|:|>ID<|close|>…<|open_end|>`, and its role comes only from the exec that binds it. Documents and tools are the exception: they keep their `doc` or `tool` tag, and each of their fields is its own block carrying the id.
 - **An exec is a set of flat pointer blocks** that share an exec id, one per binding, with the target wrapped in `<|open_ref|>…<|close_ref|>`: `<|open|>exec<|:|>EID<|.|>COMPONENT<|close|><|open_ref|><|:|>ID<|close_ref|><|open_end|>`. A reference to a document or a tool keeps its tag, as in `<|open_ref|>doc<|:|>ID<|close_ref|>`.
